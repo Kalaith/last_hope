@@ -1,73 +1,12 @@
 import type { GameState } from '../types/game';
-
-export interface BaseStructure {
-  id: string;
-  type: StructureType;
-  level: number; // 1-3
-  condition: number; // 0-100 (maintenance state)
-  efficiency: number; // 0-100 (operational effectiveness)
-  daysBuilt: number; // Age of structure
-  isActive: boolean;
-  lastMaintenance: number;
-}
-
-export type StructureType =
-  | 'greenhouse'
-  | 'water_purifier'
-  | 'research_lab'
-  | 'solar_panel'
-  | 'workshop'
-  | 'storage_facility';
-
-export interface StructureBlueprint {
-  type: StructureType;
-  name: string;
-  description: string;
-  icon: string;
-  levels: StructureLevel[];
-  category: 'production' | 'research' | 'utility';
-  unlockRequirements: {
-    knowledge?: number;
-    restorationProgress?: number;
-    prerequisiteStructures?: StructureType[];
-  };
-}
-
-export interface StructureLevel {
-  level: number;
-  name: string;
-  description: string;
-  buildCost: {
-    supplies: number;
-    knowledge: number;
-    seeds?: number;
-    health?: number; // Labor cost
-  };
-  buildTime: number; // Days to construct
-  dailyProduction?: {
-    supplies?: number;
-    knowledge?: number;
-    seeds?: number;
-    hope?: number;
-    soilHealth?: number;
-  };
-  dailyMaintenance: {
-    supplies?: number;
-    knowledge?: number;
-  };
-  specialEffects?: string[];
-  capacity?: number; // Storage or processing capacity
-}
-
-export interface ConstructionProject {
-  structureType: StructureType;
-  targetLevel: number;
-  daysRemaining: number;
-  totalDays: number;
-  resourcesSpent: Record<string, number>;
-  workersAssigned: string[]; // NPC IDs
-  canCancel: boolean;
-}
+import type {
+  BaseStructure,
+  ConstructionProject,
+  StructureType,
+  StructureBlueprint,
+  StructureLevel
+} from '../types/structures';
+import { getResourceValue } from './typeHelpers';
 
 // Define all available structures
 export const STRUCTURE_BLUEPRINTS: Record<StructureType, StructureBlueprint> = {
@@ -407,7 +346,7 @@ export class BaseBuildingManager {
     // Check build costs
     const buildCost = structureLevel.buildCost;
     for (const [resource, cost] of Object.entries(buildCost)) {
-      const current = (gameState as any)[resource] || 0;
+      const current = getResourceValue(gameState, resource);
       if (current < cost) {
         return {
           canBuild: false,
@@ -603,7 +542,7 @@ export class BaseBuildingManager {
     });
 
     for (const [resource, cost] of Object.entries(totalCost)) {
-      if ((gameState as any)[resource] < cost) {
+      if (getResourceValue(gameState, resource) < cost) {
         return { success: false, cost: totalCost };
       }
     }

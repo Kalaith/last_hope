@@ -1,5 +1,7 @@
 // Game type definitions for Last Hope
 
+import type { BaseStructure, ConstructionProject } from './structures';
+
 export interface GameState {
   // Core streamlined resources (5 total)
   hope: number;          // 0-100: Morale checks, affects NPC trust, game over at 0
@@ -24,8 +26,8 @@ export interface GameState {
   choiceCooldown: number;
 
   // Base building
-  baseStructures: any[];
-  constructionProjects: any[];
+  baseStructures: BaseStructure[];
+  constructionProjects: ConstructionProject[];
   baseLevel: number;
 
   // Research system

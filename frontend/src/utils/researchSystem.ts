@@ -1,4 +1,5 @@
 import type { GameState } from '../types/game';
+import { RESEARCH_CONSTANTS } from '../constants/gameConstants';
 
 export interface ResearchNode {
   id: string;
@@ -341,7 +342,8 @@ class ResearchSystemManager {
     };
 
     // Check if research is complete
-    const researchTime = node.researchTime || Math.ceil(node.knowledgeRequired / 3); // Default: ~1/3 knowledge in days
+    const researchTime = node.researchTime ||
+      Math.ceil(node.knowledgeRequired / RESEARCH_CONSTANTS.DEFAULT_RESEARCH_TIME_DIVISOR);
     const isComplete = newProgress.daysInProgress >= researchTime;
 
     if (isComplete) {

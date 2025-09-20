@@ -1,4 +1,5 @@
 import type { GameState } from '../types/game';
+import { getResourceValue } from './typeHelpers';
 
 export interface ScarcityEvent {
   id: string;
@@ -307,7 +308,7 @@ export class ScarcityManager {
 
   private static calculateTrend(resource: string, gameState: GameState): 'improving' | 'stable' | 'worsening' {
     // Simple trend calculation - in a full implementation, this would track historical data
-    const currentValue = (gameState as any)[resource] || 0;
+    const currentValue = getResourceValue(gameState, resource);
 
     if (currentValue < 25) return 'worsening';
     if (currentValue > 60) return 'improving';

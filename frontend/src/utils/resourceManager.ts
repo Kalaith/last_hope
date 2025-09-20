@@ -1,21 +1,17 @@
 import type { GameState, CoreResources } from '../types/game';
 import { ScarcityManager } from './scarcityManager';
+import {
+  RESOURCE_CRITICAL_THRESHOLDS,
+  RESOURCE_WARNING_THRESHOLDS,
+  DAILY_CONSUMPTION_RATES
+} from '../constants/gameConstants';
 
-// Resource thresholds for hard consequences
-export const RESOURCE_THRESHOLDS = {
-  HOPE_CRITICAL: 20,      // Below this: NPCs become hostile, refuse cooperation
-  HOPE_GAME_OVER: 0,      // Game over condition
-  HEALTH_CRITICAL: 30,    // Below this: Reduced action success, slower plant growth
-  SUPPLIES_CRITICAL: 10,  // Below this: Daily health loss, NPCs leave
-  KNOWLEDGE_MIN: 5,       // Below this: Locked out of advanced options
-  SEEDS_DEPLETED: 0       // Cannot plant, restoration progress halts
-} as const;
-
-// Daily resource consumption rates
+// Re-export for backward compatibility
+export const RESOURCE_THRESHOLDS = RESOURCE_CRITICAL_THRESHOLDS;
 export const DAILY_CONSUMPTION = {
-  supplies: 2,            // Base daily consumption
-  health: 1,              // Natural health loss in harsh environment
-  hope: 1                 // Natural hope decay from harsh conditions
+  supplies: DAILY_CONSUMPTION_RATES.SUPPLIES_BASE,
+  health: DAILY_CONSUMPTION_RATES.HEALTH_NATURAL_LOSS,
+  hope: DAILY_CONSUMPTION_RATES.HOPE_NATURAL_DECAY
 } as const;
 
 export interface ResourceCheckResult {
@@ -53,7 +49,7 @@ export class ResourceManager {
         consequences: ['NPCs become hostile', 'Refuse cooperation', 'Bad dialogue options only']
       };
     }
-    if (hope <= 40) {
+    if (hope <= RESOURCE_WARNING_THRESHOLDS.HOPE_LOW) {
       return {
         type: 'warning',
         message: 'Hope is running low. You struggle to maintain optimism.',
@@ -71,7 +67,7 @@ export class ResourceManager {
         consequences: ['Reduced action success rates', 'Slower plant growth', 'Illness events']
       };
     }
-    if (health <= 50) {
+    if (health <= RESOURCE_WARNING_THRESHOLDS.HEALTH_LOW) {
       return {
         type: 'warning',
         message: 'You feel weak and tired. The harsh environment is taking its toll.',

@@ -8,6 +8,7 @@ import type {
   EndingCondition,
   SystemTriggeredEvent
 } from '../types/game';
+import type { StructureBlueprint, StructureType } from '../types/structures';
 import { gameData } from '../data';
 import { initialGameState } from '../data/initialGameState';
 import { ResourceManager, RESOURCE_THRESHOLDS } from '../utils/resourceManager';
@@ -19,6 +20,8 @@ import { CascadingConsequenceManager } from '../utils/cascadingConsequences';
 import { ScarcityManager } from '../utils/scarcityManager';
 import { BaseBuildingManager } from '../utils/baseBuildingManager';
 import { researchSystem } from '../utils/researchSystem';
+import { CHOICE_CONSTANTS } from '../constants/gameConstants';
+import { getResourceValue, applyResourceChanges } from '../utils/typeHelpers';
 
 interface GameStore {
   // State
@@ -52,8 +55,13 @@ interface GameStore {
   showConsequences: (consequences: Record<string, number> | null, relationships: Record<string, number> | null) => void;
   hideConsequences: () => void;
   startConstruction: (structureType: string, level: number) => boolean;
-  getAvailableStructures: () => any[];
-  getBaseStats: () => any;
+  getAvailableStructures: () => { blueprint: StructureBlueprint; availableLevels: number[] }[];
+  getBaseStats: () => {
+    totalStructures: number;
+    averageCondition: number;
+    dailyProduction: Record<string, number>;
+    maintenanceEvents: string[];
+  };
 
   // Research system
   startResearch: (nodeId: string) => boolean;
@@ -163,7 +171,10 @@ export const useGameStore = create<GameStore>()(
 
         // Set choice cooldown based on consequence severity
         const consequenceCount = Object.keys(choice.consequences || {}).length + Object.keys(choice.relationships || {}).length;
-        const cooldownDuration = Math.max(1000, consequenceCount * 800); // 800ms per consequence, minimum 1s
+        const cooldownDuration = Math.max(
+          CHOICE_CONSTANTS.MIN_CHOICE_DELAY_MS,
+          consequenceCount * (CHOICE_CONSTANTS.COOLDOWN_DURATION_MS / 4)
+        ); // Dynamic cooldown based on consequence complexity
 
         // Update choice timing
         get().updateGameState({
@@ -368,11 +379,8 @@ export const useGameStore = create<GameStore>()(
 
         // Apply base building resource changes
         const finalResourceUpdates = { ...resourceUpdates };
-        Object.entries(baseBuildingResults.resourceChanges).forEach(([resource, change]) => {
-          if (finalResourceUpdates[resource as keyof typeof finalResourceUpdates] !== undefined) {
-            (finalResourceUpdates as any)[resource] = ((finalResourceUpdates as any)[resource] || 0) + change;
-          }
-        });
+        const baseBuildingUpdates = applyResourceChanges(newGameState, baseBuildingResults.resourceChanges);
+        Object.assign(finalResourceUpdates, baseBuildingUpdates);
 
         // Update NPCs
         const updatedNPCs = NPCManager.updateAllNPCs(currentState.npcs, currentState);
@@ -529,7 +537,14 @@ export const useGameStore = create<GameStore>()(
 
       startConstruction: (structureType: string, level: number) => {
         const state = get();
-        const success = BaseBuildingManager.startConstruction(structureType as any, level, state.gameState);
+        // Type-safe structure type validation
+        const validStructureTypes = ['greenhouse', 'water_purifier', 'research_lab', 'solar_panel', 'workshop', 'storage_facility'] as const;
+        if (!validStructureTypes.includes(structureType as any)) {
+          console.error(`Invalid structure type: ${structureType}`);
+          return false;
+        }
+
+        const success = BaseBuildingManager.startConstruction(structureType as StructureType, level, state.gameState);
 
         if (success) {
           // Deduct resources immediately when construction starts
@@ -541,7 +556,9 @@ export const useGameStore = create<GameStore>()(
             const resourceUpdates: any = {};
 
             Object.entries(levelData.buildCost).forEach(([resource, cost]) => {
-              resourceUpdates[resource] = Math.max(0, (state.gameState as any)[resource] - cost);
+              const currentValue = getResourceValue(state.gameState, resource);
+              const updates = applyResourceChanges(state.gameState, { [resource]: -cost });
+              Object.assign(resourceUpdates, updates);
             });
 
             set({

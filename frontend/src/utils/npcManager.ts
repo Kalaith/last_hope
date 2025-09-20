@@ -304,17 +304,18 @@ export class NPCManager {
     let trustChange = 0;
 
     // Trust modifiers based on personality and action type
-    if (action.includes('cooperat') && 'cooperation' in personality.trustModifiers) {
-      trustChange += (personality.trustModifiers as any).cooperation;
+    const modifiers = personality.trustModifiers as Record<string, number>;
+    if (action.includes('cooperat') && 'cooperation' in modifiers) {
+      trustChange += modifiers.cooperation;
     }
-    if (action.includes('shar') && 'sharing' in personality.trustModifiers) {
-      trustChange += (personality.trustModifiers as any).sharing;
+    if (action.includes('shar') && 'sharing' in modifiers) {
+      trustChange += modifiers.sharing;
     }
-    if (action.includes('research') && 'research' in personality.trustModifiers) {
-      trustChange += (personality.trustModifiers as any).research;
+    if (action.includes('research') && 'research' in modifiers) {
+      trustChange += modifiers.research;
     }
-    if (action.includes('protect') && 'safety' in personality.trustModifiers) {
-      trustChange += (personality.trustModifiers as any).safety;
+    if (action.includes('protect') && 'safety' in modifiers) {
+      trustChange += modifiers.safety;
     }
 
     // General trust factors
