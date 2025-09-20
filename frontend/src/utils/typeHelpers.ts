@@ -53,7 +53,7 @@ export function isValidResource(resource: string): resource is keyof Pick<GameSt
 export function hasProperty<T extends Record<string, unknown>>(
   obj: T,
   key: string
-): key is keyof T {
+): key is Extract<keyof T, string> {
   return key in obj;
 }
 

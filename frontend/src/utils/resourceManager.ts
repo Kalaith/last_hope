@@ -141,11 +141,11 @@ export class ResourceManager {
     // Apply scarcity effects
     const scarcityEffects = ScarcityManager.processDailyEffects(gameState);
 
-    let newSupplies = Math.max(0, gameState.supplies - DAILY_CONSUMPTION.supplies + (scarcityEffects.supplies || 0));
+    const newSupplies = Math.max(0, gameState.supplies - DAILY_CONSUMPTION.supplies + (scarcityEffects.supplies || 0));
     let newHealth = gameState.health + (scarcityEffects.health || 0);
     let newHope = gameState.hope + (scarcityEffects.hope || 0);
-    let newSeeds = gameState.seeds + (scarcityEffects.seeds || 0);
-    let newKnowledge = gameState.knowledge + (scarcityEffects.knowledge || 0);
+    const newSeeds = gameState.seeds + (scarcityEffects.seeds || 0);
+    const newKnowledge = gameState.knowledge + (scarcityEffects.knowledge || 0);
 
     // Health loss from low supplies
     if (newSupplies <= RESOURCE_THRESHOLDS.SUPPLIES_CRITICAL) {

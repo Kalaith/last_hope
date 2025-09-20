@@ -46,6 +46,7 @@ export interface StructureLevel {
     seeds?: number;
     hope?: number;
     soilHealth?: number;
+    health?: number;
   };
   dailyMaintenance: {
     supplies?: number;

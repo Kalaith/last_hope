@@ -1,0 +1,400 @@
+/* Tab Navigation Styles */
+.tab-navigation {
+  width: 100%;
+  background: var(--color-terminal-bg-dark);
+  border-bottom: 2px solid var(--color-terminal-green);
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: none;
+  overflow-x: auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  justify-content: flex-start;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-terminal-bg);
+  border: 1px solid var(--color-terminal-border);
+  color: var(--color-terminal-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  position: relative;
+  white-space: nowrap;
+  min-width: fit-content;
+  flex: 1;
+  justify-content: center;
+  max-width: 200px;
+}
+
+.tab-button:hover {
+  background: var(--color-terminal-bg-light);
+  border-color: var(--color-terminal-green);
+}
+
+.tab-button.active {
+  background: var(--color-terminal-green);
+  color: var(--color-terminal-bg);
+  border-color: var(--color-terminal-green);
+}
+
+.tab-button.has-notification {
+  border-color: var(--color-terminal-yellow);
+  box-shadow: 0 0 8px rgba(255, 255, 0, 0.3);
+}
+
+.tab-icon {
+  font-size: 1.2rem;
+}
+
+.tab-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.notification-indicator {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--color-terminal-red);
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Game Interface Layout - Override existing grid layout */
+.game-interface {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  gap: 0 !important;
+}
+
+.tab-content {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+}
+
+/* Tab Content Layouts */
+.dashboard-tab,
+.world-tab,
+.settlement-tab,
+.research-tab {
+  min-height: 60vh;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Dashboard Layout */
+.dashboard-layout {
+  display: grid;
+  grid-template-areas:
+    "status status"
+    "story story"
+    "quick quick";
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  height: 100%;
+}
+
+.status-row {
+  grid-area: status;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.story-row {
+  grid-area: story;
+}
+
+.quick-stats {
+  grid-area: quick;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  background: var(--color-terminal-bg-dark);
+  border: 1px solid var(--color-terminal-border);
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.stat-card h4 {
+  color: var(--color-terminal-green);
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.stat-card p {
+  margin: 0.25rem 0;
+  font-size: 0.8rem;
+  color: var(--color-terminal-text-dim);
+}
+
+/* World Layout */
+.world-layout {
+  display: grid;
+  grid-template-areas:
+    "map ecosystem"
+    "map ecosystem";
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  height: 100%;
+}
+
+.map-section {
+  grid-area: map;
+}
+
+.ecosystem-section {
+  grid-area: ecosystem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ecosystem-stats {
+  background: var(--color-terminal-bg-dark);
+  border: 1px solid var(--color-terminal-border);
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.stat-item .label {
+  color: var(--color-terminal-text-dim);
+}
+
+.stat-item .value {
+  color: var(--color-terminal-green);
+  font-weight: bold;
+}
+
+.plant-growth-section {
+  flex-grow: 1;
+}
+
+/* Settlement Layout */
+.settlement-layout {
+  display: grid;
+  grid-template-areas:
+    "base resources"
+    "base stats";
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+  height: 100%;
+}
+
+.base-section {
+  grid-area: base;
+}
+
+.resources-section {
+  grid-area: resources;
+}
+
+.settlement-stats {
+  grid-area: stats;
+}
+
+.resource-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--color-terminal-bg-dark);
+  border: 1px solid var(--color-terminal-border);
+  border-radius: 4px;
+}
+
+.resource-icon {
+  font-size: 1.5rem;
+}
+
+.resource-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.resource-name {
+  font-size: 0.8rem;
+  color: var(--color-terminal-text-dim);
+}
+
+.resource-amount {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-terminal-green);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-terminal-green);
+  margin: 0.5rem 0;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--color-terminal-text-dim);
+  margin: 0;
+}
+
+/* Research Layout */
+.research-layout {
+  display: grid;
+  grid-template-areas:
+    "tree summary"
+    "progress summary";
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 2fr 1fr;
+  gap: 1rem;
+  height: 100%;
+}
+
+.research-section {
+  grid-area: tree;
+}
+
+.progress-section {
+  grid-area: progress;
+}
+
+.research-summary {
+  grid-area: summary;
+  background: var(--color-terminal-bg-dark);
+  border: 1px solid var(--color-terminal-border);
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.research-summary h3 {
+  color: var(--color-terminal-green);
+  margin: 0 0 1rem 0;
+}
+
+.research-summary h4 {
+  color: var(--color-terminal-yellow);
+  margin: 1rem 0 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.research-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.current-research,
+.completed-research {
+  padding: 0.5rem;
+  background: var(--color-terminal-bg);
+  border-radius: 4px;
+}
+
+.research-name,
+.research-progress,
+.completed-count {
+  margin: 0.25rem 0;
+  font-size: 0.8rem;
+  color: var(--color-terminal-text-dim);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tab-buttons {
+    padding: 0 0.5rem;
+  }
+
+  .tab-button {
+    padding: 0.5rem;
+    min-width: auto;
+  }
+
+  .tab-label {
+    display: none;
+  }
+
+  .dashboard-layout {
+    grid-template-areas:
+      "status"
+      "story"
+      "quick";
+    grid-template-columns: 1fr;
+  }
+
+  .status-row {
+    grid-template-columns: 1fr;
+  }
+
+  .world-layout,
+  .settlement-layout,
+  .research-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "map"
+      "ecosystem";
+  }
+
+  .settlement-layout {
+    grid-template-areas:
+      "base"
+      "resources"
+      "stats";
+  }
+
+  .research-layout {
+    grid-template-areas:
+      "tree"
+      "progress"
+      "summary";
+  }
+}

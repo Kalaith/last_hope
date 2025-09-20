@@ -1,23 +1,23 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Screen } from '../layout/Screen';
-import { WorldStatus } from './WorldStatus';
-import { CharacterStats } from './CharacterStats';
-import { BaseManagement } from './BaseManagement';
-import { ResearchTree } from './ResearchTree';
-import { StoryArea } from './StoryArea';
-import { ProgressSection } from './ProgressSection';
-import { WorldMap } from './WorldMap';
-import { PlantGrowthDisplay } from './PlantGrowthDisplay';
+import { TabNavigation, type TabId } from '../ui/TabNavigation';
+import { DashboardTab } from './DashboardTab';
+import { WorldTab } from './WorldTab';
+import { SettlementTab } from './SettlementTab';
+import { ResearchTab } from './ResearchTab';
 import { ConsequenceDisplay } from './ConsequenceDisplay';
 import { useGameStore } from '../../stores/gameStore';
 import { gameData } from '../../data';
 import type { Choice } from '../../types/game';
+import '../../styles/tabs.css';
 
 interface GameScreenProps {
   visible: boolean;
 }
 
 export const GameScreen = memo<GameScreenProps>(({ visible }) => {
+  const [activeTab, setActiveTab] = useState<TabId>('dashboard');
+
   const {
     gameState,
     currentScene,
@@ -25,7 +25,8 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
     generateProceduralScene,
     showingConsequences,
     lastConsequences,
-    hideConsequences
+    hideConsequences,
+    getBaseStats
   } = useGameStore();
 
   // Get current scene data
@@ -109,33 +110,47 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
     );
   }
 
+  // Calculate notifications for tabs
+  const baseStats = getBaseStats();
+  const notifications = {
+    settlement: baseStats.maintenanceEvents.length > 0,
+    research: !gameState.researchProgress?.currentResearch && gameState.knowledge >= 10
+  };
+
   return (
     <Screen visible={visible}>
       <div className="game-interface">
-        <WorldStatus gameState={gameState} />
-
-        <CharacterStats gameState={gameState} />
-
-        <BaseManagement gameState={gameState} />
-
-        <ResearchTree gameState={gameState} />
-
-        {/* New visual world representation */}
-        <WorldMap gameState={gameState} onZoneClick={handleZoneClick} />
-
-        <StoryArea
-          title={currentStoryData.title}
-          text={currentStoryData.text}
-          choices={currentStoryData.choices}
-          onMakeChoice={handleMakeChoice}
-          canAffordChoice={canAffordChoice}
-          gameState={gameState}
+        <TabNavigation
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          notifications={notifications}
         />
 
-        {/* Plant growth visualization */}
-        <PlantGrowthDisplay plants={gameState.ecosystem?.plantInstances || []} />
+        <div className="tab-content">
+          {activeTab === 'dashboard' && (
+            <DashboardTab
+              gameState={gameState}
+              storyData={currentStoryData}
+              onMakeChoice={handleMakeChoice}
+              canAffordChoice={canAffordChoice}
+            />
+          )}
 
-        <ProgressSection gameState={gameState} />
+          {activeTab === 'world' && (
+            <WorldTab
+              gameState={gameState}
+              onZoneClick={handleZoneClick}
+            />
+          )}
+
+          {activeTab === 'settlement' && (
+            <SettlementTab gameState={gameState} />
+          )}
+
+          {activeTab === 'research' && (
+            <ResearchTab gameState={gameState} />
+          )}
+        </div>
       </div>
 
       {/* Consequence Display Overlay */}

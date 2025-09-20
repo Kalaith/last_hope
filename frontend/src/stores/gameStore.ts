@@ -377,21 +377,23 @@ export const useGameStore = create<GameStore>()(
         // Process base building operations
         const baseBuildingResults = BaseBuildingManager.processDailyOperations(currentState);
 
-        // Apply base building resource changes
-        const finalResourceUpdates = { ...resourceUpdates };
-        const baseBuildingUpdates = applyResourceChanges(newGameState, baseBuildingResults.resourceChanges);
-        Object.assign(finalResourceUpdates, baseBuildingUpdates);
-
         // Update NPCs
         const updatedNPCs = NPCManager.updateAllNPCs(currentState.npcs, currentState);
 
-        // Create updated game state
-        const newGameState = {
+        // Create initial game state
+        let newGameState = {
           ...currentState,
-          ...finalResourceUpdates,
+          ...resourceUpdates,
           ecosystem: updatedEcosystem,
           npcs: updatedNPCs,
           daysSurvived: newDaysSurvived,
+        };
+
+        // Apply base building resource changes
+        const baseBuildingUpdates = applyResourceChanges(newGameState, baseBuildingResults.resourceChanges);
+        newGameState = {
+          ...newGameState,
+          ...baseBuildingUpdates,
           baseStructures: BaseBuildingManager.getStructures(),
           constructionProjects: BaseBuildingManager.getConstructionProjects()
         };

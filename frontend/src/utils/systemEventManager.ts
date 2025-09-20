@@ -308,9 +308,9 @@ class SystemEventManager {
       const structureCount = gameState.baseStructures?.length || 0;
       if (structureCount < triggers.baseStructures.count) return false;
 
-      if (triggers.baseStructures.type) {
+      if (triggers.baseStructures?.type) {
         const hasType = gameState.baseStructures?.some(structure =>
-          structure.type === triggers.baseStructures.type
+          structure.type === triggers.baseStructures?.type
         );
         if (!hasType) return false;
       }

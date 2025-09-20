@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Tooltip } from '../ui/Tooltip';
 import { useGameStore } from '../../stores/gameStore';
 import { researchSystem, type ResearchNode } from '../../utils/researchSystem';
@@ -223,7 +223,12 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                                   {prereqNode?.name || prereq}
                                 </span>
                               );
-                            }).reduce((prev, curr, i) => [prev, i > 0 ? ', ' : '', curr].filter(x => x))}
+                            }).map((element, index, array) => (
+                              <React.Fragment key={index}>
+                                {element}
+                                {index < array.length - 1 ? ', ' : ''}
+                              </React.Fragment>
+                            ))}
                           </div>
                         )}
                       </div>

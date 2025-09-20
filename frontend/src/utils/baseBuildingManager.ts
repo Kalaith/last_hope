@@ -7,6 +7,7 @@ import type {
   StructureLevel
 } from '../types/structures';
 import { getResourceValue } from './typeHelpers';
+import { BASE_BUILDING_CONSTANTS } from '../constants/gameConstants';
 
 // Define all available structures
 export const STRUCTURE_BLUEPRINTS: Record<StructureType, StructureBlueprint> = {
@@ -521,7 +522,7 @@ export class BaseBuildingManager {
 
   private static getWorkshopBonus(): boolean {
     const workshop = this.structures.find(s => s.type === 'workshop');
-    return workshop && workshop.level >= 3;
+    return workshop ? workshop.level >= 3 : false;
   }
 
   /**
@@ -562,8 +563,7 @@ export class BaseBuildingManager {
     totalStructures: number;
     averageCondition: number;
     dailyProduction: Record<string, number>;
-    dailyMaintenance: Record<string, number>;
-    constructionProgress: number;
+    maintenanceEvents: string[];
   } {
     const dailyProduction: Record<string, number> = {};
     const dailyMaintenance: Record<string, number> = {};
@@ -589,16 +589,20 @@ export class BaseBuildingManager {
       ? this.structures.reduce((sum, s) => sum + s.condition, 0) / this.structures.length
       : 100;
 
-    const constructionProgress = this.constructionProjects.length > 0
-      ? this.constructionProjects.reduce((sum, p) => sum + ((p.totalDays - p.daysRemaining) / p.totalDays), 0) / this.constructionProjects.length * 100
-      : 0;
+    // Check for maintenance events
+    const maintenanceEvents: string[] = [];
+    this.structures.forEach(structure => {
+      if (structure.condition < BASE_BUILDING_CONSTANTS.MAINTENANCE_WARNING_THRESHOLD) {
+        const blueprint = STRUCTURE_BLUEPRINTS[structure.type];
+        maintenanceEvents.push(`${blueprint.name} Level ${structure.level} needs maintenance (${Math.round(structure.condition)}% condition)`);
+      }
+    });
 
     return {
       totalStructures: this.structures.length,
       averageCondition,
       dailyProduction,
-      dailyMaintenance,
-      constructionProgress
+      maintenanceEvents
     };
   }
 
