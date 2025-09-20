@@ -5,6 +5,7 @@ import type { GameState } from '../../types/game';
 interface WorldMapProps {
   gameState: GameState;
   className?: string;
+  onZoneClick?: (zoneId: string, zoneName: string, zoneState: string) => void;
 }
 
 interface MapZone {
@@ -15,7 +16,7 @@ interface MapZone {
   state: 'dead' | 'sprouting' | 'growing' | 'thriving';
 }
 
-export const WorldMap = memo<WorldMapProps>(({ gameState, className = '' }) => {
+export const WorldMap = memo<WorldMapProps>(({ gameState, className = '', onZoneClick }) => {
   const getMapZones = (): MapZone[] => {
     const soilHealth = gameState.ecosystem?.soilHealth || 0;
     const plantCount = gameState.ecosystem?.plantInstances?.length || 0;
@@ -190,8 +191,17 @@ export const WorldMap = memo<WorldMapProps>(({ gameState, className = '' }) => {
               maxWidth="300px"
             >
               <div
-                className={`map-zone ${zone.state} ${isCenter ? 'center-zone' : ''}`}
-                style={{ color: getZoneColor(zone.state), cursor: 'help' }}
+                className={`map-zone ${zone.state} ${isCenter ? 'center-zone' : ''} ${zone.state !== 'dead' ? 'interactive' : ''}`}
+                style={{
+                  color: getZoneColor(zone.state),
+                  cursor: zone.state !== 'dead' ? 'pointer' : 'help',
+                  opacity: zone.state === 'dead' ? 0.6 : 1
+                }}
+                onClick={() => {
+                  if (zone.state !== 'dead' && onZoneClick) {
+                    onZoneClick(zone.id, zone.name, zone.state);
+                  }
+                }}
               >
                 {zone.symbol}
               </div>

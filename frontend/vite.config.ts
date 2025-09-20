@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/stellar_legacy/',
+  base: '/last_hope/',
   resolve: {
     alias: {
       '@': '/src',

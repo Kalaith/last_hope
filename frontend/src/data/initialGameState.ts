@@ -53,6 +53,13 @@ export const initialGameState: GameState = {
   daysSurvived: 0,
   selectedBackground: null,
   restorationProgress: 0,
+  lastChoiceTime: 0,
+  choiceCooldown: 0,
+
+  // Base building
+  baseStructures: [],
+  constructionProjects: [],
+  baseLevel: 1,
 
   // Legacy fields for backward compatibility
   worldHealth: 5,

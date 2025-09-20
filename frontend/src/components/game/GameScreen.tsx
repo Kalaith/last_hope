@@ -2,10 +2,13 @@ import { memo } from 'react';
 import { Screen } from '../layout/Screen';
 import { WorldStatus } from './WorldStatus';
 import { CharacterStats } from './CharacterStats';
+import { BaseManagement } from './BaseManagement';
+import { ResearchTree } from './ResearchTree';
 import { StoryArea } from './StoryArea';
 import { ProgressSection } from './ProgressSection';
 import { WorldMap } from './WorldMap';
 import { PlantGrowthDisplay } from './PlantGrowthDisplay';
+import { ConsequenceDisplay } from './ConsequenceDisplay';
 import { useGameStore } from '../../stores/gameStore';
 import { gameData } from '../../data';
 import type { Choice } from '../../types/game';
@@ -19,7 +22,10 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
     gameState,
     currentScene,
     makeChoice,
-    generateProceduralScene
+    generateProceduralScene,
+    showingConsequences,
+    lastConsequences,
+    hideConsequences
   } = useGameStore();
 
   // Get current scene data
@@ -51,6 +57,43 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
     makeChoice(choice);
   };
 
+  const handleZoneClick = (zoneId: string, zoneName: string, zoneState: string) => {
+    // Generate zone interaction based on state
+    const zoneChoice: Choice = {
+      text: `Interact with ${zoneName}`,
+      consequences: getZoneRewards(zoneState),
+      requirements: getZoneRequirements(zoneState)
+    };
+
+    makeChoice(zoneChoice);
+  };
+
+  const getZoneRewards = (zoneState: string): Record<string, number> => {
+    switch (zoneState) {
+      case 'sprouting':
+        return { supplies: 3, knowledge: 1, hope: 2 };
+      case 'growing':
+        return { supplies: 6, seeds: 1, hope: 5 };
+      case 'thriving':
+        return { supplies: 10, seeds: 2, hope: 10, soilHealth: 5 };
+      default:
+        return {};
+    }
+  };
+
+  const getZoneRequirements = (zoneState: string): Record<string, number> => {
+    switch (zoneState) {
+      case 'sprouting':
+        return { health: 5 };
+      case 'growing':
+        return { health: 10, knowledge: 10 };
+      case 'thriving':
+        return { health: 15, knowledge: 20 };
+      default:
+        return {};
+    }
+  };
+
   if (!currentStoryData) {
     return (
       <Screen visible={visible}>
@@ -73,8 +116,12 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
 
         <CharacterStats gameState={gameState} />
 
+        <BaseManagement gameState={gameState} />
+
+        <ResearchTree gameState={gameState} />
+
         {/* New visual world representation */}
-        <WorldMap gameState={gameState} />
+        <WorldMap gameState={gameState} onZoneClick={handleZoneClick} />
 
         <StoryArea
           title={currentStoryData.title}
@@ -82,6 +129,7 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
           choices={currentStoryData.choices}
           onMakeChoice={handleMakeChoice}
           canAffordChoice={canAffordChoice}
+          gameState={gameState}
         />
 
         {/* Plant growth visualization */}
@@ -89,6 +137,15 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
 
         <ProgressSection gameState={gameState} />
       </div>
+
+      {/* Consequence Display Overlay */}
+      {showingConsequences && (
+        <ConsequenceDisplay
+          consequences={lastConsequences.consequences}
+          relationships={lastConsequences.relationships}
+          onComplete={hideConsequences}
+        />
+      )}
     </Screen>
   );
 });

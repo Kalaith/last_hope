@@ -1,4 +1,5 @@
 import type { GameState, CoreResources } from '../types/game';
+import { ScarcityManager } from './scarcityManager';
 
 // Resource thresholds for hard consequences
 export const RESOURCE_THRESHOLDS = {
@@ -138,9 +139,17 @@ export class ResourceManager {
    * Apply daily resource consumption
    */
   static applyDailyConsumption(gameState: GameState): Partial<GameState> {
-    const newSupplies = Math.max(0, gameState.supplies - DAILY_CONSUMPTION.supplies);
-    let newHealth = gameState.health;
-    let newHope = gameState.hope;
+    // Check for scarcity events first
+    const scarcityEvents = ScarcityManager.checkScarcityEvents(gameState);
+
+    // Apply scarcity effects
+    const scarcityEffects = ScarcityManager.processDailyEffects(gameState);
+
+    let newSupplies = Math.max(0, gameState.supplies - DAILY_CONSUMPTION.supplies + (scarcityEffects.supplies || 0));
+    let newHealth = gameState.health + (scarcityEffects.health || 0);
+    let newHope = gameState.hope + (scarcityEffects.hope || 0);
+    let newSeeds = gameState.seeds + (scarcityEffects.seeds || 0);
+    let newKnowledge = gameState.knowledge + (scarcityEffects.knowledge || 0);
 
     // Health loss from low supplies
     if (newSupplies <= RESOURCE_THRESHOLDS.SUPPLIES_CRITICAL) {
@@ -157,10 +166,13 @@ export class ResourceManager {
       newHope = Math.min(100, newHope + 2); // Seeing progress boosts hope
     }
 
+    // Clamp all values to valid ranges
     return {
-      supplies: newSupplies,
-      health: newHealth,
-      hope: newHope
+      supplies: Math.max(0, Math.min(100, newSupplies)),
+      health: Math.max(0, Math.min(100, newHealth)),
+      hope: Math.max(0, Math.min(100, newHope)),
+      seeds: Math.max(0, Math.min(50, newSeeds)),
+      knowledge: Math.max(0, Math.min(100, newKnowledge))
     };
   }
 

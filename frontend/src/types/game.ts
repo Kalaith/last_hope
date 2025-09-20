@@ -20,6 +20,21 @@ export interface GameState {
   daysSurvived: number;
   selectedBackground: string | null;
   restorationProgress: number;
+  lastChoiceTime: number;
+  choiceCooldown: number;
+
+  // Base building
+  baseStructures: any[];
+  constructionProjects: any[];
+  baseLevel: number;
+
+  // Research system
+  researchProgress?: {
+    currentResearch: string | null;
+    daysInProgress: number;
+    completedResearch: string[];
+    availableResearch: string[];
+  };
 
   // Legacy fields (to be gradually removed)
   worldHealth: number;

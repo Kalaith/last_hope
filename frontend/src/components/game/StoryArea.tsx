@@ -1,7 +1,9 @@
 import { memo } from 'react';
 import { Button } from '../ui/Button';
 import { Tooltip } from '../ui/Tooltip';
-import type { Choice } from '../../types/game';
+import { ChoiceCooldownIndicator } from './ChoiceCooldownIndicator';
+import { ChoicePreview } from './ChoicePreview';
+import type { Choice, GameState } from '../../types/game';
 
 interface StoryAreaProps {
   title: string;
@@ -9,6 +11,7 @@ interface StoryAreaProps {
   choices: Choice[];
   onMakeChoice: (choice: Choice) => void;
   canAffordChoice: (choice: Choice) => boolean;
+  gameState: GameState;
 }
 
 export const StoryArea = memo<StoryAreaProps>(({
@@ -16,7 +19,8 @@ export const StoryArea = memo<StoryAreaProps>(({
   text,
   choices,
   onMakeChoice,
-  canAffordChoice
+  canAffordChoice,
+  gameState
 }) => {
   const formatRequirements = (requirements: Record<string, number>) => {
     return Object.entries(requirements)
@@ -25,80 +29,18 @@ export const StoryArea = memo<StoryAreaProps>(({
   };
 
   const getChoiceTooltip = (choice: Choice, canAfford: boolean) => {
-    const consequences = choice.consequences || {};
-    const relationships = choice.relationships || {};
-    const requirements = choice.requirements || {};
-
-    return (
-      <div>
-        <div style={{ fontWeight: 'bold', marginBottom: '8px', color: 'var(--color-terminal-amber)' }}>
-          Choice Consequences & Requirements
-        </div>
-
-        {Object.keys(requirements).length > 0 && (
-          <div style={{ marginBottom: '8px' }}>
-            <div style={{ fontWeight: 'bold', color: canAfford ? 'var(--color-terminal-green)' : 'var(--color-terminal-red)', marginBottom: '4px' }}>
-              Requirements:
-            </div>
-            <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-              {Object.entries(requirements).map(([key, value]) =>
-                `• ${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`
-              ).join('\n')}
-            </div>
-            {!canAfford && (
-              <div style={{ color: 'var(--color-terminal-red)', fontSize: '0.85em', marginTop: '4px' }}>
-                ⚠️ Cannot afford this choice
-              </div>
-            )}
-          </div>
-        )}
-
-        {Object.keys(consequences).length > 0 && (
-          <div style={{ marginBottom: '8px' }}>
-            <div style={{ fontWeight: 'bold', color: 'var(--color-terminal-amber)', marginBottom: '4px' }}>
-              Resource Changes:
-            </div>
-            <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-              {Object.entries(consequences).map(([key, value]) => {
-                const sign = value > 0 ? '+' : '';
-                const color = value > 0 ? 'var(--color-terminal-green)' : 'var(--color-terminal-red)';
-                return `• ${key.charAt(0).toUpperCase() + key.slice(1)}: ${sign}${value}`;
-              }).join('\n')}
-            </div>
-          </div>
-        )}
-
-        {Object.keys(relationships).length > 0 && (
-          <div style={{ marginBottom: '8px' }}>
-            <div style={{ fontWeight: 'bold', color: 'var(--color-irradiated-400)', marginBottom: '4px' }}>
-              Relationship Changes:
-            </div>
-            <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-              {Object.entries(relationships).map(([npc, value]) => {
-                const sign = value > 0 ? '+' : '';
-                const color = value > 0 ? 'var(--color-terminal-green)' : 'var(--color-terminal-red)';
-                return `• ${npc.charAt(0).toUpperCase() + npc.slice(1)}: ${sign}${value} trust`;
-              }).join('\n')}
-            </div>
-          </div>
-        )}
-
-        {Object.keys(consequences).length === 0 && Object.keys(relationships).length === 0 && Object.keys(requirements).length === 0 && (
-          <div style={{ fontSize: '0.9em', color: 'var(--color-ash-400)' }}>
-            This choice has narrative consequences that will be revealed as the story progresses.
-          </div>
-        )}
-
-        <div style={{ fontSize: '0.8em', color: 'var(--color-ash-500)', marginTop: '8px', paddingTop: '4px', borderTop: '1px solid var(--color-ash-600)' }}>
-          💡 Hover over choices to see their potential impact before deciding
-        </div>
-      </div>
-    );
+    // Use the new ChoicePreview component instead
+    return null; // This will be replaced by the ChoicePreview component
   };
 
   const handleChoiceClick = (choice: Choice) => {
     onMakeChoice(choice);
   };
+
+  const currentTime = Date.now();
+  const isOnCooldown = gameState.lastChoiceTime > 0 &&
+                      gameState.choiceCooldown > 0 &&
+                      currentTime < gameState.lastChoiceTime + gameState.choiceCooldown;
 
   return (
     <div className="story-area">
@@ -132,28 +74,35 @@ export const StoryArea = memo<StoryAreaProps>(({
         </div>
       </div>
 
-      <div className="choices-container">
+      <div className="choices-container" style={{ position: 'relative' }}>
         <div className="choices">
           {choices.map((choice, index) => {
             const canAfford = canAffordChoice(choice);
-            const isDisabled = !canAfford;
+            const isDisabled = !canAfford || isOnCooldown;
 
             return (
               <Tooltip
                 key={index}
-                content={getChoiceTooltip(choice, canAfford)}
+                content={
+                  <ChoicePreview
+                    choice={choice}
+                    currentState={gameState}
+                    canAfford={canAfford}
+                  />
+                }
                 position="top"
-                className="tooltip-resource"
-                maxWidth="350px"
-                delay={200}
+                className="tooltip-choice-preview"
+                maxWidth="500px"
+                delay={300}
               >
                 <button
-                  className={`choice-btn ${!canAfford ? 'critical-choice' : ''}`}
+                  className={`choice-btn ${!canAfford ? 'critical-choice' : ''} ${isOnCooldown ? 'cooldown-disabled' : ''}`}
                   disabled={isDisabled}
                   onClick={() => handleChoiceClick(choice)}
                   style={{
                     width: '100%',
-                    cursor: isDisabled ? 'not-allowed' : 'pointer'
+                    cursor: isDisabled ? 'not-allowed' : 'pointer',
+                    opacity: isOnCooldown ? 0.5 : 1
                   }}
                 >
                   {choice.text}
@@ -167,6 +116,18 @@ export const StoryArea = memo<StoryAreaProps>(({
             );
           })}
         </div>
+
+        {/* Cooldown Overlay */}
+        {isOnCooldown && (
+          <ChoiceCooldownIndicator
+            lastChoiceTime={gameState.lastChoiceTime}
+            cooldownDuration={gameState.choiceCooldown}
+            onCooldownComplete={() => {
+              // Force a re-render to update the cooldown state
+              // The cooldown logic will automatically detect expiration
+            }}
+          />
+        )}
       </div>
     </div>
   );

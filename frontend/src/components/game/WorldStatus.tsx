@@ -8,14 +8,29 @@ interface WorldStatusProps {
 }
 
 export const WorldStatus = memo<WorldStatusProps>(({ gameState }) => {
-  const { daysSurvived } = useGameStore();
+  const { daysSurvived, resetGame } = useGameStore();
   const soilHealth = gameState.ecosystem?.soilHealth || 0;
   const plantCount = gameState.ecosystem?.plantInstances?.length || 0;
+
+  const handleReset = () => {
+    if (confirm('Are you sure you want to reset the game? All progress will be lost.')) {
+      resetGame();
+    }
+  };
 
   return (
     <div className="world-status">
       <div className="world-info">
-        <h2>Last Hope: Seeds of Tomorrow</h2>
+        <div className="world-header">
+          <h2>Last Hope: Seeds of Tomorrow</h2>
+          <button
+            onClick={handleReset}
+            className="reset-button"
+            title="Reset game to initial state"
+          >
+            🔄 Reset
+          </button>
+        </div>
         <div className="world-stats">
           <div className="stat">
             <span className="stat-label">Soil Health</span>

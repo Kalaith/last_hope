@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Tooltip } from '../ui/Tooltip';
+import { ResourcePressureIndicator } from './ResourcePressureIndicator';
 import type { GameState } from '../../types/game';
 import { RESOURCE_THRESHOLDS } from '../../utils/resourceManager';
 
@@ -187,6 +188,9 @@ export const CharacterStats = memo<CharacterStatsProps>(({ gameState }) => {
           />
         </div>
       </div>
+
+      {/* Resource Pressure Indicator */}
+      <ResourcePressureIndicator gameState={gameState} />
     </div>
   );
 });
