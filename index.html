@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Hope: Seeds of Tomorrow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer" class="game-container">
+        <!-- Character Creation Screen -->
+        <div id="characterCreation" class="screen">
+            <div class="title-section">
+                <h1>Last Hope: Seeds of Tomorrow</h1>
+                <p class="subtitle">The world is dying. Humanity faces extinction. But perhaps... there's still a chance.</p>
+            </div>
+            
+            <div class="character-selection">
+                <h2>Choose Your Background</h2>
+                <div id="backgroundOptions" class="background-options">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                <button id="startGameBtn" class="btn btn--primary" disabled>Begin Your Journey</button>
+            </div>
+        </div>
+
+        <!-- Main Game Screen -->
+        <div id="gameScreen" class="screen hidden">
+            <div class="game-interface">
+                <!-- Header with world status -->
+                <div class="world-status">
+                    <div class="world-info">
+                        <h2>Last Hope: Seeds of Tomorrow</h2>
+                        <div class="world-stats">
+                            <div class="stat">
+                                <span class="stat-label">World Health</span>
+                                <div class="progress-bar">
+                                    <div id="worldHealthBar" class="progress-fill"></div>
+                                </div>
+                                <span id="worldHealthValue">5%</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Humans Remaining</span>
+                                <span id="humanPopulation">847</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Days Survived</span>
+                                <span id="daysSurvived">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Character Stats -->
+                <div class="character-panel">
+                    <h3>Character Status</h3>
+                    <div class="stats-grid">
+                        <div class="stat-group">
+                            <div class="vital-stat">
+                                <span class="stat-name">Hope</span>
+                                <div class="progress-bar hope-bar">
+                                    <div id="hopeBar" class="progress-fill"></div>
+                                </div>
+                                <span id="hopeValue">50</span>
+                            </div>
+                            <div class="vital-stat">
+                                <span class="stat-name">Health</span>
+                                <div class="progress-bar health-bar">
+                                    <div id="healthBar" class="progress-fill"></div>
+                                </div>
+                                <span id="healthValue">80</span>
+                            </div>
+                            <div class="vital-stat">
+                                <span class="stat-name">Sanity</span>
+                                <div class="progress-bar sanity-bar">
+                                    <div id="sanityBar" class="progress-fill"></div>
+                                </div>
+                                <span id="sanityValue">70</span>
+                            </div>
+                        </div>
+                        <div class="resources-group">
+                            <h4>Resources</h4>
+                            <div class="resources-grid">
+                                <div class="resource">
+                                    <span class="resource-name">Food</span>
+                                    <span id="foodValue">3</span>
+                                </div>
+                                <div class="resource">
+                                    <span class="resource-name">Water</span>
+                                    <span id="waterValue">2</span>
+                                </div>
+                                <div class="resource">
+                                    <span class="resource-name">Energy</span>
+                                    <span id="energyValue">4</span>
+                                </div>
+                                <div class="resource">
+                                    <span class="resource-name">Knowledge</span>
+                                    <span id="knowledgeValue">1</span>
+                                </div>
+                                <div class="resource seeds">
+                                    <span class="resource-name">Seeds</span>
+                                    <span id="seedsValue">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Story Area -->
+                <div class="story-area">
+                    <div class="story-content">
+                        <h3 id="sceneTitle">The Last Dawn</h3>
+                        <div id="storyText" class="story-text">
+                            <!-- Story content will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Choices -->
+                    <div class="choices-container">
+                        <div id="choicesArea" class="choices">
+                            <!-- Choices will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Indicators -->
+                <div class="progress-section">
+                    <div class="restoration-progress">
+                        <h4>Restoration Progress</h4>
+                        <div class="progress-bar restoration-bar">
+                            <div id="restorationBar" class="progress-fill"></div>
+                        </div>
+                        <span id="restorationValue">0%</span>
+                    </div>
+                    <div class="community-status">
+                        <h4>Community Relationships</h4>
+                        <div id="relationshipsArea" class="relationships">
+                            <span class="no-relationships">No relationships yet</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ending Screen -->
+        <div id="endingScreen" class="screen hidden">
+            <div class="ending-content">
+                <h2 id="endingTitle">The End</h2>
+                <div id="endingDescription" class="ending-description">
+                    <!-- Ending description -->
+                </div>
+                <div class="ending-stats">
+                    <h3>Your Journey</h3>
+                    <div id="endingStats" class="final-stats">
+                        <!-- Final statistics -->
+                    </div>
+                </div>
+                <div class="ending-choices">
+                    <h3>Key Decisions</h3>
+                    <div id="choiceHistory" class="choice-history">
+                        <!-- Choice history -->
+                    </div>
+                </div>
+                <button id="restartBtn" class="btn btn--primary">Begin Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
