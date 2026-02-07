@@ -364,3 +364,9 @@ For questions, bug reports, or feature requests:
 ---
 
 **Last Hope: Seeds of Tomorrow** - *Where hope grows, so does the future.* 🌱
+
+## License
+
+This project is licensed under the MIT License - see the individual component README files for details.
+
+Part of the WebHatchery game collection.
