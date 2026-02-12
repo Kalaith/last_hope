@@ -226,12 +226,13 @@ export class MetaProgressionManager {
         break;
       }
 
-      case 'npc_favor':
+      case 'npc_favor': {
         const trustBonus = reward.value as number;
         metaState.newGamePlusBonuses.npcStartingTrust.elena += trustBonus;
         metaState.newGamePlusBonuses.npcStartingTrust.marcus += trustBonus;
         metaState.newGamePlusBonuses.npcStartingTrust.chen += trustBonus;
         break;
+      }
 
       case 'special_ability':
         if (!metaState.newGamePlusBonuses.unlockedChoices.includes(reward.value as string)) {

@@ -10,9 +10,17 @@ interface ResearchTreeProps {
 }
 
 export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
-  const { startResearch, researchProgress, getResearchBoosts } = useGameStore();
+  const { startResearch, researchProgress } = useGameStore();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'agriculture' | 'ecology' | 'construction' | 'survival' | 'social'>('all');
   const [showResearchTree, setShowResearchTree] = useState(false);
+  const categories: Array<'all' | 'agriculture' | 'ecology' | 'construction' | 'survival' | 'social'> = [
+    'all',
+    'agriculture',
+    'ecology',
+    'construction',
+    'survival',
+    'social'
+  ];
 
   const researchTree = researchSystem.getResearchTree();
   const activeBoosts = researchProgress ? researchSystem.getActiveBoosts(researchProgress.completedResearch) : {};
@@ -172,11 +180,11 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
         <div className="research-menu">
           <div className="research-menu-header">
             <div className="category-filters">
-              {['all', 'agriculture', 'ecology', 'construction', 'survival', 'social'].map(category => (
+              {categories.map(category => (
                 <button
                   key={category}
                   className={`category-filter ${selectedCategory === category ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(category as any)}
+                  onClick={() => setSelectedCategory(category)}
                 >
                   {getCategoryIcon(category)} {category.charAt(0).toUpperCase() + category.slice(1)}
                 </button>

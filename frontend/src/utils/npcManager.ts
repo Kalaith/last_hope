@@ -87,13 +87,12 @@ export class NPCManager {
    */
   static generateDialogue(npc: NPCPersonality, gameState: GameState, category: DialogueCategory): string {
     const personality = NPC_PERSONALITIES[npc.personality];
-    const recentMemory = npc.dialogueMemory.slice(-3); // Last 3 interactions
 
     // Avoid repeating recent dialogue
     let dialogue = this.getBaseDialogue(npc, gameState, category, personality);
 
     // Add personality-specific variations
-    dialogue = this.addPersonalityFlavor(dialogue, npc, gameState);
+    dialogue = this.addPersonalityFlavor(dialogue, npc);
 
     // Remember this dialogue
     this.addToDialogueMemory(npc, category, dialogue);
@@ -111,15 +110,15 @@ export class NPCManager {
       case 'greeting':
         return this.getGreetingDialogue(npc, gameState, personality);
       case 'concern':
-        return this.getConcernDialogue(npc, gameState);
+        return this.getConcernDialogue(npc);
       case 'ecosystem':
-        return this.getEcosystemDialogue(npc, gameState, personality);
+        return this.getEcosystemDialogue(npc, gameState);
       case 'weather':
         return this.getWeatherDialogue(npc, gameState, personality);
       case 'success':
         return personality.responses.success;
       case 'failure':
-        return this.getFailureDialogue(npc, gameState, personality);
+        return this.getFailureDialogue(npc);
       default:
         return this.getGenericDialogue(npc, gameState, personality);
     }
@@ -130,7 +129,6 @@ export class NPCManager {
     gameState: GameState,
     personality: typeof NPC_PERSONALITIES[PersonalityType]
   ): string {
-    const time = gameState.daysSurvived;
     const trust = npc.trustLevel;
 
     if (trust < 25) {
@@ -146,7 +144,7 @@ export class NPCManager {
     }
   }
 
-  private static getConcernDialogue(npc: NPCPersonality, gameState: GameState): string {
+  private static getConcernDialogue(npc: NPCPersonality): string {
     const primaryConcern = npc.currentConcerns[0];
 
     const concernDialogue: Record<string, string> = {
@@ -166,8 +164,7 @@ export class NPCManager {
 
   private static getEcosystemDialogue(
     npc: NPCPersonality,
-    gameState: GameState,
-    personality: typeof NPC_PERSONALITIES[PersonalityType]
+    gameState: GameState
   ): string {
     const soilHealth = gameState.ecosystem.soilHealth;
     const plantCount = gameState.ecosystem.plantInstances.length;
@@ -226,11 +223,7 @@ export class NPCManager {
     }
   }
 
-  private static getFailureDialogue(
-    npc: NPCPersonality,
-    gameState: GameState,
-    personality: typeof NPC_PERSONALITIES[PersonalityType]
-  ): string {
+  private static getFailureDialogue(npc: NPCPersonality): string {
     if (npc.personality === 'optimistic') {
       return "Setbacks are just learning opportunities. We'll do better next time.";
     } else if (npc.personality === 'pragmatic') {
@@ -254,7 +247,7 @@ export class NPCManager {
     }
   }
 
-  private static addPersonalityFlavor(dialogue: string, npc: NPCPersonality, gameState: GameState): string {
+  private static addPersonalityFlavor(dialogue: string, npc: NPCPersonality): string {
     // Add personality-specific touches
     switch (npc.personality) {
       case 'scientific':

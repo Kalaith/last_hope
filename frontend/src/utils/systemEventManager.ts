@@ -1,4 +1,4 @@
-import type { GameState, SystemTriggeredEvent, Choice } from '../types/game';
+import type { GameState, Choice } from '../types/game';
 
 export interface EventTrigger {
   soilHealth?: { min?: number; max?: number };

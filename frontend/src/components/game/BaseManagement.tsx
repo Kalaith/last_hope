@@ -2,6 +2,7 @@ import { memo, useState } from 'react';
 import { Tooltip } from '../ui/Tooltip';
 import { useGameStore } from '../../stores/gameStore';
 import type { GameState } from '../../types/game';
+import { getResourceValue } from '../../utils/typeHelpers';
 
 interface BaseManagementProps {
   gameState: GameState;
@@ -11,6 +12,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
   const { getAvailableStructures, getBaseStats, startConstruction } = useGameStore();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'production' | 'research' | 'utility'>('all');
   const [showBuildMenu, setShowBuildMenu] = useState(false);
+  const categories: Array<'all' | 'production' | 'research' | 'utility'> = ['all', 'production', 'research', 'utility'];
 
   const availableStructures = getAvailableStructures();
   const baseStats = getBaseStats();
@@ -27,7 +29,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
   };
 
   const getResourceColor = (resource: string, cost: number): string => {
-    const current = (gameState as any)[resource] || 0;
+    const current = getResourceValue(gameState, resource);
     return current >= cost ? 'var(--color-terminal-green)' : 'var(--color-terminal-red)';
   };
 
@@ -118,7 +120,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
       {gameState.baseStructures && gameState.baseStructures.length > 0 && (
         <div className="existing-structures">
           <div className="structures-title">Active Structures:</div>
-          {gameState.baseStructures.map((structure: any, index: number) => (
+          {gameState.baseStructures.map((structure, index: number) => (
             <div key={index} className="structure-item">
               <div className="structure-info">
                 <span className="structure-icon">
@@ -150,7 +152,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
       {gameState.constructionProjects && gameState.constructionProjects.length > 0 && (
         <div className="construction-projects">
           <div className="projects-title">Under Construction:</div>
-          {gameState.constructionProjects.map((project: any, index: number) => (
+          {gameState.constructionProjects.map((project, index: number) => (
             <div key={index} className="construction-item">
               <div className="construction-info">
                 <span className="construction-icon">🚧</span>
@@ -182,11 +184,11 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
         <div className="build-menu">
           <div className="build-menu-header">
             <div className="category-filters">
-              {['all', 'production', 'research', 'utility'].map(category => (
+              {categories.map(category => (
                 <button
                   key={category}
                   className={`category-filter ${selectedCategory === category ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(category as any)}
+                  onClick={() => setSelectedCategory(category)}
                 >
                   {category.charAt(0).toUpperCase() + category.slice(1)}
                 </button>
@@ -209,7 +211,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
                   {item.availableLevels.map(level => {
                     const levelData = item.blueprint.levels[level - 1];
                     const canAfford = Object.entries(levelData.buildCost).every(([resource, cost]) => {
-                      return (gameState as any)[resource] >= cost;
+                      return getResourceValue(gameState, resource) >= cost;
                     });
 
                     return (

@@ -229,14 +229,11 @@ export class EcosystemSimulator {
     }
 
     let totalImprovement = 0;
-    let maturePlants = 0;
-
     for (const plant of plants) {
       if (plant.health > 50 && plant.maturity > 30) {
         // Only healthy, somewhat mature plants contribute significantly
         const contribution = plant.soilContribution * (plant.maturity / 100) * (plant.health / 100);
         totalImprovement += contribution;
-        maturePlants++;
       }
     }
 
@@ -291,8 +288,6 @@ export class EcosystemSimulator {
   ): EcosystemState['weatherPattern'] {
     // Weather changes more frequently than seasons
     if (Math.random() < 0.1 * timeElapsed) {
-      const patterns: EcosystemState['weatherPattern'][] = ['stable', 'rain', 'drought', 'storm'];
-
       // Weighted random selection
       const weights = {
         stable: 0.4,

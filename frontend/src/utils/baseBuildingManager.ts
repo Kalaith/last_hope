@@ -3,8 +3,7 @@ import type {
   BaseStructure,
   ConstructionProject,
   StructureType,
-  StructureBlueprint,
-  StructureLevel
+  StructureBlueprint
 } from '../types/structures';
 import { getResourceValue } from './typeHelpers';
 import { BASE_BUILDING_CONSTANTS } from '../constants/gameConstants';
@@ -299,7 +298,7 @@ export class BaseBuildingManager {
   static canBuildStructure(type: StructureType, level: number, gameState: GameState): {
     canBuild: boolean;
     reason?: string;
-    requirements?: any;
+    requirements?: StructureBlueprint['unlockRequirements'] | Record<string, number>;
   } {
     const blueprint = STRUCTURE_BLUEPRINTS[type];
     const structureLevel = blueprint.levels[level - 1];
@@ -390,7 +389,7 @@ export class BaseBuildingManager {
   /**
    * Process daily construction and maintenance
    */
-  static processDailyOperations(gameState: GameState): {
+  static processDailyOperations(): {
     resourceChanges: Record<string, number>;
     completedProjects: ConstructionProject[];
     maintenanceEvents: string[];

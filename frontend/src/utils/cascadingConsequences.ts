@@ -129,7 +129,7 @@ export class CascadingConsequenceManager {
    */
   static registerChoice(choiceText: string, choice: Choice, gameState: GameState): void {
     // Find matching consequence chain
-    const chain = this.findConsequenceChain(choiceText, choice);
+    const chain = this.findConsequenceChain(choiceText);
 
     if (chain) {
       // Schedule delayed consequences
@@ -182,7 +182,7 @@ export class CascadingConsequenceManager {
   /**
    * Find consequence chain for a choice
    */
-  private static findConsequenceChain(choiceText: string, choice: Choice): ConsequenceChain | null {
+  private static findConsequenceChain(choiceText: string): ConsequenceChain | null {
     // Match by key phrases in choice text
     const lowerChoice = choiceText.toLowerCase();
 

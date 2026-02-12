@@ -124,7 +124,7 @@ export class ScarcityManager {
     });
 
     // Supplies pressure - consider daily consumption
-    const dailyConsumption = this.calculateDailyConsumption('supplies', gameState);
+    const dailyConsumption = this.calculateDailyConsumption('supplies');
     const suppliesPressure = Math.min(100, (100 - gameState.supplies) + (dailyConsumption * 10));
     pressures.push({
       resource: 'supplies',
@@ -185,7 +185,7 @@ export class ScarcityManager {
   /**
    * Process daily effects of active scarcity events
    */
-  static processDailyEffects(gameState: GameState): { [key: string]: number } {
+  static processDailyEffects(): { [key: string]: number } {
     const effects: { [key: string]: number } = {};
 
     this.activeEvents.forEach((activeEvent, eventId) => {
@@ -315,7 +315,7 @@ export class ScarcityManager {
     return 'stable';
   }
 
-  private static calculateDailyConsumption(resource: string, gameState: GameState): number {
+  private static calculateDailyConsumption(resource: string): number {
     // Base consumption rates
     const baseCosts: { [key: string]: number } = {
       supplies: 3,

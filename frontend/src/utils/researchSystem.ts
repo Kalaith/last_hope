@@ -323,7 +323,7 @@ class ResearchSystemManager {
   /**
    * Process daily research progress
    */
-  processResearchProgress(researchProgress: ResearchProgress, gameState: GameState): {
+  processResearchProgress(researchProgress: ResearchProgress): {
     progress: ResearchProgress;
     completedResearch: string | null;
   } {

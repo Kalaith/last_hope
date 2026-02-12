@@ -136,10 +136,10 @@ export class ResourceManager {
    */
   static applyDailyConsumption(gameState: GameState): Partial<GameState> {
     // Check for scarcity events first
-    const scarcityEvents = ScarcityManager.checkScarcityEvents(gameState);
+    ScarcityManager.checkScarcityEvents(gameState);
 
     // Apply scarcity effects
-    const scarcityEffects = ScarcityManager.processDailyEffects(gameState);
+    const scarcityEffects = ScarcityManager.processDailyEffects();
 
     const newSupplies = Math.max(0, gameState.supplies - DAILY_CONSUMPTION.supplies + (scarcityEffects.supplies || 0));
     let newHealth = gameState.health + (scarcityEffects.health || 0);

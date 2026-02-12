@@ -19,7 +19,6 @@ interface MapZone {
 export const WorldMap = memo<WorldMapProps>(({ gameState, className = '', onZoneClick }) => {
   const getMapZones = (): MapZone[] => {
     const soilHealth = gameState.ecosystem?.soilHealth || 0;
-    const plantCount = gameState.ecosystem?.plantInstances?.length || 0;
 
     // Generate 9 zones in a 3x3 grid representing different areas
     const zones: MapZone[] = [];

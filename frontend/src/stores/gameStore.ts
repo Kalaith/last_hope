@@ -21,7 +21,7 @@ import { ScarcityManager } from '../utils/scarcityManager';
 import { BaseBuildingManager } from '../utils/baseBuildingManager';
 import { researchSystem } from '../utils/researchSystem';
 import { CHOICE_CONSTANTS } from '../constants/gameConstants';
-import { getResourceValue, applyResourceChanges } from '../utils/typeHelpers';
+import { applyResourceChanges } from '../utils/typeHelpers';
 
 interface GameStore {
   // State
@@ -82,6 +82,17 @@ const getInitialMetaState = (): MetaProgressState => ({
     npcStartingTrust: { elena: 0, marcus: 0, chen: 0 }
   }
 });
+
+const STRUCTURE_TYPE_SET = new Set<StructureType>([
+  'greenhouse',
+  'water_purifier',
+  'research_lab',
+  'solar_panel',
+  'workshop',
+  'storage_facility'
+]);
+
+const isStructureType = (value: string): value is StructureType => STRUCTURE_TYPE_SET.has(value as StructureType);
 
 export const useGameStore = create<GameStore>()(
   persist(
@@ -366,7 +377,7 @@ export const useGameStore = create<GameStore>()(
         const newDaysSurvived = get().daysSurvived + 1;
 
         // Apply daily resource consumption and ecosystem simulation
-        const { resourceUpdates, ecosystemUpdates, npcUpdates } = ResourceManager.simulateDay(currentState);
+        const { resourceUpdates, ecosystemUpdates } = ResourceManager.simulateDay(currentState);
 
         // Update ecosystem
         const updatedEcosystem = EcosystemSimulator.simulateGrowth(
@@ -375,7 +386,7 @@ export const useGameStore = create<GameStore>()(
         );
 
         // Process base building operations
-        const baseBuildingResults = BaseBuildingManager.processDailyOperations(currentState);
+        const baseBuildingResults = BaseBuildingManager.processDailyOperations();
 
         // Update NPCs
         const updatedNPCs = NPCManager.updateAllNPCs(currentState.npcs, currentState);
@@ -402,7 +413,7 @@ export const useGameStore = create<GameStore>()(
         const currentResearchProgress = get().researchProgress;
         let newResearchProgress = currentResearchProgress;
         if (currentResearchProgress) {
-          const { progress, completedResearch } = researchSystem.processResearchProgress(currentResearchProgress, newGameState);
+          const { progress, completedResearch } = researchSystem.processResearchProgress(currentResearchProgress);
           newResearchProgress = progress;
 
           // If research was completed, show a notification or consequence
@@ -540,13 +551,12 @@ export const useGameStore = create<GameStore>()(
       startConstruction: (structureType: string, level: number) => {
         const state = get();
         // Type-safe structure type validation
-        const validStructureTypes = ['greenhouse', 'water_purifier', 'research_lab', 'solar_panel', 'workshop', 'storage_facility'] as const;
-        if (!validStructureTypes.includes(structureType as any)) {
+        if (!isStructureType(structureType)) {
           console.error(`Invalid structure type: ${structureType}`);
           return false;
         }
 
-        const success = BaseBuildingManager.startConstruction(structureType as StructureType, level, state.gameState);
+        const success = BaseBuildingManager.startConstruction(structureType, level, state.gameState);
 
         if (success) {
           // Deduct resources immediately when construction starts
@@ -555,10 +565,9 @@ export const useGameStore = create<GameStore>()(
 
           if (blueprint) {
             const levelData = blueprint.levels[level - 1];
-            const resourceUpdates: any = {};
+            const resourceUpdates: Partial<GameState> = {};
 
             Object.entries(levelData.buildCost).forEach(([resource, cost]) => {
-              const currentValue = getResourceValue(state.gameState, resource);
               const updates = applyResourceChanges(state.gameState, { [resource]: -cost });
               Object.assign(resourceUpdates, updates);
             });
@@ -607,25 +616,26 @@ export const useGameStore = create<GameStore>()(
     {
       name: 'last-hope-game-storage',
       version: 2, // Increment version to force migration
-      migrate: (persistedState: any, version: number) => {
+      migrate: (persistedState: unknown, version: number) => {
+        const typedState = persistedState as Partial<{ gameState: Partial<GameState> }> | undefined;
         // If we have an old version, merge with new initial state
         if (version < 2) {
           console.log('Migrating game state from version', version, 'to 2');
           return {
-            ...persistedState,
+            ...(typedState ?? {}),
             gameState: {
               ...initialGameState,
-              ...(persistedState?.gameState || {}),
+              ...(typedState?.gameState || {}),
               // Ensure core resources are present
-              hope: persistedState?.gameState?.hope ?? initialGameState.hope,
-              health: persistedState?.gameState?.health ?? initialGameState.health,
-              supplies: persistedState?.gameState?.supplies ?? initialGameState.supplies,
-              knowledge: persistedState?.gameState?.knowledge ?? initialGameState.knowledge,
-              seeds: persistedState?.gameState?.seeds ?? initialGameState.seeds,
+              hope: typedState?.gameState?.hope ?? initialGameState.hope,
+              health: typedState?.gameState?.health ?? initialGameState.health,
+              supplies: typedState?.gameState?.supplies ?? initialGameState.supplies,
+              knowledge: typedState?.gameState?.knowledge ?? initialGameState.knowledge,
+              seeds: typedState?.gameState?.seeds ?? initialGameState.seeds,
             }
           };
         }
-        return persistedState;
+        return typedState;
       },
       partialize: (state) => ({
         gameState: state.gameState,

@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import { Button } from '../ui/Button';
 import { Tooltip } from '../ui/Tooltip';
 import { ChoiceCooldownIndicator } from './ChoiceCooldownIndicator';
 import { ChoicePreview } from './ChoicePreview';
@@ -27,11 +26,6 @@ export const StoryArea = memo<StoryAreaProps>(({
     return Object.entries(requirements)
       .map(([key, value]) => `${key}: ${value}`)
       .join(', ');
-  };
-
-  const getChoiceTooltip = (choice: Choice, canAfford: boolean) => {
-    // Use the new ChoicePreview component instead
-    return null; // This will be replaced by the ChoicePreview component
   };
 
   const handleChoiceClick = (choice: Choice) => {
