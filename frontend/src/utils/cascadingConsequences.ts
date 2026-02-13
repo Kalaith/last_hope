@@ -25,7 +25,7 @@ export interface ConditionalConsequence {
 }
 
 // Define consequence chains for major decisions
-export const CONSEQUENCE_CHAINS: Record<string, ConsequenceChain> = {
+export const consequenceChains: Record<string, ConsequenceChain> = {
   'prioritize_food_over_restoration': {
     choiceId: 'prioritize_food_over_restoration',
     immediate: { supplies: 15, hope: -5 },
@@ -187,15 +187,15 @@ export class CascadingConsequenceManager {
     const lowerChoice = choiceText.toLowerCase();
 
     if (lowerChoice.includes('food') && lowerChoice.includes('survival')) {
-      return CONSEQUENCE_CHAINS['prioritize_food_over_restoration'];
+      return consequenceChains['prioritize_food_over_restoration'];
     }
 
     if (lowerChoice.includes('share') && lowerChoice.includes('seed')) {
-      return CONSEQUENCE_CHAINS['share_seeds_with_strangers'];
+      return consequenceChains['share_seeds_with_strangers'];
     }
 
     if (lowerChoice.includes('plant') && (lowerChoice.includes('aggressive') || lowerChoice.includes('all'))) {
-      return CONSEQUENCE_CHAINS['plant_aggressive_restoration'];
+      return consequenceChains['plant_aggressive_restoration'];
     }
 
     return null;

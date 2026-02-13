@@ -24,7 +24,7 @@ export interface ResourcePressure {
 }
 
 // Define scarcity events that can trigger
-export const SCARCITY_EVENTS: ScarcityEvent[] = [
+export const scarcityEvents: ScarcityEvent[] = [
   {
     id: 'water_purifier_failure',
     resource: 'supplies',
@@ -166,7 +166,7 @@ export class ScarcityManager {
     }
 
     // Check each potential event
-    SCARCITY_EVENTS.forEach(event => {
+    scarcityEvents.forEach(event => {
       // Don't trigger if already active
       if (this.activeEvents.has(event.id)) {
         return;

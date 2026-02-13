@@ -1,7 +1,7 @@
 import type { NPCPersonality, GameState } from '../types/game';
 
 // NPC personality templates
-export const NPC_PERSONALITIES = {
+export const npcPersonalities = {
   optimistic: {
     hopeThresholds: { high: 60, low: 30 },
     responses: {
@@ -48,7 +48,7 @@ export const NPC_PERSONALITIES = {
   }
 } as const;
 
-export type PersonalityType = keyof typeof NPC_PERSONALITIES;
+export type PersonalityType = keyof typeof npcPersonalities;
 
 // Dialogue memory categories
 type DialogueCategory = 'greeting' | 'concern' | 'success' | 'failure' | 'weather' | 'ecosystem' | 'personal';
@@ -58,7 +58,7 @@ export class NPCManager {
    * Update NPC mood based on current game state
    */
   static updateNPCMood(npc: NPCPersonality, gameState: GameState): NPCPersonality {
-    const personality = NPC_PERSONALITIES[npc.personality];
+    const personality = npcPersonalities[npc.personality];
     let newMood = npc.mood;
 
     // Mood based on hope levels and personality thresholds
@@ -86,7 +86,7 @@ export class NPCManager {
    * Generate contextual dialogue based on NPC state and game conditions
    */
   static generateDialogue(npc: NPCPersonality, gameState: GameState, category: DialogueCategory): string {
-    const personality = NPC_PERSONALITIES[npc.personality];
+    const personality = npcPersonalities[npc.personality];
 
     // Avoid repeating recent dialogue
     let dialogue = this.getBaseDialogue(npc, gameState, category, personality);
@@ -104,7 +104,7 @@ export class NPCManager {
     npc: NPCPersonality,
     gameState: GameState,
     category: DialogueCategory,
-    personality: typeof NPC_PERSONALITIES[PersonalityType]
+    personality: typeof npcPersonalities[PersonalityType]
   ): string {
     switch (category) {
       case 'greeting':
@@ -127,7 +127,7 @@ export class NPCManager {
   private static getGreetingDialogue(
     npc: NPCPersonality,
     gameState: GameState,
-    personality: typeof NPC_PERSONALITIES[PersonalityType]
+    personality: typeof npcPersonalities[PersonalityType]
   ): string {
     const trust = npc.trustLevel;
 
@@ -201,7 +201,7 @@ export class NPCManager {
   private static getWeatherDialogue(
     npc: NPCPersonality,
     gameState: GameState,
-    personality: typeof NPC_PERSONALITIES[PersonalityType]
+    personality: typeof npcPersonalities[PersonalityType]
   ): string {
     const weather = gameState.ecosystem.weatherPattern;
 
@@ -238,7 +238,7 @@ export class NPCManager {
   private static getGenericDialogue(
     npc: NPCPersonality,
     gameState: GameState,
-    personality: typeof NPC_PERSONALITIES[PersonalityType]
+    personality: typeof npcPersonalities[PersonalityType]
   ): string {
     if (gameState.hope > personality.hopeThresholds.high) {
       return personality.responses.highHope;
@@ -293,7 +293,7 @@ export class NPCManager {
     action: string,
     gameState: GameState
   ): NPCPersonality {
-    const personality = NPC_PERSONALITIES[npc.personality];
+    const personality = npcPersonalities[npc.personality];
     let trustChange = 0;
 
     // Trust modifiers based on personality and action type

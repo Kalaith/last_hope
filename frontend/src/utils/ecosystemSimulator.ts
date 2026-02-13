@@ -1,7 +1,7 @@
 import type { EcosystemState, PlantInstance, GameState } from '../types/game';
 
 // Plant species definitions
-export const PLANT_SPECIES = {
+export const plantSpecies = {
   hardy_grass: {
     name: 'Hardy Grass',
     soilRequirement: 0,
@@ -44,10 +44,10 @@ export const PLANT_SPECIES = {
   }
 } as const;
 
-export type PlantSpeciesId = keyof typeof PLANT_SPECIES;
+export type PlantSpeciesId = keyof typeof plantSpecies;
 
 // Weather impact on plant growth and survival
-const WEATHER_MODIFIERS = {
+const weatherModifiers = {
   drought: {
     growthRate: 0.3,
     survivalRate: 0.7,
@@ -71,7 +71,7 @@ const WEATHER_MODIFIERS = {
 } as const;
 
 // Seasonal effects
-const SEASONAL_MODIFIERS = {
+const seasonalModifiers = {
   spring: {
     growthBonus: 1.3,
     plantingBonus: true,
@@ -129,7 +129,7 @@ export class EcosystemSimulator {
     species: PlantSpeciesId,
     gameState: GameState
   ): { success: boolean; message: string; newPlant?: PlantInstance } {
-    const plantType = PLANT_SPECIES[species];
+    const plantType = plantSpecies[species];
 
     // Check soil requirements
     if (ecosystem.soilHealth < plantType.soilRequirement) {
@@ -172,9 +172,9 @@ export class EcosystemSimulator {
     ecosystem: EcosystemState,
     timeElapsed: number
   ): PlantInstance {
-    const species = PLANT_SPECIES[plant.species as PlantSpeciesId];
-    const weather = WEATHER_MODIFIERS[ecosystem.weatherPattern];
-    const season = SEASONAL_MODIFIERS[ecosystem.seasonalCycle];
+    const species = plantSpecies[plant.species as PlantSpeciesId];
+    const weather = weatherModifiers[ecosystem.weatherPattern];
+    const season = seasonalModifiers[ecosystem.seasonalCycle];
 
     // Base growth rate
     let growthRate = species.growthRate;
@@ -317,7 +317,7 @@ export class EcosystemSimulator {
     let totalSeeds = 0;
 
     for (const plant of maturePlants) {
-      const species = PLANT_SPECIES[plant.species as PlantSpeciesId];
+      const species = plantSpecies[plant.species as PlantSpeciesId];
       totalSeeds += species.seedYield;
     }
 
@@ -341,7 +341,7 @@ export class EcosystemSimulator {
                       plantCount < 15 ? 'Small patches of green emerge from the wasteland' :
                       'A growing ecosystem flourishes';
 
-    const weather = WEATHER_MODIFIERS[ecosystem.weatherPattern];
+    const weather = weatherModifiers[ecosystem.weatherPattern];
 
     return `The soil is ${soilDesc}. ${plantDesc}. ${weather.description}.`;
   }

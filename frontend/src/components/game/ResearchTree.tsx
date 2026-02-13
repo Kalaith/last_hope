@@ -3,7 +3,7 @@ import { Tooltip } from '../ui/Tooltip';
 import { useGameStore } from '../../stores/gameStore';
 import { researchSystem, type ResearchNode } from '../../utils/researchSystem';
 import type { GameState } from '../../types/game';
-import { RESEARCH_CONSTANTS, UI_CONSTANTS } from '../../constants/gameConstants';
+import { researchConstants, uiConstants } from '../../constants/gameConstants';
 
 interface ResearchTreeProps {
   gameState: GameState;
@@ -48,7 +48,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
     const node = researchTree.find(n => n.id === nodeId);
     if (!node) return 0;
     const researchTime = node.researchTime ||
-      Math.ceil(node.knowledgeRequired / RESEARCH_CONSTANTS.DEFAULT_RESEARCH_TIME_DIVISOR);
+      Math.ceil(node.knowledgeRequired / researchConstants.DEFAULT_RESEARCH_TIME_DIVISOR);
     return (researchProgress.daysInProgress / researchTime) * 100;
   };
 
@@ -93,7 +93,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
           }
           position="bottom"
           className="tooltip-resource"
-          maxWidth={`${UI_CONSTANTS.TOOLTIP_MAX_WIDTH_PX}px`}
+          maxWidth={`${uiConstants.TOOLTIP_MAX_WIDTH_PX}px`}
         >
           <h4 style={{ cursor: 'help' }}>Research Laboratory ℹ️</h4>
         </Tooltip>
@@ -274,7 +274,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                   }
                   position="top"
                   className="tooltip-resource"
-                  maxWidth={`${UI_CONSTANTS.TOOLTIP_MAX_WIDTH_PX + 50}px`}
+                  maxWidth={`${uiConstants.TOOLTIP_MAX_WIDTH_PX + 50}px`}
                 >
                   <button
                     className={`research-node ${researched ? 'researched' : canStart ? 'available' : 'locked'} ${currentlyResearching ? 'researching' : ''}`}

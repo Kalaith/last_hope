@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import type { PlantInstance } from '../../types/game';
-import { PLANT_SPECIES } from '../../utils/ecosystemSimulator';
+import { plantSpecies } from '../../utils/ecosystemSimulator';
 
 interface PlantGrowthDisplayProps {
   plants: PlantInstance[];
@@ -23,7 +23,7 @@ export const PlantGrowthDisplay = memo<PlantGrowthDisplayProps>(({ plants, class
   };
 
   const getSpeciesName = (speciesId: string): string => {
-    const species = PLANT_SPECIES[speciesId as keyof typeof PLANT_SPECIES];
+    const species = plantSpecies[speciesId as keyof typeof plantSpecies];
     return species?.name || speciesId;
   };
 

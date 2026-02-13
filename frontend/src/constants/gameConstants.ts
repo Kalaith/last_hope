@@ -4,7 +4,7 @@
 // ================================
 // RESEARCH SYSTEM CONSTANTS
 // ================================
-export const RESEARCH_CONSTANTS = {
+export const researchConstants = {
   DEFAULT_RESEARCH_TIME_DIVISOR: 3, // Research time = knowledge required / 3
   KNOWLEDGE_TO_DAYS_RATIO: 1/3,
   MIN_KNOWLEDGE_FOR_RESEARCH: 5,
@@ -14,7 +14,7 @@ export const RESEARCH_CONSTANTS = {
 // ================================
 // RESOURCE THRESHOLDS
 // ================================
-export const RESOURCE_WARNING_THRESHOLDS = {
+export const resourceWarningThresholds = {
   HOPE_LOW: 40,
   HOPE_VERY_LOW: 25,
   HEALTH_LOW: 50,
@@ -25,7 +25,7 @@ export const RESOURCE_WARNING_THRESHOLDS = {
   SEEDS_LOW: 2
 } as const;
 
-export const RESOURCE_CRITICAL_THRESHOLDS = {
+export const resourceCriticalThresholds = {
   HOPE_CRITICAL: 20,
   HOPE_GAME_OVER: 0,
   HEALTH_CRITICAL: 30,
@@ -34,7 +34,7 @@ export const RESOURCE_CRITICAL_THRESHOLDS = {
   SEEDS_DEPLETED: 0
 } as const;
 
-export const RESOURCE_MAXIMUMS = {
+export const resourceMaximums = {
   HOPE_MAX: 100,
   HEALTH_MAX: 100,
   SUPPLIES_MAX: 100,
@@ -45,7 +45,7 @@ export const RESOURCE_MAXIMUMS = {
 // ================================
 // DAILY CONSUMPTION RATES
 // ================================
-export const DAILY_CONSUMPTION_RATES = {
+export const dailyConsumptionRates = {
   SUPPLIES_BASE: 2, // Base daily consumption
   HEALTH_NATURAL_LOSS: 1, // Natural health loss in harsh environment
   HOPE_NATURAL_DECAY: 1, // Natural hope decay from harsh conditions
@@ -55,7 +55,7 @@ export const DAILY_CONSUMPTION_RATES = {
 // ================================
 // CHOICE SYSTEM CONSTANTS
 // ================================
-export const CHOICE_CONSTANTS = {
+export const choiceConstants = {
   COOLDOWN_DURATION_MS: 3000, // 3 seconds between choices
   MIN_CHOICE_DELAY_MS: 1000, // Minimum time before showing next choice
   CONSEQUENCE_DISPLAY_DURATION_MS: 2500, // How long to show consequences
@@ -65,7 +65,7 @@ export const CHOICE_CONSTANTS = {
 // ================================
 // BASE BUILDING CONSTANTS
 // ================================
-export const BASE_BUILDING_CONSTANTS = {
+export const baseBuildingConstants = {
   MAX_STRUCTURES_PER_TYPE: 3,
   MIN_CONDITION_FOR_OPERATION: 25, // Below this, structure doesn't function
   MAINTENANCE_WARNING_THRESHOLD: 50, // Show maintenance warning
@@ -77,7 +77,7 @@ export const BASE_BUILDING_CONSTANTS = {
 // ================================
 // NPC SYSTEM CONSTANTS
 // ================================
-export const NPC_CONSTANTS = {
+export const npcConstants = {
   TRUST_MIN: 0,
   TRUST_MAX: 100,
   TRUST_CHANGE_MAJOR: 15, // Large trust changes
@@ -91,7 +91,7 @@ export const NPC_CONSTANTS = {
 // ================================
 // UI/UX CONSTANTS
 // ================================
-export const UI_CONSTANTS = {
+export const uiConstants = {
   TOOLTIP_MAX_WIDTH_PX: 350,
   TOOLTIP_DELAY_MS: 500,
   ANIMATION_DURATION_MS: 300,
@@ -104,7 +104,7 @@ export const UI_CONSTANTS = {
 // ================================
 // ECOSYSTEM SIMULATION CONSTANTS
 // ================================
-export const ECOSYSTEM_CONSTANTS = {
+export const ecosystemConstants = {
   SOIL_HEALTH_MIN: 0,
   SOIL_HEALTH_MAX: 100,
   PLANT_DIVERSITY_MIN: 0,
@@ -118,7 +118,7 @@ export const ECOSYSTEM_CONSTANTS = {
 // ================================
 // META PROGRESSION CONSTANTS
 // ================================
-export const META_PROGRESSION_CONSTANTS = {
+export const metaProgressionConstants = {
   MIN_DAYS_FOR_ACHIEVEMENT: 7, // Minimum run length for achievements
   ACHIEVEMENT_UNLOCK_THRESHOLD: 5, // Achievements needed for New Game+
   SEED_UNLOCK_COST: 100, // Knowledge cost to unlock new seed type
@@ -129,7 +129,7 @@ export const META_PROGRESSION_CONSTANTS = {
 // ================================
 // GAME LOOP CONSTANTS
 // ================================
-export const GAME_LOOP_CONSTANTS = {
+export const gameLoopConstants = {
   FRAME_RATE_TARGET: 60,
   SIMULATION_TICK_MS: 1000, // How often to run daily simulation
   AUTO_SAVE_INTERVAL_MS: 30000, // Auto-save every 30 seconds
@@ -140,7 +140,7 @@ export const GAME_LOOP_CONSTANTS = {
 // ================================
 // SYSTEM EVENT CONSTANTS
 // ================================
-export const SYSTEM_EVENT_CONSTANTS = {
+export const systemEventConstants = {
   BASE_EVENT_PROBABILITY: 0.15, // 15% base chance per choice
   CRISIS_EVENT_PROBABILITY_BOOST: 0.1, // Additional chance during crisis
   EVENT_COOLDOWN_DAYS: 3, // Minimum days between same event type
@@ -152,7 +152,7 @@ export const SYSTEM_EVENT_CONSTANTS = {
 // ================================
 // CALCULATION HELPERS
 // ================================
-export const CALCULATION_CONSTANTS = {
+export const calculationConstants = {
   PERCENTAGE_MULTIPLIER: 100,
   ROUNDING_PRECISION: 2, // Decimal places for display
   EPSILON: 0.001, // For floating point comparisons
@@ -162,20 +162,20 @@ export const CALCULATION_CONSTANTS = {
 // ================================
 // TYPE-SAFE CONSTANT COLLECTIONS
 // ================================
-export const ALL_CONSTANTS = {
-  RESEARCH: RESEARCH_CONSTANTS,
-  RESOURCE_WARNINGS: RESOURCE_WARNING_THRESHOLDS,
-  RESOURCE_CRITICAL: RESOURCE_CRITICAL_THRESHOLDS,
-  RESOURCE_MAX: RESOURCE_MAXIMUMS,
-  CONSUMPTION: DAILY_CONSUMPTION_RATES,
-  CHOICES: CHOICE_CONSTANTS,
-  BASE_BUILDING: BASE_BUILDING_CONSTANTS,
-  NPC: NPC_CONSTANTS,
-  UI: UI_CONSTANTS,
-  ECOSYSTEM: ECOSYSTEM_CONSTANTS,
-  META: META_PROGRESSION_CONSTANTS,
-  GAME_LOOP: GAME_LOOP_CONSTANTS,
-  EVENTS: SYSTEM_EVENT_CONSTANTS,
-  CALCULATIONS: CALCULATION_CONSTANTS
+export const allConstants = {
+  RESEARCH: researchConstants,
+  RESOURCE_WARNINGS: resourceWarningThresholds,
+  RESOURCE_CRITICAL: resourceCriticalThresholds,
+  RESOURCE_MAX: resourceMaximums,
+  CONSUMPTION: dailyConsumptionRates,
+  CHOICES: choiceConstants,
+  BASE_BUILDING: baseBuildingConstants,
+  NPC: npcConstants,
+  UI: uiConstants,
+  ECOSYSTEM: ecosystemConstants,
+  META: metaProgressionConstants,
+  GAME_LOOP: gameLoopConstants,
+  EVENTS: systemEventConstants,
+  CALCULATIONS: calculationConstants
 } as const;
 

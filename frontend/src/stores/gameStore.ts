@@ -11,16 +11,16 @@ import type {
 import type { StructureBlueprint, StructureType } from '../types/structures';
 import { gameData } from '../data';
 import { initialGameState } from '../data/initialGameState';
-import { ResourceManager, RESOURCE_THRESHOLDS } from '../utils/resourceManager';
+import { ResourceManager, resourceThresholds } from '../utils/resourceManager';
 import { EcosystemSimulator } from '../utils/ecosystemSimulator';
 import { NPCManager } from '../utils/npcManager';
 import { SystemEventManager } from '../utils/systemEvents';
-import { MetaProgressionManager, type MetaProgressState, type RunHistory, META_ACHIEVEMENTS } from '../utils/metaProgression';
+import { MetaProgressionManager, type MetaProgressState, type RunHistory, metaAchievements } from '../utils/metaProgression';
 import { CascadingConsequenceManager } from '../utils/cascadingConsequences';
 import { ScarcityManager } from '../utils/scarcityManager';
 import { BaseBuildingManager } from '../utils/baseBuildingManager';
 import { researchSystem } from '../utils/researchSystem';
-import { CHOICE_CONSTANTS } from '../constants/gameConstants';
+import { choiceConstants } from '../constants/gameConstants';
 import { applyResourceChanges } from '../utils/typeHelpers';
 
 interface GameStore {
@@ -72,7 +72,7 @@ interface GameStore {
 const getInitialMetaState = (): MetaProgressState => ({
   totalRuns: 0,
   bestRun: null,
-  achievements: META_ACHIEVEMENTS.map(achievement => ({ ...achievement, unlocked: false })),
+  achievements: metaAchievements.map(achievement => ({ ...achievement, unlocked: false })),
   unlockedSeeds: [],
   totalDaysSurvived: 0,
   totalKnowledgeGained: 0,
@@ -83,7 +83,7 @@ const getInitialMetaState = (): MetaProgressState => ({
   }
 });
 
-const STRUCTURE_TYPE_SET = new Set<StructureType>([
+const structureTypeSet = new Set<StructureType>([
   'greenhouse',
   'water_purifier',
   'research_lab',
@@ -92,7 +92,7 @@ const STRUCTURE_TYPE_SET = new Set<StructureType>([
   'storage_facility'
 ]);
 
-const isStructureType = (value: string): value is StructureType => STRUCTURE_TYPE_SET.has(value as StructureType);
+const isStructureType = (value: string): value is StructureType => structureTypeSet.has(value as StructureType);
 
 export const useGameStore = create<GameStore>()(
   persist(
@@ -183,8 +183,8 @@ export const useGameStore = create<GameStore>()(
         // Set choice cooldown based on consequence severity
         const consequenceCount = Object.keys(choice.consequences || {}).length + Object.keys(choice.relationships || {}).length;
         const cooldownDuration = Math.max(
-          CHOICE_CONSTANTS.MIN_CHOICE_DELAY_MS,
-          consequenceCount * (CHOICE_CONSTANTS.COOLDOWN_DURATION_MS / 4)
+          choiceConstants.MIN_CHOICE_DELAY_MS,
+          consequenceCount * (choiceConstants.COOLDOWN_DURATION_MS / 4)
         ); // Dynamic cooldown based on consequence complexity
 
         // Update choice timing
@@ -309,7 +309,7 @@ export const useGameStore = create<GameStore>()(
         const currentState = get().gameState;
 
         // Check critical failure conditions using new resource system
-        if (currentState.hope <= RESOURCE_THRESHOLDS.HOPE_GAME_OVER) {
+        if (currentState.hope <= resourceThresholds.HOPE_GAME_OVER) {
           return {
             id: 'hope_lost',
             name: 'Hope Lost',

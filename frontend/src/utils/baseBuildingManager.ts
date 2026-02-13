@@ -6,10 +6,10 @@ import type {
   StructureBlueprint
 } from '../types/structures';
 import { getResourceValue } from './typeHelpers';
-import { BASE_BUILDING_CONSTANTS } from '../constants/gameConstants';
+import { baseBuildingConstants } from '../constants/gameConstants';
 
 // Define all available structures
-export const STRUCTURE_BLUEPRINTS: Record<StructureType, StructureBlueprint> = {
+export const structureBlueprints: Record<StructureType, StructureBlueprint> = {
   greenhouse: {
     type: 'greenhouse',
     name: 'Greenhouse',
@@ -300,7 +300,7 @@ export class BaseBuildingManager {
     reason?: string;
     requirements?: StructureBlueprint['unlockRequirements'] | Record<string, number>;
   } {
-    const blueprint = STRUCTURE_BLUEPRINTS[type];
+    const blueprint = structureBlueprints[type];
     const structureLevel = blueprint.levels[level - 1];
 
     // Check unlock requirements
@@ -326,7 +326,7 @@ export class BaseBuildingManager {
         if (!this.hasStructure(prereq)) {
           return {
             canBuild: false,
-            reason: `Requires ${STRUCTURE_BLUEPRINTS[prereq].name}`,
+            reason: `Requires ${structureBlueprints[prereq].name}`,
             requirements: blueprint.unlockRequirements
           };
         }
@@ -368,7 +368,7 @@ export class BaseBuildingManager {
       return false;
     }
 
-    const blueprint = STRUCTURE_BLUEPRINTS[type];
+    const blueprint = structureBlueprints[type];
     const structureLevel = blueprint.levels[level - 1];
 
     // Create construction project
@@ -418,7 +418,7 @@ export class BaseBuildingManager {
     this.structures.forEach(structure => {
       if (!structure.isActive) return;
 
-      const blueprint = STRUCTURE_BLUEPRINTS[structure.type];
+      const blueprint = structureBlueprints[structure.type];
       const level = blueprint.levels[structure.level - 1];
 
       // Apply production bonuses
@@ -486,7 +486,7 @@ export class BaseBuildingManager {
     blueprint: StructureBlueprint;
     availableLevels: number[];
   }> {
-    return Object.values(STRUCTURE_BLUEPRINTS).map(blueprint => {
+    return Object.values(structureBlueprints).map(blueprint => {
       const availableLevels: number[] = [];
 
       for (let level = 1; level <= blueprint.levels.length; level++) {
@@ -531,7 +531,7 @@ export class BaseBuildingManager {
     const structure = this.structures.find(s => s.id === structureId);
     if (!structure) return { success: false, cost: {} };
 
-    const blueprint = STRUCTURE_BLUEPRINTS[structure.type];
+    const blueprint = structureBlueprints[structure.type];
     const level = blueprint.levels[structure.level - 1];
     const maintenanceCost = level.dailyMaintenance;
 
@@ -568,7 +568,7 @@ export class BaseBuildingManager {
     const dailyMaintenance: Record<string, number> = {};
 
     this.structures.forEach(structure => {
-      const blueprint = STRUCTURE_BLUEPRINTS[structure.type];
+      const blueprint = structureBlueprints[structure.type];
       const level = blueprint.levels[structure.level - 1];
 
       if (level.dailyProduction) {
@@ -591,8 +591,8 @@ export class BaseBuildingManager {
     // Check for maintenance events
     const maintenanceEvents: string[] = [];
     this.structures.forEach(structure => {
-      if (structure.condition < BASE_BUILDING_CONSTANTS.MAINTENANCE_WARNING_THRESHOLD) {
-        const blueprint = STRUCTURE_BLUEPRINTS[structure.type];
+      if (structure.condition < baseBuildingConstants.MAINTENANCE_WARNING_THRESHOLD) {
+        const blueprint = structureBlueprints[structure.type];
         maintenanceEvents.push(`${blueprint.name} Level ${structure.level} needs maintenance (${Math.round(structure.condition)}% condition)`);
       }
     });

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Screen } from '../layout/Screen';
 import type { MetaProgressState, RunHistory, MetaAchievement } from '../../utils/metaProgression';
-import { MetaProgressionManager, META_ACHIEVEMENTS } from '../../utils/metaProgression';
+import { MetaProgressionManager, metaAchievements } from '../../utils/metaProgression';
 
 interface NewGamePlusScreenProps {
   visible: boolean;
@@ -112,9 +112,9 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(({
 
           {/* Achievements */}
           <div className="achievements-section">
-            <h3>🏅 Achievements ({unlockedAchievements.length}/{META_ACHIEVEMENTS.length})</h3>
+            <h3>🏅 Achievements ({unlockedAchievements.length}/{metaAchievements.length})</h3>
             <div className="achievements-grid">
-              {META_ACHIEVEMENTS.map((achievement) => (
+              {metaAchievements.map((achievement) => (
                 <div
                   key={achievement.id}
                   className={`achievement-item ${achievement.unlocked ? 'unlocked' : 'locked'} ${getRarityClass(achievement.rarity)}`}

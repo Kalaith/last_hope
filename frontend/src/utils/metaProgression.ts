@@ -53,7 +53,7 @@ export interface MetaProgressState {
   };
 }
 
-export const META_ACHIEVEMENTS: MetaAchievement[] = [
+export const metaAchievements: MetaAchievement[] = [
   {
     id: 'first_victory',
     name: 'Green Thumb',
@@ -368,7 +368,7 @@ export class MetaProgressionManager {
    * Get completion percentage for overall progress
    */
   static getCompletionPercentage(metaState: MetaProgressState): number {
-    const totalAchievements = META_ACHIEVEMENTS.length;
+    const totalAchievements = metaAchievements.length;
     const unlockedAchievements = metaState.achievements.filter(a => a.unlocked).length;
     return Math.floor((unlockedAchievements / totalAchievements) * 100);
   }

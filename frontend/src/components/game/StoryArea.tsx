@@ -3,7 +3,7 @@ import { Tooltip } from '../ui/Tooltip';
 import { ChoiceCooldownIndicator } from './ChoiceCooldownIndicator';
 import { ChoicePreview } from './ChoicePreview';
 import type { Choice, GameState } from '../../types/game';
-import { UI_CONSTANTS } from '../../constants/gameConstants';
+import { uiConstants } from '../../constants/gameConstants';
 
 interface StoryAreaProps {
   title: string;
@@ -60,7 +60,7 @@ export const StoryArea = memo<StoryAreaProps>(({
           }
           position="bottom"
           className="tooltip-resource"
-          maxWidth={`${UI_CONSTANTS.TOOLTIP_MAX_WIDTH_PX - 50}px`}
+          maxWidth={`${uiConstants.TOOLTIP_MAX_WIDTH_PX - 50}px`}
         >
           <h3 id="sceneTitle" style={{ cursor: 'help' }}>{title} ℹ️</h3>
         </Tooltip>

@@ -1,17 +1,17 @@
 import type { GameState, CoreResources } from '../types/game';
 import { ScarcityManager } from './scarcityManager';
 import {
-  RESOURCE_CRITICAL_THRESHOLDS,
-  RESOURCE_WARNING_THRESHOLDS,
-  DAILY_CONSUMPTION_RATES
+  resourceCriticalThresholds,
+  resourceWarningThresholds,
+  dailyConsumptionRates
 } from '../constants/gameConstants';
 
 // Re-export for backward compatibility
-export const RESOURCE_THRESHOLDS = RESOURCE_CRITICAL_THRESHOLDS;
-export const DAILY_CONSUMPTION = {
-  supplies: DAILY_CONSUMPTION_RATES.SUPPLIES_BASE,
-  health: DAILY_CONSUMPTION_RATES.HEALTH_NATURAL_LOSS,
-  hope: DAILY_CONSUMPTION_RATES.HOPE_NATURAL_DECAY
+export const resourceThresholds = resourceCriticalThresholds;
+export const dailyConsumption = {
+  supplies: dailyConsumptionRates.SUPPLIES_BASE,
+  health: dailyConsumptionRates.HEALTH_NATURAL_LOSS,
+  hope: dailyConsumptionRates.HOPE_NATURAL_DECAY
 } as const;
 
 export interface ResourceCheckResult {
@@ -35,21 +35,21 @@ export class ResourceManager {
   }
 
   private static checkHope(hope: number): ResourceCheckResult {
-    if (hope <= RESOURCE_THRESHOLDS.HOPE_GAME_OVER) {
+    if (hope <= resourceThresholds.HOPE_GAME_OVER) {
       return {
         type: 'critical',
         message: 'All hope is lost. The weight of despair crushes your spirit.',
         consequences: ['Game Over']
       };
     }
-    if (hope <= RESOURCE_THRESHOLDS.HOPE_CRITICAL) {
+    if (hope <= resourceThresholds.HOPE_CRITICAL) {
       return {
         type: 'critical',
         message: 'Your hope is nearly extinguished. NPCs are losing faith in you.',
         consequences: ['NPCs become hostile', 'Refuse cooperation', 'Bad dialogue options only']
       };
     }
-    if (hope <= RESOURCE_WARNING_THRESHOLDS.HOPE_LOW) {
+    if (hope <= resourceWarningThresholds.HOPE_LOW) {
       return {
         type: 'warning',
         message: 'Hope is running low. You struggle to maintain optimism.',
@@ -60,14 +60,14 @@ export class ResourceManager {
   }
 
   private static checkHealth(health: number): ResourceCheckResult {
-    if (health <= RESOURCE_THRESHOLDS.HEALTH_CRITICAL) {
+    if (health <= resourceThresholds.HEALTH_CRITICAL) {
       return {
         type: 'critical',
         message: 'Your body is failing. Every action feels like a monumental effort.',
         consequences: ['Reduced action success rates', 'Slower plant growth', 'Illness events']
       };
     }
-    if (health <= RESOURCE_WARNING_THRESHOLDS.HEALTH_LOW) {
+    if (health <= resourceWarningThresholds.HEALTH_LOW) {
       return {
         type: 'warning',
         message: 'You feel weak and tired. The harsh environment is taking its toll.',
@@ -78,7 +78,7 @@ export class ResourceManager {
   }
 
   private static checkSupplies(supplies: number): ResourceCheckResult {
-    if (supplies <= RESOURCE_THRESHOLDS.SUPPLIES_CRITICAL) {
+    if (supplies <= resourceThresholds.SUPPLIES_CRITICAL) {
       return {
         type: 'critical',
         message: 'Supplies are nearly exhausted. Starvation and dehydration threaten everyone.',
@@ -96,7 +96,7 @@ export class ResourceManager {
   }
 
   private static checkKnowledge(knowledge: number): ResourceCheckResult {
-    if (knowledge < RESOURCE_THRESHOLDS.KNOWLEDGE_MIN) {
+    if (knowledge < resourceThresholds.KNOWLEDGE_MIN) {
       return {
         type: 'critical',
         message: 'Your understanding of restoration techniques is severely limited.',
@@ -114,7 +114,7 @@ export class ResourceManager {
   }
 
   private static checkSeeds(seeds: number): ResourceCheckResult {
-    if (seeds <= RESOURCE_THRESHOLDS.SEEDS_DEPLETED) {
+    if (seeds <= resourceThresholds.SEEDS_DEPLETED) {
       return {
         type: 'critical',
         message: 'No seeds remain. The future of restoration hangs in the balance.',
@@ -141,21 +141,21 @@ export class ResourceManager {
     // Apply scarcity effects
     const scarcityEffects = ScarcityManager.processDailyEffects();
 
-    const newSupplies = Math.max(0, gameState.supplies - DAILY_CONSUMPTION.supplies + (scarcityEffects.supplies || 0));
+    const newSupplies = Math.max(0, gameState.supplies - dailyConsumption.supplies + (scarcityEffects.supplies || 0));
     let newHealth = gameState.health + (scarcityEffects.health || 0);
     let newHope = gameState.hope + (scarcityEffects.hope || 0);
     const newSeeds = gameState.seeds + (scarcityEffects.seeds || 0);
     const newKnowledge = gameState.knowledge + (scarcityEffects.knowledge || 0);
 
     // Health loss from low supplies
-    if (newSupplies <= RESOURCE_THRESHOLDS.SUPPLIES_CRITICAL) {
+    if (newSupplies <= resourceThresholds.SUPPLIES_CRITICAL) {
       newHealth = Math.max(0, newHealth - 5); // Accelerated health loss from starvation
     } else {
-      newHealth = Math.max(0, newHealth - DAILY_CONSUMPTION.health);
+      newHealth = Math.max(0, newHealth - dailyConsumption.health);
     }
 
     // Hope decay from harsh conditions
-    newHope = Math.max(0, newHope - DAILY_CONSUMPTION.hope);
+    newHope = Math.max(0, newHope - dailyConsumption.hope);
 
     // Ecosystem affects hope and health
     if (gameState.ecosystem.soilHealth > 50) {
@@ -225,11 +225,11 @@ export class ResourceManager {
    */
   static getResourceColor(resource: keyof CoreResources, value: number): string {
     const thresholds = {
-      hope: { critical: RESOURCE_THRESHOLDS.HOPE_CRITICAL, warning: 40 },
-      health: { critical: RESOURCE_THRESHOLDS.HEALTH_CRITICAL, warning: 50 },
-      supplies: { critical: RESOURCE_THRESHOLDS.SUPPLIES_CRITICAL, warning: 25 },
-      knowledge: { critical: RESOURCE_THRESHOLDS.KNOWLEDGE_MIN, warning: 15 },
-      seeds: { critical: RESOURCE_THRESHOLDS.SEEDS_DEPLETED, warning: 2 }
+      hope: { critical: resourceThresholds.HOPE_CRITICAL, warning: 40 },
+      health: { critical: resourceThresholds.HEALTH_CRITICAL, warning: 50 },
+      supplies: { critical: resourceThresholds.SUPPLIES_CRITICAL, warning: 25 },
+      knowledge: { critical: resourceThresholds.KNOWLEDGE_MIN, warning: 15 },
+      seeds: { critical: resourceThresholds.SEEDS_DEPLETED, warning: 2 }
     };
 
     const threshold = thresholds[resource];

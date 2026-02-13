@@ -1,8 +1,8 @@
 import type { SystemTriggeredEvent, GameState } from '../types/game';
-import { RESOURCE_THRESHOLDS } from './resourceManager';
+import { resourceThresholds } from './resourceManager';
 
 // System-triggered narrative events that respond to game state
-export const SYSTEM_EVENTS: SystemTriggeredEvent[] = [
+export const systemEvents: SystemTriggeredEvent[] = [
   {
     id: 'severe_drought',
     triggers: {
@@ -259,7 +259,7 @@ export class SystemEventManager {
    */
   static checkForTriggeredEvents(gameState: GameState): SystemTriggeredEvent | null {
     // Randomly select from applicable events to avoid predictability
-    const applicableEvents = SYSTEM_EVENTS.filter(event =>
+    const applicableEvents = systemEvents.filter(event =>
       this.eventShouldTrigger(event, gameState)
     );
 
@@ -362,15 +362,15 @@ export class SystemEventManager {
     let baseProbability = 0.15; // 15% base chance per choice
 
     // Increase probability during crisis conditions
-    if (gameState.hope < RESOURCE_THRESHOLDS.HOPE_CRITICAL) {
+    if (gameState.hope < resourceThresholds.HOPE_CRITICAL) {
       baseProbability += 0.1;
     }
 
-    if (gameState.supplies < RESOURCE_THRESHOLDS.SUPPLIES_CRITICAL) {
+    if (gameState.supplies < resourceThresholds.SUPPLIES_CRITICAL) {
       baseProbability += 0.1;
     }
 
-    if (gameState.health < RESOURCE_THRESHOLDS.HEALTH_CRITICAL) {
+    if (gameState.health < resourceThresholds.HEALTH_CRITICAL) {
       baseProbability += 0.1;
     }
 
