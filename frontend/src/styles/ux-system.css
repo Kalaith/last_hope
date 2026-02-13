@@ -6,28 +6,28 @@
 /* ============= DESIGN TOKENS ============= */
 :root {
   /* Hierarchy & Spacing */
-  --spacing-xs: 0.25rem;    /* 4px */
-  --spacing-sm: 0.5rem;     /* 8px */
-  --spacing-md: 1rem;       /* 16px */
-  --spacing-lg: 1.5rem;     /* 24px */
-  --spacing-xl: 2rem;       /* 32px */
-  --spacing-xxl: 3rem;      /* 48px */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+  --spacing-xxl: 3rem; /* 48px */
 
   /* Typography Scale */
-  --text-xs: 0.75rem;       /* 12px */
-  --text-sm: 0.875rem;      /* 14px */
-  --text-base: 1rem;        /* 16px */
-  --text-lg: 1.125rem;      /* 18px */
-  --text-xl: 1.25rem;       /* 20px */
-  --text-2xl: 1.5rem;       /* 24px */
-  --text-3xl: 2rem;         /* 32px */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 2rem; /* 32px */
 
   /* Status Colors - Clear semantic meaning */
-  --status-critical: #dc2626;    /* Red - Danger */
-  --status-warning: #f59e0b;     /* Amber - Warning */
-  --status-success: #059669;     /* Green - Success */
-  --status-info: #2563eb;        /* Blue - Info */
-  --status-neutral: #6b7280;     /* Gray - Neutral */
+  --status-critical: #dc2626; /* Red - Danger */
+  --status-warning: #f59e0b; /* Amber - Warning */
+  --status-success: #059669; /* Green - Success */
+  --status-info: #2563eb; /* Blue - Info */
+  --status-neutral: #6b7280; /* Gray - Neutral */
 
   /* Surface Colors - Clear hierarchy */
   --surface-primary: var(--color-terminal-bg);
@@ -64,22 +64,50 @@
   gap: var(--spacing-md);
 }
 
-.grid-cols-1 { grid-template-columns: 1fr; }
-.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-cols-1 {
+  grid-template-columns: 1fr;
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
 
 /* Flex System - Consistent alignment */
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.flex-wrap { flex-wrap: wrap; }
-.items-center { align-items: center; }
-.items-start { align-items: flex-start; }
-.justify-between { justify-content: space-between; }
-.justify-center { justify-content: center; }
-.gap-sm { gap: var(--spacing-sm); }
-.gap-md { gap: var(--spacing-md); }
-.gap-lg { gap: var(--spacing-lg); }
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.items-center {
+  align-items: center;
+}
+.items-start {
+  align-items: flex-start;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+.gap-sm {
+  gap: var(--spacing-sm);
+}
+.gap-md {
+  gap: var(--spacing-md);
+}
+.gap-lg {
+  gap: var(--spacing-lg);
+}
 
 /* ============= COMPONENT SYSTEM ============= */
 
@@ -197,7 +225,9 @@
 
 .resource-bar-fill {
   height: 100%;
-  transition: width 0.3s ease, background-color 0.3s ease;
+  transition:
+    width 0.3s ease,
+    background-color 0.3s ease;
 }
 
 /* Typography System - Clear hierarchy */
@@ -314,15 +344,25 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ============= RESPONSIVE SYSTEM ============= */
 @media (max-width: 768px) {
-  .grid-cols-2 { grid-template-columns: 1fr; }
-  .grid-cols-3 { grid-template-columns: 1fr; }
-  .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   .container {
     padding: 0 var(--spacing-sm);
@@ -338,7 +378,9 @@
 }
 
 @media (max-width: 480px) {
-  .grid-cols-4 { grid-template-columns: 1fr; }
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
 
   .resource-bar {
     width: 60px;

@@ -6,9 +6,9 @@
 // ================================
 export const researchConstants = {
   DEFAULT_RESEARCH_TIME_DIVISOR: 3, // Research time = knowledge required / 3
-  KNOWLEDGE_TO_DAYS_RATIO: 1/3,
+  KNOWLEDGE_TO_DAYS_RATIO: 1 / 3,
   MIN_KNOWLEDGE_FOR_RESEARCH: 5,
-  MAX_CONCURRENT_RESEARCH: 1
+  MAX_CONCURRENT_RESEARCH: 1,
 } as const;
 
 // ================================
@@ -22,7 +22,7 @@ export const resourceWarningThresholds = {
   SUPPLIES_LOW: 25,
   SUPPLIES_VERY_LOW: 15,
   KNOWLEDGE_LOW: 10,
-  SEEDS_LOW: 2
+  SEEDS_LOW: 2,
 } as const;
 
 export const resourceCriticalThresholds = {
@@ -31,7 +31,7 @@ export const resourceCriticalThresholds = {
   HEALTH_CRITICAL: 30,
   SUPPLIES_CRITICAL: 10,
   KNOWLEDGE_MIN: 5,
-  SEEDS_DEPLETED: 0
+  SEEDS_DEPLETED: 0,
 } as const;
 
 export const resourceMaximums = {
@@ -39,7 +39,7 @@ export const resourceMaximums = {
   HEALTH_MAX: 100,
   SUPPLIES_MAX: 100,
   KNOWLEDGE_MAX: 100,
-  SEEDS_MAX: 50
+  SEEDS_MAX: 50,
 } as const;
 
 // ================================
@@ -49,7 +49,7 @@ export const dailyConsumptionRates = {
   SUPPLIES_BASE: 2, // Base daily consumption
   HEALTH_NATURAL_LOSS: 1, // Natural health loss in harsh environment
   HOPE_NATURAL_DECAY: 1, // Natural hope decay from harsh conditions
-  STRUCTURE_CONDITION_DECAY: 0.5 // Daily condition loss for structures
+  STRUCTURE_CONDITION_DECAY: 0.5, // Daily condition loss for structures
 } as const;
 
 // ================================
@@ -59,7 +59,7 @@ export const choiceConstants = {
   COOLDOWN_DURATION_MS: 3000, // 3 seconds between choices
   MIN_CHOICE_DELAY_MS: 1000, // Minimum time before showing next choice
   CONSEQUENCE_DISPLAY_DURATION_MS: 2500, // How long to show consequences
-  MAX_CHOICES_PER_SCENE: 4
+  MAX_CHOICES_PER_SCENE: 4,
 } as const;
 
 // ================================
@@ -71,7 +71,7 @@ export const baseBuildingConstants = {
   MAINTENANCE_WARNING_THRESHOLD: 50, // Show maintenance warning
   EFFICIENCY_CONDITION_RATIO: 0.8, // Efficiency = condition * 0.8
   CONSTRUCTION_WORKER_LIMIT: 2, // Max NPCs working on one project
-  STRUCTURE_LEVEL_MAX: 3
+  STRUCTURE_LEVEL_MAX: 3,
 } as const;
 
 // ================================
@@ -85,7 +85,7 @@ export const npcConstants = {
   TRUST_CHANGE_MINOR: 3, // Small trust changes
   MOOD_CHANGE_THRESHOLD: 10, // Trust change needed to affect mood
   DIALOGUE_MEMORY_LIMIT: 10, // Max remembered conversations
-  RELATIONSHIP_DECAY_RATE: 0.1 // Daily relationship decay
+  RELATIONSHIP_DECAY_RATE: 0.1, // Daily relationship decay
 } as const;
 
 // ================================
@@ -98,7 +98,7 @@ export const uiConstants = {
   ANIMATION_DURATION_SLOW_MS: 500,
   NOTIFICATION_DURATION_MS: 4000,
   PROGRESS_BAR_HEIGHT_PX: 6,
-  MODAL_Z_INDEX: 1000
+  MODAL_Z_INDEX: 1000,
 } as const;
 
 // ================================
@@ -112,7 +112,7 @@ export const ecosystemConstants = {
   PLANT_GROWTH_BASE_RATE: 1, // Daily growth points
   PLANT_MATURITY_THRESHOLD: 80, // When plants become harvestable
   POLLINATOR_BONUS_MULTIPLIER: 1.5, // Bonus from pollinator research
-  WEATHER_CHANGE_PROBABILITY: 0.1 // 10% chance per day
+  WEATHER_CHANGE_PROBABILITY: 0.1, // 10% chance per day
 } as const;
 
 // ================================
@@ -123,7 +123,7 @@ export const metaProgressionConstants = {
   ACHIEVEMENT_UNLOCK_THRESHOLD: 5, // Achievements needed for New Game+
   SEED_UNLOCK_COST: 100, // Knowledge cost to unlock new seed type
   BACKGROUND_UNLOCK_DAYS: 30, // Days survived to unlock new backgrounds
-  GLOBAL_RESTORATION_POINTS_PER_RUN: 10
+  GLOBAL_RESTORATION_POINTS_PER_RUN: 10,
 } as const;
 
 // ================================
@@ -134,7 +134,7 @@ export const gameLoopConstants = {
   SIMULATION_TICK_MS: 1000, // How often to run daily simulation
   AUTO_SAVE_INTERVAL_MS: 30000, // Auto-save every 30 seconds
   MAX_FRAME_SKIP: 5, // Skip frames if performance is poor
-  PERFORMANCE_WARNING_FPS: 30
+  PERFORMANCE_WARNING_FPS: 30,
 } as const;
 
 // ================================
@@ -146,7 +146,7 @@ export const systemEventConstants = {
   EVENT_COOLDOWN_DAYS: 3, // Minimum days between same event type
   MAX_EVENTS_PER_DAY: 1,
   SEVERITY_THRESHOLD_MODERATE: 40, // Resource level for moderate events
-  SEVERITY_THRESHOLD_CRITICAL: 20 // Resource level for critical events
+  SEVERITY_THRESHOLD_CRITICAL: 20, // Resource level for critical events
 } as const;
 
 // ================================
@@ -156,7 +156,7 @@ export const calculationConstants = {
   PERCENTAGE_MULTIPLIER: 100,
   ROUNDING_PRECISION: 2, // Decimal places for display
   EPSILON: 0.001, // For floating point comparisons
-  RANDOM_VARIANCE_FACTOR: 0.1 // ±10% variance for calculations
+  RANDOM_VARIANCE_FACTOR: 0.1, // ±10% variance for calculations
 } as const;
 
 // ================================
@@ -176,6 +176,5 @@ export const allConstants = {
   META: metaProgressionConstants,
   GAME_LOOP: gameLoopConstants,
   EVENTS: systemEventConstants,
-  CALCULATIONS: calculationConstants
+  CALCULATIONS: calculationConstants,
 } as const;
-

@@ -8,9 +8,7 @@ interface ResearchTabProps {
   gameState: GameState;
 }
 
-export const ResearchTab: React.FC<ResearchTabProps> = ({
-  gameState
-}) => {
+export const ResearchTab: React.FC<ResearchTabProps> = ({ gameState }) => {
   const researchProgress = gameState.researchProgress;
   const completedCount = researchProgress?.completedResearch?.length || 0;
   const currentResearch = researchProgress?.currentResearch;
@@ -33,7 +31,9 @@ export const ResearchTab: React.FC<ResearchTabProps> = ({
                 <span className="resource-icon">🧠</span>
                 <span>Available Knowledge</span>
               </div>
-              <span className="resource-value">{Math.round(gameState.knowledge)}</span>
+              <span className="resource-value">
+                {Math.round(gameState.knowledge)}
+              </span>
             </div>
             <div className="resource-item">
               <div className="resource-label">
@@ -73,7 +73,10 @@ export const ResearchTab: React.FC<ResearchTabProps> = ({
                     <span className="resource-icon">📝</span>
                     <span>Project Name</span>
                   </div>
-                  <span className="resource-value" style={{ fontSize: 'var(--text-sm)' }}>
+                  <span
+                    className="resource-value"
+                    style={{ fontSize: 'var(--text-sm)' }}
+                  >
                     {currentResearch}
                   </span>
                 </div>
@@ -116,7 +119,9 @@ export const ResearchTab: React.FC<ResearchTabProps> = ({
                 <span className="resource-icon">🔓</span>
                 <span>Available</span>
               </div>
-              <span className="resource-value">{researchProgress?.availableResearch?.length || 0}</span>
+              <span className="resource-value">
+                {researchProgress?.availableResearch?.length || 0}
+              </span>
             </div>
             <div className="resource-item">
               <div className="resource-label">
@@ -129,7 +134,10 @@ export const ResearchTab: React.FC<ResearchTabProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-lg" style={{ marginTop: 'var(--spacing-lg)' }}>
+      <div
+        className="grid grid-cols-2 gap-lg"
+        style={{ marginTop: 'var(--spacing-lg)' }}
+      >
         {/* Research Tree */}
         <div className="card card-elevated">
           <ResearchTree gameState={gameState} />

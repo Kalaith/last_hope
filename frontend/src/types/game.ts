@@ -4,11 +4,11 @@ import type { BaseStructure, ConstructionProject } from './structures';
 
 export interface GameState {
   // Core streamlined resources (5 total)
-  hope: number;          // 0-100: Morale checks, affects NPC trust, game over at 0
-  health: number;        // 0-100: Affects action success rates, energy recovery
-  supplies: number;      // 0-100: Combined food/water, daily consumption required
-  knowledge: number;     // 0-100: Unlocks better choices, plant varieties, NPC dialogue
-  seeds: number;         // 0-50: Long-term win condition, precious resource
+  hope: number; // 0-100: Morale checks, affects NPC trust, game over at 0
+  health: number; // 0-100: Affects action success rates, energy recovery
+  supplies: number; // 0-100: Combined food/water, daily consumption required
+  knowledge: number; // 0-100: Unlocks better choices, plant varieties, NPC dialogue
+  seeds: number; // 0-50: Long-term win condition, precious resource
 
   // Ecosystem state
   ecosystem: EcosystemState;
@@ -61,11 +61,11 @@ export interface Resources {
 
 // New streamlined resource system
 export interface CoreResources {
-  hope: number;        // 0-100: Morale checks, affects NPC trust, game over at 0
-  health: number;      // 0-100: Affects action success rates, energy recovery
-  supplies: number;    // 0-100: Combined food/water, daily consumption required
-  knowledge: number;   // 0-100: Unlocks better choices, plant varieties, NPC dialogue
-  seeds: number;       // 0-50: Long-term win condition, precious resource
+  hope: number; // 0-100: Morale checks, affects NPC trust, game over at 0
+  health: number; // 0-100: Affects action success rates, energy recovery
+  supplies: number; // 0-100: Combined food/water, daily consumption required
+  knowledge: number; // 0-100: Unlocks better choices, plant varieties, NPC dialogue
+  seeds: number; // 0-50: Long-term win condition, precious resource
 }
 
 export interface Skills {
@@ -137,8 +137,8 @@ export type GameScreen = 'characterCreation' | 'game' | 'ending';
 
 // New ecosystem simulation types
 export interface EcosystemState {
-  soilHealth: number;        // 0-100: Core metric affecting all growth
-  plantDiversity: number;    // 0-100: Variety of species planted
+  soilHealth: number; // 0-100: Core metric affecting all growth
+  plantDiversity: number; // 0-100: Variety of species planted
   weatherPattern: 'drought' | 'rain' | 'stable' | 'storm';
   seasonalCycle: 'spring' | 'summer' | 'autumn' | 'winter';
   plantInstances: PlantInstance[];
@@ -147,10 +147,10 @@ export interface EcosystemState {
 export interface PlantInstance {
   id: string;
   species: string;
-  health: number;           // 0-100: Current plant condition
-  maturity: number;         // 0-100: Growth progress
+  health: number; // 0-100: Current plant condition
+  maturity: number; // 0-100: Growth progress
   soilContribution: number; // How much this plant improves soil
-  seedYield: number;        // Seeds produced when mature
+  seedYield: number; // Seeds produced when mature
 }
 
 // Living NPC system
@@ -158,7 +158,7 @@ export interface NPCPersonality {
   id: string;
   name: string;
   mood: 'hopeful' | 'neutral' | 'worried' | 'desperate';
-  trustLevel: number;       // 0-100: Relationship with player
+  trustLevel: number; // 0-100: Relationship with player
   personality: 'optimistic' | 'pragmatic' | 'protective' | 'scientific';
   dialogueMemory: string[]; // Remembers past conversations
   currentConcerns: string[]; // What they're worried about now
@@ -184,21 +184,21 @@ export interface SystemTriggeredEvent {
 
 // Meta progression system
 export interface MetaProgression {
-  unlockedSeeds: SeedType[];        // New species unlocked across runs
-  unlockedBackgrounds: string[];    // Character backstories unlocked
-  loreFragments: LoreEntry[];       // World history pieces discovered
-  achievements: Achievement[];       // Milestone rewards
-  globalRestoration: number;        // Cross-run world healing progress
+  unlockedSeeds: SeedType[]; // New species unlocked across runs
+  unlockedBackgrounds: string[]; // Character backstories unlocked
+  loreFragments: LoreEntry[]; // World history pieces discovered
+  achievements: Achievement[]; // Milestone rewards
+  globalRestoration: number; // Cross-run world healing progress
 }
 
 export interface SeedType {
   id: string;
   name: string;
   description: string;
-  soilRequirement: number;          // Min soil health needed
-  growthRate: number;               // How fast it matures
-  soilImprovement: number;          // How much it heals the earth
-  unlockCondition: string;          // How to discover this seed
+  soilRequirement: number; // Min soil health needed
+  growthRate: number; // How fast it matures
+  soilImprovement: number; // How much it heals the earth
+  unlockCondition: string; // How to discover this seed
 }
 
 export interface LoreEntry {

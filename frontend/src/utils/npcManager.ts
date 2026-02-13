@@ -5,59 +5,73 @@ export const npcPersonalities = {
   optimistic: {
     hopeThresholds: { high: 60, low: 30 },
     responses: {
-      highHope: "Things are looking up! I can feel the change in the air.",
+      highHope: 'Things are looking up! I can feel the change in the air.',
       lowHope: "Don't give up. I've seen darker days than this.",
-      drought: "The rain will come again. It always does.",
-      success: "See? I told you we could do this together!"
+      drought: 'The rain will come again. It always does.',
+      success: 'See? I told you we could do this together!',
     },
     trustModifiers: { cooperation: 2, sharing: 3, optimism: 2 },
-    concerns: ['morale', 'community_unity', 'long_term_hope']
+    concerns: ['morale', 'community_unity', 'long_term_hope'],
   },
   pragmatic: {
     hopeThresholds: { high: 50, low: 20 },
     responses: {
-      highHope: "Good progress, but we need to stay focused on practical matters.",
-      lowHope: "We need to be realistic about our situation and make hard choices.",
-      drought: "Water conservation is critical. We need rationing protocols.",
-      success: "This is encouraging, but we can't get complacent."
+      highHope:
+        'Good progress, but we need to stay focused on practical matters.',
+      lowHope:
+        'We need to be realistic about our situation and make hard choices.',
+      drought: 'Water conservation is critical. We need rationing protocols.',
+      success: "This is encouraging, but we can't get complacent.",
     },
     trustModifiers: { planning: 3, efficiency: 2, realism: 2 },
-    concerns: ['resource_management', 'efficiency', 'risk_assessment']
+    concerns: ['resource_management', 'efficiency', 'risk_assessment'],
   },
   protective: {
     hopeThresholds: { high: 40, low: 25 },
     responses: {
       highHope: "The children are smiling again. That's what matters most.",
       lowHope: "We have to protect what's left. That's our duty.",
-      drought: "The children need water first. Always.",
-      success: "A safer future for the next generation - that's worth everything."
+      drought: 'The children need water first. Always.',
+      success:
+        "A safer future for the next generation - that's worth everything.",
     },
     trustModifiers: { safety: 3, children: 4, sacrifice: 2 },
-    concerns: ['children_safety', 'group_security', 'future_generations']
+    concerns: ['children_safety', 'group_security', 'future_generations'],
   },
   scientific: {
     hopeThresholds: { high: 70, low: 40 },
     responses: {
-      highHope: "The data is encouraging. Soil pH is improving measurably.",
-      lowHope: "The scientific method requires patience. Results take time.",
-      drought: "Fascinating adaptation mechanisms. Some species thrive in arid conditions.",
-      success: "Excellent! This validates our restoration hypothesis."
+      highHope: 'The data is encouraging. Soil pH is improving measurably.',
+      lowHope: 'The scientific method requires patience. Results take time.',
+      drought:
+        'Fascinating adaptation mechanisms. Some species thrive in arid conditions.',
+      success: 'Excellent! This validates our restoration hypothesis.',
     },
     trustModifiers: { research: 3, methodology: 2, discovery: 3 },
-    concerns: ['soil_analysis', 'plant_genetics', 'restoration_science']
-  }
+    concerns: ['soil_analysis', 'plant_genetics', 'restoration_science'],
+  },
 } as const;
 
 export type PersonalityType = keyof typeof npcPersonalities;
 
 // Dialogue memory categories
-type DialogueCategory = 'greeting' | 'concern' | 'success' | 'failure' | 'weather' | 'ecosystem' | 'personal';
+type DialogueCategory =
+  | 'greeting'
+  | 'concern'
+  | 'success'
+  | 'failure'
+  | 'weather'
+  | 'ecosystem'
+  | 'personal';
 
 export class NPCManager {
   /**
    * Update NPC mood based on current game state
    */
-  static updateNPCMood(npc: NPCPersonality, gameState: GameState): NPCPersonality {
+  static updateNPCMood(
+    npc: NPCPersonality,
+    gameState: GameState
+  ): NPCPersonality {
     const personality = npcPersonalities[npc.personality];
     let newMood = npc.mood;
 
@@ -66,7 +80,10 @@ export class NPCManager {
       newMood = 'hopeful';
     } else if (gameState.hope <= personality.hopeThresholds.low) {
       newMood = 'desperate';
-    } else if (gameState.hope <= personality.hopeThresholds.high && gameState.hope > personality.hopeThresholds.low) {
+    } else if (
+      gameState.hope <= personality.hopeThresholds.high &&
+      gameState.hope > personality.hopeThresholds.low
+    ) {
       // Check other factors for worried vs neutral
       const concernFactors = this.evaluateConcerns(npc, gameState);
       newMood = concernFactors > 2 ? 'worried' : 'neutral';
@@ -78,14 +95,18 @@ export class NPCManager {
     return {
       ...npc,
       mood: newMood,
-      currentConcerns: newConcerns
+      currentConcerns: newConcerns,
     };
   }
 
   /**
    * Generate contextual dialogue based on NPC state and game conditions
    */
-  static generateDialogue(npc: NPCPersonality, gameState: GameState, category: DialogueCategory): string {
+  static generateDialogue(
+    npc: NPCPersonality,
+    gameState: GameState,
+    category: DialogueCategory
+  ): string {
     const personality = npcPersonalities[npc.personality];
 
     // Avoid repeating recent dialogue
@@ -104,7 +125,7 @@ export class NPCManager {
     npc: NPCPersonality,
     gameState: GameState,
     category: DialogueCategory,
-    personality: typeof npcPersonalities[PersonalityType]
+    personality: (typeof npcPersonalities)[PersonalityType]
   ): string {
     switch (category) {
       case 'greeting':
@@ -127,7 +148,7 @@ export class NPCManager {
   private static getGreetingDialogue(
     npc: NPCPersonality,
     gameState: GameState,
-    personality: typeof npcPersonalities[PersonalityType]
+    personality: (typeof npcPersonalities)[PersonalityType]
   ): string {
     const trust = npc.trustLevel;
 
@@ -148,18 +169,29 @@ export class NPCManager {
     const primaryConcern = npc.currentConcerns[0];
 
     const concernDialogue: Record<string, string> = {
-      children_safety: "The children ask me when the world will be green again. I don't know what to tell them.",
-      food_shortage: "Our food stores are dwindling. We need to find more sources soon.",
-      water_purifier: "The water purifier is showing signs of strain. If it fails...",
-      supplies: "We're burning through our supplies faster than we can replenish them.",
-      soil_analysis: "I've been studying the soil samples. The contamination patterns are... concerning.",
-      seed_preservation: "These seeds may be our only chance. We must preserve their genetic integrity.",
-      morale: "People are starting to lose hope. We need something to rally around.",
-      community_unity: "Tensions are rising. We need to work together or we'll fall apart.",
-      efficiency: "Our current methods are inefficient. We're wasting precious resources."
+      children_safety:
+        "The children ask me when the world will be green again. I don't know what to tell them.",
+      food_shortage:
+        'Our food stores are dwindling. We need to find more sources soon.',
+      water_purifier:
+        'The water purifier is showing signs of strain. If it fails...',
+      supplies:
+        "We're burning through our supplies faster than we can replenish them.",
+      soil_analysis:
+        "I've been studying the soil samples. The contamination patterns are... concerning.",
+      seed_preservation:
+        'These seeds may be our only chance. We must preserve their genetic integrity.',
+      morale:
+        'People are starting to lose hope. We need something to rally around.',
+      community_unity:
+        "Tensions are rising. We need to work together or we'll fall apart.",
+      efficiency:
+        "Our current methods are inefficient. We're wasting precious resources.",
     };
 
-    return concernDialogue[primaryConcern] || "Something's been troubling me lately.";
+    return (
+      concernDialogue[primaryConcern] || "Something's been troubling me lately."
+    );
   }
 
   private static getEcosystemDialogue(
@@ -171,27 +203,27 @@ export class NPCManager {
 
     if (npc.personality === 'scientific') {
       if (soilHealth > 50) {
-        return "The soil chemistry is showing remarkable improvement. Microbial activity is increasing.";
+        return 'The soil chemistry is showing remarkable improvement. Microbial activity is increasing.';
       } else if (plantCount > 5) {
-        return "These plant specimens are adapting faster than I anticipated. Natural selection at work.";
+        return 'These plant specimens are adapting faster than I anticipated. Natural selection at work.';
       } else {
-        return "The contamination levels are still critical. We need more aggressive remediation.";
+        return 'The contamination levels are still critical. We need more aggressive remediation.';
       }
     } else if (npc.personality === 'optimistic') {
       if (plantCount > 0) {
         return "Look at that green! Life finds a way, doesn't it?";
       } else {
-        return "I know it looks barren now, but I can already imagine the forests that will grow here.";
+        return 'I know it looks barren now, but I can already imagine the forests that will grow here.';
       }
     } else if (npc.personality === 'pragmatic') {
       if (soilHealth < 30) {
-        return "The ecosystem is still too unstable for reliable food production.";
+        return 'The ecosystem is still too unstable for reliable food production.';
       } else {
-        return "Progress is measurable but slow. We need to be patient with the restoration process.";
+        return 'Progress is measurable but slow. We need to be patient with the restoration process.';
       }
     } else {
       if (plantCount > 0) {
-        return "The children are fascinated by the growing plants. It gives them hope for tomorrow.";
+        return 'The children are fascinated by the growing plants. It gives them hope for tomorrow.';
       } else {
         return "I worry about the world we're leaving for the next generation.";
       }
@@ -201,7 +233,7 @@ export class NPCManager {
   private static getWeatherDialogue(
     npc: NPCPersonality,
     gameState: GameState,
-    personality: typeof npcPersonalities[PersonalityType]
+    personality: (typeof npcPersonalities)[PersonalityType]
   ): string {
     const weather = gameState.ecosystem.weatherPattern;
 
@@ -210,16 +242,16 @@ export class NPCManager {
         return personality.responses.drought;
       case 'storm':
         if (npc.personality === 'protective') {
-          return "We need to secure the shelters. The children must be kept safe from the storm.";
+          return 'We need to secure the shelters. The children must be kept safe from the storm.';
         } else if (npc.personality === 'scientific') {
-          return "Severe weather events like this are becoming more frequent. Climate instability is increasing.";
+          return 'Severe weather events like this are becoming more frequent. Climate instability is increasing.';
         } else {
-          return "These storms are getting worse. We need better protection.";
+          return 'These storms are getting worse. We need better protection.';
         }
       case 'rain':
-        return "Finally, some relief from the sky. Every drop is precious.";
+        return 'Finally, some relief from the sky. Every drop is precious.';
       default:
-        return "The weather has been stable lately. We should make the most of it.";
+        return 'The weather has been stable lately. We should make the most of it.';
     }
   }
 
@@ -227,18 +259,18 @@ export class NPCManager {
     if (npc.personality === 'optimistic') {
       return "Setbacks are just learning opportunities. We'll do better next time.";
     } else if (npc.personality === 'pragmatic') {
-      return "We need to analyze what went wrong and adjust our approach.";
+      return 'We need to analyze what went wrong and adjust our approach.';
     } else if (npc.personality === 'protective') {
       return "We can't afford many more failures like this. People are depending on us.";
     } else {
-      return "The data suggests we need to reconsider our methodology.";
+      return 'The data suggests we need to reconsider our methodology.';
     }
   }
 
   private static getGenericDialogue(
     npc: NPCPersonality,
     gameState: GameState,
-    personality: typeof npcPersonalities[PersonalityType]
+    personality: (typeof npcPersonalities)[PersonalityType]
   ): string {
     if (gameState.hope > personality.hopeThresholds.high) {
       return personality.responses.highHope;
@@ -247,12 +279,15 @@ export class NPCManager {
     }
   }
 
-  private static addPersonalityFlavor(dialogue: string, npc: NPCPersonality): string {
+  private static addPersonalityFlavor(
+    dialogue: string,
+    npc: NPCPersonality
+  ): string {
     // Add personality-specific touches
     switch (npc.personality) {
       case 'scientific':
         if (Math.random() < 0.3) {
-          dialogue += " The data supports this conclusion.";
+          dialogue += ' The data supports this conclusion.';
         }
         break;
       case 'optimistic':
@@ -262,12 +297,12 @@ export class NPCManager {
         break;
       case 'protective':
         if (Math.random() < 0.3) {
-          dialogue += " We have to think about the children.";
+          dialogue += ' We have to think about the children.';
         }
         break;
       case 'pragmatic':
         if (Math.random() < 0.3) {
-          dialogue += " We need to be realistic about this.";
+          dialogue += ' We need to be realistic about this.';
         }
         break;
     }
@@ -275,7 +310,11 @@ export class NPCManager {
     return dialogue;
   }
 
-  private static addToDialogueMemory(npc: NPCPersonality, category: DialogueCategory, dialogue: string): void {
+  private static addToDialogueMemory(
+    npc: NPCPersonality,
+    category: DialogueCategory,
+    dialogue: string
+  ): void {
     const entry = `${category}:${dialogue.substring(0, 50)}`;
     npc.dialogueMemory.push(entry);
 
@@ -319,18 +358,24 @@ export class NPCManager {
       trustChange += 1; // High hope is contagious
     }
 
-    const newTrustLevel = Math.max(0, Math.min(100, npc.trustLevel + trustChange));
+    const newTrustLevel = Math.max(
+      0,
+      Math.min(100, npc.trustLevel + trustChange)
+    );
 
     return {
       ...npc,
-      trustLevel: newTrustLevel
+      trustLevel: newTrustLevel,
     };
   }
 
   /**
    * Evaluate concern factors for mood determination
    */
-  private static evaluateConcerns(npc: NPCPersonality, gameState: GameState): number {
+  private static evaluateConcerns(
+    npc: NPCPersonality,
+    gameState: GameState
+  ): number {
     let concernLevel = 0;
 
     // Check each current concern
@@ -360,7 +405,10 @@ export class NPCManager {
   /**
    * Update NPC concerns based on current game state
    */
-  private static updateConcerns(npc: NPCPersonality, gameState: GameState): string[] {
+  private static updateConcerns(
+    npc: NPCPersonality,
+    gameState: GameState
+  ): string[] {
     const newConcerns: string[] = [];
 
     // Personality-specific concern priorities
@@ -378,15 +426,18 @@ export class NPCManager {
         break;
 
       case 'scientific':
-        if (gameState.ecosystem.soilHealth < 50) newConcerns.push('soil_analysis');
+        if (gameState.ecosystem.soilHealth < 50)
+          newConcerns.push('soil_analysis');
         if (gameState.seeds < 5) newConcerns.push('seed_preservation');
         if (gameState.knowledge < 30) newConcerns.push('research_progress');
         break;
 
       case 'optimistic':
         if (gameState.hope < 50) newConcerns.push('morale');
-        if (Object.keys(gameState.relationships).length < 2) newConcerns.push('community_unity');
-        if (gameState.restorationProgress < 20) newConcerns.push('long_term_hope');
+        if (Object.keys(gameState.relationships).length < 2)
+          newConcerns.push('community_unity');
+        if (gameState.restorationProgress < 20)
+          newConcerns.push('long_term_hope');
         break;
     }
 
@@ -401,7 +452,10 @@ export class NPCManager {
   /**
    * Get NPC availability for interactions based on mood and trust
    */
-  static getNPCAvailability(npc: NPCPersonality, gameState: GameState): {
+  static getNPCAvailability(
+    npc: NPCPersonality,
+    gameState: GameState
+  ): {
     available: boolean;
     reason?: string;
     dialogue?: string;
@@ -411,7 +465,7 @@ export class NPCManager {
       return {
         available: false,
         reason: 'Low trust',
-        dialogue: `${npc.name} avoids eye contact and turns away. Their trust in you has been broken.`
+        dialogue: `${npc.name} avoids eye contact and turns away. Their trust in you has been broken.`,
       };
     }
 
@@ -420,7 +474,7 @@ export class NPCManager {
       return {
         available: false,
         reason: 'Despair',
-        dialogue: `${npc.name} stares into the distance, lost in despair. They're not ready to talk.`
+        dialogue: `${npc.name} stares into the distance, lost in despair. They're not ready to talk.`,
       };
     }
 
@@ -430,7 +484,10 @@ export class NPCManager {
   /**
    * Update all NPCs based on current game state
    */
-  static updateAllNPCs(npcs: Record<string, NPCPersonality>, gameState: GameState): Record<string, NPCPersonality> {
+  static updateAllNPCs(
+    npcs: Record<string, NPCPersonality>,
+    gameState: GameState
+  ): Record<string, NPCPersonality> {
     const updatedNPCs: Record<string, NPCPersonality> = {};
 
     for (const [npcId, npc] of Object.entries(npcs)) {

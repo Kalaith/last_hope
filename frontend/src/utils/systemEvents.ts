@@ -7,257 +7,264 @@ export const systemEvents: SystemTriggeredEvent[] = [
     id: 'severe_drought',
     triggers: {
       weatherPattern: 'drought',
-      supplies: { below: 20 }
+      supplies: { below: 20 },
     },
     storyContent: {
-      title: "The Withering",
+      title: 'The Withering',
       text: "Three weeks without rain. Your carefully tended plants are dying despite your best efforts. Elena approaches with worry etched on her face: 'We need to make a hard choice. Do we use our emergency water reserves on the plants, or save them for drinking?'",
       choices: [
         {
           text: "Save the plants - they're our future.",
           consequences: { supplies: -10, hope: 5, soilHealth: 10 },
           relationships: { elena: 5, chen: 10 },
-          nextScene: "plantsSaved"
+          nextScene: 'plantsSaved',
         },
         {
-          text: "People come first. Let the plants die.",
+          text: 'People come first. Let the plants die.',
           consequences: { health: 10, hope: -15, soilHealth: -20 },
           relationships: { elena: -10, marcus: 5 },
-          nextScene: "plantsLost"
+          nextScene: 'plantsLost',
         },
         {
-          text: "Search for underground water sources.",
+          text: 'Search for underground water sources.',
           consequences: { supplies: 5, hope: -5, knowledge: 2 },
           requirements: { knowledge: 15 },
-          nextScene: "waterSearch"
-        }
-      ]
-    }
+          nextScene: 'waterSearch',
+        },
+      ],
+    },
   },
 
   {
     id: 'plant_disease_outbreak',
     triggers: {
-      soilHealth: { min: 20, max: 60 }
+      soilHealth: { min: 20, max: 60 },
     },
     storyContent: {
-      title: "The Blight Returns",
+      title: 'The Blight Returns',
       text: "Dr. Chen rushes to you with alarming news: 'The plants are showing signs of infection - yellowing leaves, stunted growth. It's a variant of the original Blight. We need to act fast before it spreads to everything we've worked for.'",
       choices: [
         {
-          text: "Quarantine infected plants immediately.",
+          text: 'Quarantine infected plants immediately.',
           consequences: { soilHealth: -5, knowledge: 3, hope: -10 },
           relationships: { chen: 15 },
-          nextScene: "quarantineProtocol"
+          nextScene: 'quarantineProtocol',
         },
         {
-          text: "Try to treat the disease with available resources.",
+          text: 'Try to treat the disease with available resources.',
           consequences: { supplies: -5, soilHealth: 5, hope: 5 },
           requirements: { knowledge: 20 },
-          nextScene: "treatmentAttempt"
+          nextScene: 'treatmentAttempt',
         },
         {
-          text: "Accept the loss and start over with resistant species.",
+          text: 'Accept the loss and start over with resistant species.',
           consequences: { soilHealth: -15, hope: -20, knowledge: 5, seeds: 2 },
-          nextScene: "resistantSpecies"
-        }
-      ]
-    }
+          nextScene: 'resistantSpecies',
+        },
+      ],
+    },
   },
 
   {
     id: 'npc_trust_crisis',
     triggers: {
-      trustLevel: { character: 'elena', below: 15 }
+      trustLevel: { character: 'elena', below: 15 },
     },
     storyContent: {
-      title: "Breaking Point",
+      title: 'Breaking Point',
       text: "Elena confronts you publicly in front of the group: 'I've watched you make decision after decision that puts us all at risk. The children are hungry, people are sick, and you keep chasing impossible dreams. Maybe it's time for new leadership.'",
       choices: [
         {
-          text: "Address her concerns openly and honestly.",
+          text: 'Address her concerns openly and honestly.',
           consequences: { hope: -5, supplies: 5 },
           relationships: { elena: 10, marcus: 5 },
-          nextScene: "honestDiscussion"
+          nextScene: 'honestDiscussion',
         },
         {
-          text: "Stand firm in your decisions and leadership.",
+          text: 'Stand firm in your decisions and leadership.',
           consequences: { hope: 10, supplies: -5 },
           relationships: { elena: -5, chen: 5 },
-          nextScene: "leadershipChallenge"
+          nextScene: 'leadershipChallenge',
         },
         {
           text: "Offer to step down if that's what people want.",
           consequences: { hope: -15, health: -10 },
           relationships: { elena: 5 },
-          nextScene: "leadershipQuestion"
-        }
-      ]
-    }
+          nextScene: 'leadershipQuestion',
+        },
+      ],
+    },
   },
 
   {
     id: 'supply_shortage_crisis',
     triggers: {
-      supplies: { below: 10 }
+      supplies: { below: 10 },
     },
     storyContent: {
-      title: "Empty Shelves",
+      title: 'Empty Shelves',
       text: "Marcus stares at the nearly empty supply cache: 'This is it. Maybe two days of food left, if we ration severely. We need to make some hard choices about priorities - do we search for supplies, attempt to trade with distant groups, or...' He trails off, not wanting to voice the darker alternatives.",
       choices: [
         {
-          text: "Organize a desperate scavenging expedition.",
+          text: 'Organize a desperate scavenging expedition.',
           consequences: { supplies: 8, health: -10, hope: -5 },
           relationships: { marcus: 10 },
-          nextScene: "desperateScavenging"
+          nextScene: 'desperateScavenging',
         },
         {
-          text: "Send envoys to negotiate with other survivor groups.",
+          text: 'Send envoys to negotiate with other survivor groups.',
           consequences: { supplies: 3, seeds: -1, hope: 5 },
           requirements: { knowledge: 10 },
           relationships: { elena: 5, chen: -5 },
-          nextScene: "negotiationMission"
+          nextScene: 'negotiationMission',
         },
         {
-          text: "Focus all efforts on accelerating plant growth.",
+          text: 'Focus all efforts on accelerating plant growth.',
           consequences: { supplies: -3, soilHealth: 10, hope: 15 },
           requirements: { seeds: 2 },
           relationships: { chen: 15 },
-          nextScene: "growthAcceleration"
-        }
-      ]
-    }
+          nextScene: 'growthAcceleration',
+        },
+      ],
+    },
   },
 
   {
     id: 'first_successful_harvest',
     triggers: {
-      soilHealth: { min: 40 }
+      soilHealth: { min: 40 },
     },
     storyContent: {
-      title: "The First Fruits",
+      title: 'The First Fruits',
       text: "A cry of joy echoes across the settlement as Dr. Chen calls everyone to see the miracle: your first mature plants are ready for harvest. Small green pods hang heavy with seeds, and edible roots can be carefully extracted. Elena's children run between the plants, laughing for the first time in months.",
       choices: [
         {
-          text: "Celebrate with a feast using the harvest.",
+          text: 'Celebrate with a feast using the harvest.',
           consequences: { supplies: 15, hope: 25, health: 10 },
           relationships: { elena: 15, marcus: 10, chen: 10 },
-          nextScene: "harvestCelebration"
+          nextScene: 'harvestCelebration',
         },
         {
-          text: "Carefully preserve most for future planting.",
+          text: 'Carefully preserve most for future planting.',
           consequences: { seeds: 8, supplies: 5, knowledge: 3 },
           relationships: { chen: 20 },
-          nextScene: "seedPreservation"
+          nextScene: 'seedPreservation',
         },
         {
-          text: "Share the harvest with neighboring survivor groups.",
+          text: 'Share the harvest with neighboring survivor groups.',
           consequences: { supplies: 5, hope: 15, knowledge: 2 },
           relationships: { elena: 20 },
-          nextScene: "harvestSharing"
-        }
-      ]
-    }
+          nextScene: 'harvestSharing',
+        },
+      ],
+    },
   },
 
   {
     id: 'stranger_arrival',
     triggers: {
-      soilHealth: { min: 30 }
+      soilHealth: { min: 30 },
     },
     storyContent: {
-      title: "New Arrivals",
+      title: 'New Arrivals',
       text: "A small group of haggard survivors appears at your settlement, drawn by reports of 'the impossible - green things growing in dead soil.' Their leader, a weathered woman named Sarah, speaks: 'We've walked for weeks to see if the rumors are true. Some say you're performing miracles here.'",
       choices: [
         {
-          text: "Welcome them and share your knowledge freely.",
+          text: 'Welcome them and share your knowledge freely.',
           consequences: { supplies: -8, hope: 20, knowledge: 5 },
           relationships: { elena: 10 },
-          nextScene: "welcomeStrangers"
+          nextScene: 'welcomeStrangers',
         },
         {
-          text: "Accept them but keep restoration techniques secret.",
+          text: 'Accept them but keep restoration techniques secret.',
           consequences: { supplies: -5, hope: 5, health: -5 },
           relationships: { chen: -10 },
-          nextScene: "cautiousAcceptance"
+          nextScene: 'cautiousAcceptance',
         },
         {
-          text: "Direct them to establish their own settlement nearby.",
+          text: 'Direct them to establish their own settlement nearby.',
           consequences: { supplies: 0, hope: 10, knowledge: 2 },
-          nextScene: "neighboringSettlement"
-        }
-      ]
-    }
+          nextScene: 'neighboringSettlement',
+        },
+      ],
+    },
   },
 
   {
     id: 'knowledge_breakthrough',
     triggers: {
-      knowledge: { min: 50 }
+      knowledge: { min: 50 },
     },
     storyContent: {
-      title: "Scientific Breakthrough",
+      title: 'Scientific Breakthrough',
       text: "Dr. Chen bursts into your quarters with unprecedented excitement: 'I've cracked it! The soil composition patterns, the optimal planting sequences, the symbiotic relationships - I understand how to accelerate the restoration process by 300%. But it will require precise coordination and significant resource investment.'",
       choices: [
         {
-          text: "Implement the breakthrough immediately.",
+          text: 'Implement the breakthrough immediately.',
           consequences: { seeds: -5, supplies: -10, soilHealth: 40, hope: 30 },
           relationships: { chen: 25 },
-          nextScene: "rapidRestoration"
+          nextScene: 'rapidRestoration',
         },
         {
-          text: "Test the theory on a small scale first.",
-          consequences: { seeds: -2, supplies: -3, soilHealth: 15, knowledge: 5 },
+          text: 'Test the theory on a small scale first.',
+          consequences: {
+            seeds: -2,
+            supplies: -3,
+            soilHealth: 15,
+            knowledge: 5,
+          },
           relationships: { chen: 10, marcus: 10 },
-          nextScene: "scientificTesting"
+          nextScene: 'scientificTesting',
         },
         {
-          text: "Document everything before proceeding.",
+          text: 'Document everything before proceeding.',
           consequences: { knowledge: 10, hope: 5, soilHealth: 5 },
           relationships: { chen: 15 },
-          nextScene: "documentationProject"
-        }
-      ]
-    }
+          nextScene: 'documentationProject',
+        },
+      ],
+    },
   },
 
   {
     id: 'storm_damage',
     triggers: {
-      weatherPattern: 'storm'
+      weatherPattern: 'storm',
     },
     storyContent: {
-      title: "After the Storm",
+      title: 'After the Storm',
       text: "The violent storm has passed, leaving destruction in its wake. Your growing plants are battered, some uprooted entirely. Marcus surveys the damage: 'The structures held, but we've lost weeks of growth. Some of the more delicate species might not recover.'",
       choices: [
         {
-          text: "Focus on saving what can be salvaged.",
+          text: 'Focus on saving what can be salvaged.',
           consequences: { soilHealth: -10, hope: -5, knowledge: 2 },
           relationships: { marcus: 10 },
-          nextScene: "salvageOperation"
+          nextScene: 'salvageOperation',
         },
         {
-          text: "Use this as an opportunity to replant with hardier species.",
+          text: 'Use this as an opportunity to replant with hardier species.',
           consequences: { seeds: -3, soilHealth: 5, hope: 10 },
           requirements: { seeds: 3 },
           relationships: { chen: 15 },
-          nextScene: "hardierReplanting"
+          nextScene: 'hardierReplanting',
         },
         {
-          text: "Build better protection before replanting.",
+          text: 'Build better protection before replanting.',
           consequences: { supplies: -5, soilHealth: -5, hope: 5 },
-          nextScene: "stormProtection"
-        }
-      ]
-    }
-  }
+          nextScene: 'stormProtection',
+        },
+      ],
+    },
+  },
 ];
 
 export class SystemEventManager {
   /**
    * Check if any system events should trigger based on current game state
    */
-  static checkForTriggeredEvents(gameState: GameState): SystemTriggeredEvent | null {
+  static checkForTriggeredEvents(
+    gameState: GameState
+  ): SystemTriggeredEvent | null {
     // Randomly select from applicable events to avoid predictability
     const applicableEvents = systemEvents.filter(event =>
       this.eventShouldTrigger(event, gameState)
@@ -285,28 +292,42 @@ export class SystemEventManager {
   /**
    * Check if a specific event should trigger
    */
-  private static eventShouldTrigger(event: SystemTriggeredEvent, gameState: GameState): boolean {
+  private static eventShouldTrigger(
+    event: SystemTriggeredEvent,
+    gameState: GameState
+  ): boolean {
     const triggers = event.triggers;
 
     // Weather pattern trigger
-    if (triggers.weatherPattern && gameState.ecosystem.weatherPattern !== triggers.weatherPattern) {
+    if (
+      triggers.weatherPattern &&
+      gameState.ecosystem.weatherPattern !== triggers.weatherPattern
+    ) {
       return false;
     }
 
     // Soil health range trigger
     if (triggers.soilHealth) {
       const soilHealth = gameState.ecosystem.soilHealth;
-      if (triggers.soilHealth.min !== undefined && soilHealth < triggers.soilHealth.min) {
+      if (
+        triggers.soilHealth.min !== undefined &&
+        soilHealth < triggers.soilHealth.min
+      ) {
         return false;
       }
-      if (triggers.soilHealth.max !== undefined && soilHealth > triggers.soilHealth.max) {
+      if (
+        triggers.soilHealth.max !== undefined &&
+        soilHealth > triggers.soilHealth.max
+      ) {
         return false;
       }
     }
 
     // NPC mood trigger
     if (triggers.npcMood) {
-      const hasNPCWithMood = Object.values(gameState.npcs).some(npc => npc.mood === triggers.npcMood);
+      const hasNPCWithMood = Object.values(gameState.npcs).some(
+        npc => npc.mood === triggers.npcMood
+      );
       if (!hasNPCWithMood) {
         return false;
       }
@@ -314,7 +335,10 @@ export class SystemEventManager {
 
     // Supply threshold trigger
     if (triggers.supplies) {
-      if (triggers.supplies.below !== undefined && gameState.supplies >= triggers.supplies.below) {
+      if (
+        triggers.supplies.below !== undefined &&
+        gameState.supplies >= triggers.supplies.below
+      ) {
         return false;
       }
     }
@@ -330,7 +354,10 @@ export class SystemEventManager {
 
     // Knowledge threshold trigger
     if (triggers.knowledge) {
-      if (triggers.knowledge.min !== undefined && gameState.knowledge < triggers.knowledge.min) {
+      if (
+        triggers.knowledge.min !== undefined &&
+        gameState.knowledge < triggers.knowledge.min
+      ) {
         return false;
       }
     }
@@ -375,13 +402,19 @@ export class SystemEventManager {
     }
 
     // Increase probability during extreme weather
-    if (gameState.ecosystem.weatherPattern === 'drought' || gameState.ecosystem.weatherPattern === 'storm') {
+    if (
+      gameState.ecosystem.weatherPattern === 'drought' ||
+      gameState.ecosystem.weatherPattern === 'storm'
+    ) {
       baseProbability += 0.05;
     }
 
     // Increase probability when ecosystem is in transition zones
     const soilHealth = gameState.ecosystem.soilHealth;
-    if ((soilHealth > 20 && soilHealth < 40) || (soilHealth > 60 && soilHealth < 80)) {
+    if (
+      (soilHealth > 20 && soilHealth < 40) ||
+      (soilHealth > 60 && soilHealth < 80)
+    ) {
       baseProbability += 0.05;
     }
 
@@ -399,7 +432,9 @@ export class SystemEventManager {
   /**
    * Get event rarity for UI feedback
    */
-  static getEventRarity(eventId: string): 'common' | 'uncommon' | 'rare' | 'critical' {
+  static getEventRarity(
+    eventId: string
+  ): 'common' | 'uncommon' | 'rare' | 'critical' {
     if (eventId.includes('crisis') || eventId.includes('shortage')) {
       return 'critical';
     }

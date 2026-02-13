@@ -8,7 +8,7 @@ export const gameData: GameData = {
   gameState: initialGameState,
   characterBackgrounds,
   storyScenes,
-  endingConditions
+  endingConditions,
 };
 
 // Re-export individual modules for direct access if needed

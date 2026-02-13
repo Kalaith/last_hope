@@ -18,7 +18,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
   gameState,
   storyData,
   onMakeChoice,
-  canAffordChoice
+  canAffordChoice,
 }) => {
   // Helper functions for status calculation
   const getResourceStatus = (current: number, max: number) => {
@@ -30,9 +30,21 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
 
   const getCriticalAlerts = () => {
     const alerts = [];
-    if (gameState.hope <= 20) alerts.push({ type: 'critical', message: 'Hope critically low - immediate action needed!' });
-    if (gameState.health <= 30) alerts.push({ type: 'critical', message: 'Health critical - rest or medical attention required!' });
-    if (gameState.supplies <= 10) alerts.push({ type: 'warning', message: 'Supplies running low - scavenge or trade soon.' });
+    if (gameState.hope <= 20)
+      alerts.push({
+        type: 'critical',
+        message: 'Hope critically low - immediate action needed!',
+      });
+    if (gameState.health <= 30)
+      alerts.push({
+        type: 'critical',
+        message: 'Health critical - rest or medical attention required!',
+      });
+    if (gameState.supplies <= 10)
+      alerts.push({
+        type: 'warning',
+        message: 'Supplies running low - scavenge or trade soon.',
+      });
     return alerts;
   };
 
@@ -58,66 +70,87 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
             Vital Resources
           </h2>
           <div className="resource-group">
-            <div className={`resource-item ${getResourceStatus(gameState.hope, 100)}`}>
+            <div
+              className={`resource-item ${getResourceStatus(gameState.hope, 100)}`}
+            >
               <div className="resource-label">
                 <span className="resource-icon">✨</span>
                 <span>Hope</span>
               </div>
               <div className="flex items-center gap-sm">
-                <span className="resource-value">{Math.round(gameState.hope)}</span>
+                <span className="resource-value">
+                  {Math.round(gameState.hope)}
+                </span>
                 <div className="resource-bar">
                   <div
                     className="resource-bar-fill"
                     style={{
                       width: `${gameState.hope}%`,
-                      backgroundColor: getResourceStatus(gameState.hope, 100) === 'critical' ?
-                        'var(--status-critical)' :
-                        getResourceStatus(gameState.hope, 100) === 'warning' ?
-                        'var(--status-warning)' : 'var(--status-success)'
+                      backgroundColor:
+                        getResourceStatus(gameState.hope, 100) === 'critical'
+                          ? 'var(--status-critical)'
+                          : getResourceStatus(gameState.hope, 100) === 'warning'
+                            ? 'var(--status-warning)'
+                            : 'var(--status-success)',
                     }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className={`resource-item ${getResourceStatus(gameState.health, 100)}`}>
+            <div
+              className={`resource-item ${getResourceStatus(gameState.health, 100)}`}
+            >
               <div className="resource-label">
                 <span className="resource-icon">❤️</span>
                 <span>Health</span>
               </div>
               <div className="flex items-center gap-sm">
-                <span className="resource-value">{Math.round(gameState.health)}</span>
+                <span className="resource-value">
+                  {Math.round(gameState.health)}
+                </span>
                 <div className="resource-bar">
                   <div
                     className="resource-bar-fill"
                     style={{
                       width: `${gameState.health}%`,
-                      backgroundColor: getResourceStatus(gameState.health, 100) === 'critical' ?
-                        'var(--status-critical)' :
-                        getResourceStatus(gameState.health, 100) === 'warning' ?
-                        'var(--status-warning)' : 'var(--status-success)'
+                      backgroundColor:
+                        getResourceStatus(gameState.health, 100) === 'critical'
+                          ? 'var(--status-critical)'
+                          : getResourceStatus(gameState.health, 100) ===
+                              'warning'
+                            ? 'var(--status-warning)'
+                            : 'var(--status-success)',
                     }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className={`resource-item ${getResourceStatus(gameState.supplies, 100)}`}>
+            <div
+              className={`resource-item ${getResourceStatus(gameState.supplies, 100)}`}
+            >
               <div className="resource-label">
                 <span className="resource-icon">📦</span>
                 <span>Supplies</span>
               </div>
               <div className="flex items-center gap-sm">
-                <span className="resource-value">{Math.round(gameState.supplies)}</span>
+                <span className="resource-value">
+                  {Math.round(gameState.supplies)}
+                </span>
                 <div className="resource-bar">
                   <div
                     className="resource-bar-fill"
                     style={{
                       width: `${Math.min(gameState.supplies, 100)}%`,
-                      backgroundColor: getResourceStatus(gameState.supplies, 100) === 'critical' ?
-                        'var(--status-critical)' :
-                        getResourceStatus(gameState.supplies, 100) === 'warning' ?
-                        'var(--status-warning)' : 'var(--status-success)'
+                      backgroundColor:
+                        getResourceStatus(gameState.supplies, 100) ===
+                        'critical'
+                          ? 'var(--status-critical)'
+                          : getResourceStatus(gameState.supplies, 100) ===
+                              'warning'
+                            ? 'var(--status-warning)'
+                            : 'var(--status-success)',
                     }}
                   />
                 </div>
@@ -138,14 +171,18 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                 <span className="resource-icon">📚</span>
                 <span>Knowledge</span>
               </div>
-              <span className="resource-value">{Math.round(gameState.knowledge)}</span>
+              <span className="resource-value">
+                {Math.round(gameState.knowledge)}
+              </span>
             </div>
             <div className="resource-item healthy">
               <div className="resource-label">
                 <span className="resource-icon">🌱</span>
                 <span>Seeds</span>
               </div>
-              <span className="resource-value">{Math.round(gameState.seeds)}</span>
+              <span className="resource-value">
+                {Math.round(gameState.seeds)}
+              </span>
             </div>
           </div>
         </div>
@@ -169,21 +206,28 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                 <span className="resource-icon">🏗️</span>
                 <span>Structures</span>
               </div>
-              <span className="resource-value">{gameState.baseStructures?.length || 0}</span>
+              <span className="resource-value">
+                {gameState.baseStructures?.length || 0}
+              </span>
             </div>
             <div className="resource-item">
               <div className="resource-label">
                 <span className="resource-icon">🌿</span>
                 <span>Soil Health</span>
               </div>
-              <span className="resource-value">{Math.round(gameState.ecosystem?.soilHealth || 0)}%</span>
+              <span className="resource-value">
+                {Math.round(gameState.ecosystem?.soilHealth || 0)}%
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Story Content - Primary Action Area */}
-      <div className="card card-elevated" style={{ marginTop: 'var(--spacing-lg)' }}>
+      <div
+        className="card card-elevated"
+        style={{ marginTop: 'var(--spacing-lg)' }}
+      >
         {storyData && (
           <StoryArea
             title={storyData.title}

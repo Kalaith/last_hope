@@ -32,231 +32,264 @@ class ResearchSystemManager {
     {
       id: 'soil_chemistry_basics',
       name: 'Soil Chemistry Fundamentals',
-      description: 'Understanding pH levels, nutrient cycles, and basic soil composition for better plant growth.',
+      description:
+        'Understanding pH levels, nutrient cycles, and basic soil composition for better plant growth.',
       icon: '🧪',
       knowledgeRequired: 15,
       prerequisites: [],
       category: 'agriculture',
       benefits: {
         boosts: { soilHealth: 1.2 }, // 20% faster soil improvement
-        unlocks: ['soil_testing_choice', 'ph_adjustment_choice']
+        unlocks: ['soil_testing_choice', 'ph_adjustment_choice'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     {
       id: 'plant_breeding_techniques',
       name: 'Plant Breeding & Selection',
-      description: 'Advanced techniques for selecting and breeding plants with improved yields and disease resistance.',
+      description:
+        'Advanced techniques for selecting and breeding plants with improved yields and disease resistance.',
       icon: '🌱',
       knowledgeRequired: 25,
       prerequisites: ['soil_chemistry_basics'],
       category: 'agriculture',
       benefits: {
         boosts: { seedYield: 1.3 }, // 30% more seeds from harvests
-        unlocks: ['selective_breeding_choice', 'hardy_varieties_plant']
+        unlocks: ['selective_breeding_choice', 'hardy_varieties_plant'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     {
       id: 'permaculture_design',
       name: 'Permaculture Systems',
-      description: 'Sustainable design principles that create self-maintaining agricultural ecosystems.',
+      description:
+        'Sustainable design principles that create self-maintaining agricultural ecosystems.',
       icon: '♻️',
       knowledgeRequired: 40,
       prerequisites: ['plant_breeding_techniques', 'water_conservation'],
       category: 'agriculture',
       benefits: {
         boosts: { dailySupplies: 1.4, soilHealth: 1.3 },
-        unlocks: ['companion_planting_choice', 'food_forest_construction']
+        unlocks: ['companion_planting_choice', 'food_forest_construction'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     // Ecology Branch
     {
       id: 'ecosystem_dynamics',
       name: 'Ecosystem Relationships',
-      description: 'Study of how different species interact and support each other in healthy ecosystems.',
+      description:
+        'Study of how different species interact and support each other in healthy ecosystems.',
       icon: '🔗',
       knowledgeRequired: 20,
       prerequisites: [],
       category: 'ecology',
       benefits: {
         boosts: { plantDiversity: 1.25 },
-        unlocks: ['species_introduction_choice', 'symbiotic_planting']
+        unlocks: ['species_introduction_choice', 'symbiotic_planting'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     {
       id: 'mycorrhizal_networks',
       name: 'Fungal Root Networks',
-      description: 'Understanding how fungi create underground networks that help plants share nutrients.',
+      description:
+        'Understanding how fungi create underground networks that help plants share nutrients.',
       icon: '🍄',
       knowledgeRequired: 35,
       prerequisites: ['ecosystem_dynamics', 'soil_chemistry_basics'],
       category: 'ecology',
       benefits: {
         boosts: { plantHealth: 1.3, soilRestoration: 1.5 },
-        unlocks: ['fungal_inoculation_choice', 'mycelial_remediation']
+        unlocks: ['fungal_inoculation_choice', 'mycelial_remediation'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     {
       id: 'pollinator_restoration',
       name: 'Pollinator Ecosystem',
-      description: 'Strategies for attracting and supporting bees, butterflies, and other crucial pollinators.',
+      description:
+        'Strategies for attracting and supporting bees, butterflies, and other crucial pollinators.',
       icon: '🦋',
       knowledgeRequired: 30,
       prerequisites: ['ecosystem_dynamics'],
       category: 'ecology',
       benefits: {
         boosts: { seedProduction: 1.4, plantReproduction: 1.6 },
-        unlocks: ['pollinator_gardens', 'native_flower_meadows']
+        unlocks: ['pollinator_gardens', 'native_flower_meadows'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     // Construction Branch
     {
       id: 'sustainable_construction',
       name: 'Green Building Techniques',
-      description: 'Eco-friendly construction methods using natural and recycled materials.',
+      description:
+        'Eco-friendly construction methods using natural and recycled materials.',
       icon: '🏗️',
       knowledgeRequired: 18,
       prerequisites: [],
       category: 'construction',
       benefits: {
         boosts: { constructionEfficiency: 1.2 },
-        unlocks: ['earth_bag_construction', 'solar_greenhouse_upgrade']
+        unlocks: ['earth_bag_construction', 'solar_greenhouse_upgrade'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     {
       id: 'water_conservation',
       name: 'Water Management Systems',
-      description: 'Advanced techniques for collecting, storing, and efficiently using water resources.',
+      description:
+        'Advanced techniques for collecting, storing, and efficiently using water resources.',
       icon: '💧',
       knowledgeRequired: 22,
       prerequisites: ['sustainable_construction'],
       category: 'construction',
       benefits: {
         boosts: { waterEfficiency: 1.4 },
-        unlocks: ['rainwater_harvesting', 'greywater_recycling', 'water_purifier_v2']
+        unlocks: [
+          'rainwater_harvesting',
+          'greywater_recycling',
+          'water_purifier_v2',
+        ],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     {
       id: 'renewable_energy',
       name: 'Alternative Energy Systems',
-      description: 'Solar, wind, and biomass energy solutions for sustainable power generation.',
+      description:
+        'Solar, wind, and biomass energy solutions for sustainable power generation.',
       icon: '⚡',
       knowledgeRequired: 28,
       prerequisites: ['sustainable_construction'],
       category: 'construction',
       benefits: {
         boosts: { energyGeneration: 1.5 },
-        unlocks: ['wind_turbine_construction', 'biogas_digester', 'solar_panel_v2']
+        unlocks: [
+          'wind_turbine_construction',
+          'biogas_digester',
+          'solar_panel_v2',
+        ],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     // Survival Branch
     {
       id: 'medicinal_plants',
       name: 'Natural Medicine',
-      description: 'Identifying and cultivating plants with healing properties for community health.',
+      description:
+        'Identifying and cultivating plants with healing properties for community health.',
       icon: '🌿',
       knowledgeRequired: 16,
       prerequisites: [],
       category: 'survival',
       benefits: {
         boosts: { healthRecovery: 1.3 },
-        unlocks: ['herbal_remedies_choice', 'medicine_garden']
+        unlocks: ['herbal_remedies_choice', 'medicine_garden'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     {
       id: 'food_preservation',
       name: 'Food Storage & Preservation',
-      description: 'Traditional and modern techniques for extending food shelf life without refrigeration.',
+      description:
+        'Traditional and modern techniques for extending food shelf life without refrigeration.',
       icon: '🥫',
       knowledgeRequired: 20,
       prerequisites: ['medicinal_plants'],
       category: 'survival',
       benefits: {
         boosts: { foodSpoilage: 0.7 }, // 30% less food loss
-        unlocks: ['smoking_techniques', 'fermentation_choice', 'root_cellar']
+        unlocks: ['smoking_techniques', 'fermentation_choice', 'root_cellar'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     // Social Branch
     {
       id: 'community_organizing',
       name: 'Group Leadership & Cooperation',
-      description: 'Strategies for building trust, resolving conflicts, and organizing collaborative efforts.',
+      description:
+        'Strategies for building trust, resolving conflicts, and organizing collaborative efforts.',
       icon: '🤝',
       knowledgeRequired: 12,
       prerequisites: [],
       category: 'social',
       benefits: {
         boosts: { trustGain: 1.3, conflictResolution: 1.5 },
-        unlocks: ['consensus_building_choice', 'conflict_mediation_choice']
+        unlocks: ['consensus_building_choice', 'conflict_mediation_choice'],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     {
       id: 'knowledge_sharing',
       name: 'Teaching & Documentation',
-      description: 'Methods for effectively sharing knowledge and training others in essential skills.',
+      description:
+        'Methods for effectively sharing knowledge and training others in essential skills.',
       icon: '📚',
       knowledgeRequired: 24,
       prerequisites: ['community_organizing'],
       category: 'social',
       benefits: {
         boosts: { knowledgeGeneration: 1.2, skillTransfer: 1.4 },
-        unlocks: ['teaching_workshops', 'skill_documentation', 'apprenticeship_system']
+        unlocks: [
+          'teaching_workshops',
+          'skill_documentation',
+          'apprenticeship_system',
+        ],
       },
       isUnlocked: false,
-      isResearched: false
+      isResearched: false,
     },
 
     // Advanced Integrative Research
     {
       id: 'regenerative_agriculture',
       name: 'Regenerative Ecosystem Design',
-      description: 'Advanced integration of all restoration knowledge into self-sustaining systems.',
+      description:
+        'Advanced integration of all restoration knowledge into self-sustaining systems.',
       icon: '🌍',
       knowledgeRequired: 60,
-      prerequisites: ['permaculture_design', 'mycorrhizal_networks', 'water_conservation'],
+      prerequisites: [
+        'permaculture_design',
+        'mycorrhizal_networks',
+        'water_conservation',
+      ],
       category: 'agriculture',
       benefits: {
         boosts: { ecosystemRegeneration: 2.0, soilHealth: 1.8 },
-        unlocks: ['ecosystem_restoration_mastery', 'climate_adaptation_techniques']
+        unlocks: [
+          'ecosystem_restoration_mastery',
+          'climate_adaptation_techniques',
+        ],
       },
       isUnlocked: false,
-      isResearched: false
-    }
+      isResearched: false,
+    },
   ];
 
   /**
@@ -267,7 +300,7 @@ class ResearchSystemManager {
       currentResearch: null,
       daysInProgress: 0,
       completedResearch: [],
-      availableResearch: this.getAvailableResearch([])
+      availableResearch: this.getAvailableResearch([]),
     };
   }
 
@@ -281,7 +314,9 @@ class ResearchSystemManager {
         if (completedResearch.includes(node.id)) return false;
 
         // All prerequisites met
-        return node.prerequisites.every(prereq => completedResearch.includes(prereq));
+        return node.prerequisites.every(prereq =>
+          completedResearch.includes(prereq)
+        );
       })
       .map(node => node.id);
   }
@@ -289,7 +324,11 @@ class ResearchSystemManager {
   /**
    * Check if a research node can be started
    */
-  canStartResearch(nodeId: string, gameState: GameState, completedResearch: string[]): boolean {
+  canStartResearch(
+    nodeId: string,
+    gameState: GameState,
+    completedResearch: string[]
+  ): boolean {
     const node = this.researchTree.find(n => n.id === nodeId);
     if (!node) return false;
 
@@ -297,7 +336,8 @@ class ResearchSystemManager {
     if (gameState.knowledge < node.knowledgeRequired) return false;
 
     // Check prerequisites
-    if (!node.prerequisites.every(prereq => completedResearch.includes(prereq))) return false;
+    if (!node.prerequisites.every(prereq => completedResearch.includes(prereq)))
+      return false;
 
     // Check if already researched
     if (completedResearch.includes(nodeId)) return false;
@@ -308,15 +348,25 @@ class ResearchSystemManager {
   /**
    * Start researching a node
    */
-  startResearch(nodeId: string, gameState: GameState, researchProgress: ResearchProgress): ResearchProgress {
-    if (!this.canStartResearch(nodeId, gameState, researchProgress.completedResearch)) {
+  startResearch(
+    nodeId: string,
+    gameState: GameState,
+    researchProgress: ResearchProgress
+  ): ResearchProgress {
+    if (
+      !this.canStartResearch(
+        nodeId,
+        gameState,
+        researchProgress.completedResearch
+      )
+    ) {
       return researchProgress;
     }
 
     return {
       ...researchProgress,
       currentResearch: nodeId,
-      daysInProgress: 0
+      daysInProgress: 0,
     };
   }
 
@@ -331,19 +381,24 @@ class ResearchSystemManager {
       return { progress: researchProgress, completedResearch: null };
     }
 
-    const node = this.researchTree.find(n => n.id === researchProgress.currentResearch);
+    const node = this.researchTree.find(
+      n => n.id === researchProgress.currentResearch
+    );
     if (!node) {
       return { progress: researchProgress, completedResearch: null };
     }
 
     const newProgress = {
       ...researchProgress,
-      daysInProgress: researchProgress.daysInProgress + 1
+      daysInProgress: researchProgress.daysInProgress + 1,
     };
 
     // Check if research is complete
-    const researchTime = node.researchTime ||
-      Math.ceil(node.knowledgeRequired / researchConstants.DEFAULT_RESEARCH_TIME_DIVISOR);
+    const researchTime =
+      node.researchTime ||
+      Math.ceil(
+        node.knowledgeRequired / researchConstants.DEFAULT_RESEARCH_TIME_DIVISOR
+      );
     const isComplete = newProgress.daysInProgress >= researchTime;
 
     if (isComplete) {
@@ -352,12 +407,15 @@ class ResearchSystemManager {
         currentResearch: null,
         daysInProgress: 0,
         completedResearch: [...newProgress.completedResearch, node.id],
-        availableResearch: this.getAvailableResearch([...newProgress.completedResearch, node.id])
+        availableResearch: this.getAvailableResearch([
+          ...newProgress.completedResearch,
+          node.id,
+        ]),
       };
 
       return {
         progress: updatedProgress,
-        completedResearch: node.id
+        completedResearch: node.id,
       };
     }
 
@@ -407,7 +465,7 @@ class ResearchSystemManager {
     const unlocked = {
       choices: [] as string[],
       constructions: [] as string[],
-      abilities: [] as string[]
+      abilities: [] as string[],
     };
 
     completedResearch.forEach(researchId => {
@@ -416,7 +474,10 @@ class ResearchSystemManager {
         node.benefits.unlocks.forEach(unlock => {
           if (unlock.includes('choice')) {
             unlocked.choices.push(unlock);
-          } else if (unlock.includes('construction') || unlock.includes('building')) {
+          } else if (
+            unlock.includes('construction') ||
+            unlock.includes('building')
+          ) {
             unlocked.constructions.push(unlock);
           } else {
             unlocked.abilities.push(unlock);
@@ -437,31 +498,53 @@ class ResearchSystemManager {
   hasUnlock(unlockId: string, completedResearch: string[]): boolean {
     return completedResearch.some(researchId => {
       const node = this.researchTree.find(n => n.id === researchId);
-      return node?.benefits.unlocks?.includes(unlockId) || node?.benefits.abilities?.includes(unlockId);
+      return (
+        node?.benefits.unlocks?.includes(unlockId) ||
+        node?.benefits.abilities?.includes(unlockId)
+      );
     });
   }
 
   /**
    * Get research recommendations based on current game state
    */
-  getResearchRecommendations(gameState: GameState, researchProgress: ResearchProgress): string[] {
+  getResearchRecommendations(
+    gameState: GameState,
+    researchProgress: ResearchProgress
+  ): string[] {
     const available = researchProgress.availableResearch;
     const recommendations: { id: string; priority: number }[] = [];
 
     available.forEach(nodeId => {
       const node = this.researchTree.find(n => n.id === nodeId);
-      if (!node || !this.canStartResearch(nodeId, gameState, researchProgress.completedResearch)) return;
+      if (
+        !node ||
+        !this.canStartResearch(
+          nodeId,
+          gameState,
+          researchProgress.completedResearch
+        )
+      )
+        return;
 
       let priority = 0;
 
       // Prioritize based on current needs
       if (gameState.health < 50 && node.category === 'survival') priority += 3;
-      if (gameState.supplies < 30 && node.category === 'agriculture') priority += 3;
-      if (gameState.ecosystem.soilHealth < 30 && node.category === 'ecology') priority += 2;
-      if ((gameState.baseStructures?.length || 0) > 2 && node.category === 'construction') priority += 2;
+      if (gameState.supplies < 30 && node.category === 'agriculture')
+        priority += 3;
+      if (gameState.ecosystem.soilHealth < 30 && node.category === 'ecology')
+        priority += 2;
+      if (
+        (gameState.baseStructures?.length || 0) > 2 &&
+        node.category === 'construction'
+      )
+        priority += 2;
 
       // Prioritize based on trust issues
-      const lowTrust = Object.values(gameState.npcs || {}).some(npc => npc.trustLevel < 40);
+      const lowTrust = Object.values(gameState.npcs || {}).some(
+        npc => npc.trustLevel < 40
+      );
       if (lowTrust && node.category === 'social') priority += 3;
 
       // Lower priority for high knowledge requirements relative to current knowledge

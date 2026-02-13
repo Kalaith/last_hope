@@ -9,5 +9,5 @@ export const storyScenes: Record<string, StoryScene> = {
   ...coreStoryScenes,
   ...plantingScenes,
   ...communityScenes,
-  ...researchScenes
+  ...researchScenes,
 };

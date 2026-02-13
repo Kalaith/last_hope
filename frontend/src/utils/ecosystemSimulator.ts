@@ -8,7 +8,7 @@ export const plantSpecies = {
     growthRate: 3,
     soilImprovement: 1,
     seedYield: 2,
-    description: 'Tough grass that can grow in the worst conditions'
+    description: 'Tough grass that can grow in the worst conditions',
   },
   pioneer_herb: {
     name: 'Pioneer Herb',
@@ -16,7 +16,7 @@ export const plantSpecies = {
     growthRate: 2,
     soilImprovement: 2,
     seedYield: 1,
-    description: 'First to colonize damaged soil'
+    description: 'First to colonize damaged soil',
   },
   nitrogen_fixer: {
     name: 'Nitrogen-Fixing Legume',
@@ -24,7 +24,7 @@ export const plantSpecies = {
     growthRate: 1.5,
     soilImprovement: 5,
     seedYield: 3,
-    description: 'Dramatically improves soil chemistry'
+    description: 'Dramatically improves soil chemistry',
   },
   desert_bloom: {
     name: 'Desert Resurrection Plant',
@@ -32,7 +32,7 @@ export const plantSpecies = {
     growthRate: 1,
     soilImprovement: 2,
     seedYield: 1,
-    description: 'Survives extreme drought conditions'
+    description: 'Survives extreme drought conditions',
   },
   forest_sapling: {
     name: 'Forest Sapling',
@@ -40,8 +40,8 @@ export const plantSpecies = {
     growthRate: 0.5,
     soilImprovement: 8,
     seedYield: 5,
-    description: 'Young tree that will grow into a mighty oak'
-  }
+    description: 'Young tree that will grow into a mighty oak',
+  },
 } as const;
 
 export type PlantSpeciesId = keyof typeof plantSpecies;
@@ -51,23 +51,23 @@ const weatherModifiers = {
   drought: {
     growthRate: 0.3,
     survivalRate: 0.7,
-    description: 'Scorching heat withers plants'
+    description: 'Scorching heat withers plants',
   },
   rain: {
     growthRate: 1.5,
     survivalRate: 1.0,
-    description: 'Life-giving rain nourishes growth'
+    description: 'Life-giving rain nourishes growth',
   },
   stable: {
     growthRate: 1.0,
     survivalRate: 0.95,
-    description: 'Mild conditions support steady growth'
+    description: 'Mild conditions support steady growth',
   },
   storm: {
     growthRate: 0.8,
     survivalRate: 0.6,
-    description: 'Violent storms damage fragile plants'
-  }
+    description: 'Violent storms damage fragile plants',
+  },
 } as const;
 
 // Seasonal effects
@@ -75,48 +75,62 @@ const seasonalModifiers = {
   spring: {
     growthBonus: 1.3,
     plantingBonus: true,
-    description: 'New life emerges from winter sleep'
+    description: 'New life emerges from winter sleep',
   },
   summer: {
     growthBonus: 1.1,
     plantingBonus: false,
-    description: 'Growing season at its peak'
+    description: 'Growing season at its peak',
   },
   autumn: {
     growthBonus: 0.8,
     plantingBonus: false,
-    description: 'Plants prepare for winter dormancy'
+    description: 'Plants prepare for winter dormancy',
   },
   winter: {
     growthBonus: 0.4,
     plantingBonus: false,
-    description: 'Harsh cold slows all growth'
-  }
+    description: 'Harsh cold slows all growth',
+  },
 } as const;
 
 export class EcosystemSimulator {
   /**
    * Simulate ecosystem growth over time
    */
-  static simulateGrowth(ecosystem: EcosystemState, timeElapsed: number): EcosystemState {
+  static simulateGrowth(
+    ecosystem: EcosystemState,
+    timeElapsed: number
+  ): EcosystemState {
     const updated = { ...ecosystem };
 
     // Update each plant instance
-    updated.plantInstances = ecosystem.plantInstances.map(plant =>
-      this.updatePlantGrowth(plant, ecosystem, timeElapsed)
-    ).filter(plant => plant.health > 0); // Remove dead plants
+    updated.plantInstances = ecosystem.plantInstances
+      .map(plant => this.updatePlantGrowth(plant, ecosystem, timeElapsed))
+      .filter(plant => plant.health > 0); // Remove dead plants
 
     // Update soil health based on plant contributions
-    updated.soilHealth = this.calculateSoilImprovement(updated.plantInstances, ecosystem.soilHealth);
+    updated.soilHealth = this.calculateSoilImprovement(
+      updated.plantInstances,
+      ecosystem.soilHealth
+    );
 
     // Update plant diversity
-    updated.plantDiversity = this.calculatePlantDiversity(updated.plantInstances);
+    updated.plantDiversity = this.calculatePlantDiversity(
+      updated.plantInstances
+    );
 
     // Progress seasonal cycle
-    updated.seasonalCycle = this.progressSeason(ecosystem.seasonalCycle, timeElapsed);
+    updated.seasonalCycle = this.progressSeason(
+      ecosystem.seasonalCycle,
+      timeElapsed
+    );
 
     // Random weather changes
-    updated.weatherPattern = this.updateWeather(ecosystem.weatherPattern, timeElapsed);
+    updated.weatherPattern = this.updateWeather(
+      ecosystem.weatherPattern,
+      timeElapsed
+    );
 
     return updated;
   }
@@ -135,7 +149,7 @@ export class EcosystemSimulator {
     if (ecosystem.soilHealth < plantType.soilRequirement) {
       return {
         success: false,
-        message: `${plantType.name} requires soil health of at least ${plantType.soilRequirement}%. Current: ${ecosystem.soilHealth.toFixed(1)}%`
+        message: `${plantType.name} requires soil health of at least ${plantType.soilRequirement}%. Current: ${ecosystem.soilHealth.toFixed(1)}%`,
       };
     }
 
@@ -143,7 +157,7 @@ export class EcosystemSimulator {
     if (plantType.soilRequirement > 20 && gameState.knowledge < 25) {
       return {
         success: false,
-        message: `Planting ${plantType.name} requires more botanical knowledge`
+        message: `Planting ${plantType.name} requires more botanical knowledge`,
       };
     }
 
@@ -154,13 +168,13 @@ export class EcosystemSimulator {
       health: 100,
       maturity: 0,
       soilContribution: plantType.soilImprovement,
-      seedYield: plantType.seedYield
+      seedYield: plantType.seedYield,
     };
 
     return {
       success: true,
       message: `Successfully planted ${plantType.name}`,
-      newPlant
+      newPlant,
     };
   }
 
@@ -190,7 +204,10 @@ export class EcosystemSimulator {
     growthRate *= soilModifier;
 
     // Update maturity
-    const newMaturity = Math.min(100, plant.maturity + growthRate * timeElapsed);
+    const newMaturity = Math.min(
+      100,
+      plant.maturity + growthRate * timeElapsed
+    );
 
     // Health changes based on conditions
     let healthChange = 0;
@@ -215,14 +232,17 @@ export class EcosystemSimulator {
     return {
       ...plant,
       maturity: newMaturity,
-      health: newHealth
+      health: newHealth,
     };
   }
 
   /**
    * Calculate soil improvement from plant contributions
    */
-  private static calculateSoilImprovement(plants: PlantInstance[], currentSoil: number): number {
+  private static calculateSoilImprovement(
+    plants: PlantInstance[],
+    currentSoil: number
+  ): number {
     if (plants.length === 0) {
       // Soil degrades naturally without plants
       return Math.max(0, currentSoil - 0.1);
@@ -232,13 +252,16 @@ export class EcosystemSimulator {
     for (const plant of plants) {
       if (plant.health > 50 && plant.maturity > 30) {
         // Only healthy, somewhat mature plants contribute significantly
-        const contribution = plant.soilContribution * (plant.maturity / 100) * (plant.health / 100);
+        const contribution =
+          plant.soilContribution *
+          (plant.maturity / 100) *
+          (plant.health / 100);
         totalImprovement += contribution;
       }
     }
 
     // Diminishing returns - soil improvement slows as soil gets better
-    const improvementRate = Math.max(0.1, 1 - (currentSoil / 100));
+    const improvementRate = Math.max(0.1, 1 - currentSoil / 100);
     const actualImprovement = totalImprovement * improvementRate * 0.1; // Scale down for balance
 
     return Math.min(100, currentSoil + actualImprovement);
@@ -272,7 +295,12 @@ export class EcosystemSimulator {
     // For now, simple random season changes
     // In a full implementation, this would be time-based
     if (Math.random() < 0.05 * timeElapsed) {
-      const seasons: EcosystemState['seasonalCycle'][] = ['spring', 'summer', 'autumn', 'winter'];
+      const seasons: EcosystemState['seasonalCycle'][] = [
+        'spring',
+        'summer',
+        'autumn',
+        'winter',
+      ];
       const currentIndex = seasons.indexOf(currentSeason);
       return seasons[(currentIndex + 1) % seasons.length];
     }
@@ -293,7 +321,7 @@ export class EcosystemSimulator {
         stable: 0.4,
         rain: 0.3,
         drought: 0.2,
-        storm: 0.1
+        storm: 0.1,
       };
 
       const random = Math.random();
@@ -312,7 +340,10 @@ export class EcosystemSimulator {
   /**
    * Harvest mature plants for seeds
    */
-  static harvestSeeds(plants: PlantInstance[]): { seedsGained: number; plantsHarvested: PlantInstance[] } {
+  static harvestSeeds(plants: PlantInstance[]): {
+    seedsGained: number;
+    plantsHarvested: PlantInstance[];
+  } {
     const maturePlants = plants.filter(p => p.maturity >= 80 && p.health > 50);
     let totalSeeds = 0;
 
@@ -323,7 +354,7 @@ export class EcosystemSimulator {
 
     return {
       seedsGained: totalSeeds,
-      plantsHarvested: maturePlants
+      plantsHarvested: maturePlants,
     };
   }
 
@@ -331,15 +362,24 @@ export class EcosystemSimulator {
    * Get ecosystem description for UI
    */
   static getEcosystemDescription(ecosystem: EcosystemState): string {
-    const soilDesc = ecosystem.soilHealth < 20 ? 'poisoned and barren' :
-                     ecosystem.soilHealth < 50 ? 'damaged but recovering' :
-                     ecosystem.soilHealth < 80 ? 'healthy and fertile' : 'thriving with life';
+    const soilDesc =
+      ecosystem.soilHealth < 20
+        ? 'poisoned and barren'
+        : ecosystem.soilHealth < 50
+          ? 'damaged but recovering'
+          : ecosystem.soilHealth < 80
+            ? 'healthy and fertile'
+            : 'thriving with life';
 
     const plantCount = ecosystem.plantInstances.length;
-    const plantDesc = plantCount === 0 ? 'No plants have taken root' :
-                      plantCount < 5 ? 'A few hardy plants struggle to survive' :
-                      plantCount < 15 ? 'Small patches of green emerge from the wasteland' :
-                      'A growing ecosystem flourishes';
+    const plantDesc =
+      plantCount === 0
+        ? 'No plants have taken root'
+        : plantCount < 5
+          ? 'A few hardy plants struggle to survive'
+          : plantCount < 15
+            ? 'Small patches of green emerge from the wasteland'
+            : 'A growing ecosystem flourishes';
 
     const weather = weatherModifiers[ecosystem.weatherPattern];
 

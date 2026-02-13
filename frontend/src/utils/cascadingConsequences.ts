@@ -26,7 +26,7 @@ export interface ConditionalConsequence {
 
 // Define consequence chains for major decisions
 export const consequenceChains: Record<string, ConsequenceChain> = {
-  'prioritize_food_over_restoration': {
+  prioritize_food_over_restoration: {
     choiceId: 'prioritize_food_over_restoration',
     immediate: { supplies: 15, hope: -5 },
     delayed: [
@@ -34,30 +34,32 @@ export const consequenceChains: Record<string, ConsequenceChain> = {
         id: 'food_shortage_aftermath',
         triggerDay: 7,
         title: 'Short-Term Thinking',
-        description: 'Your focus on immediate survival has consequences. Elena confronts you: "We ate well for a week, but now what? We have no sustainable plan."',
+        description:
+          'Your focus on immediate survival has consequences. Elena confronts you: "We ate well for a week, but now what? We have no sustainable plan."',
         consequences: { hope: -15, trust: -10 },
         relationships: { elena: -15, marcus: -5 },
-        followUpEvents: ['community_meeting_crisis']
-      }
+        followUpEvents: ['community_meeting_crisis'],
+      },
     ],
     conditions: [
       {
         id: 'starvation_spiral',
-        condition: (state) => state.supplies < 10,
+        condition: state => state.supplies < 10,
         consequence: {
           id: 'desperation_sets_in',
           triggerDay: 14,
           title: 'Desperation',
-          description: 'People are desperate. Marcus suggests raiding other settlements. The group looks to you for guidance.',
+          description:
+            'People are desperate. Marcus suggests raiding other settlements. The group looks to you for guidance.',
           consequences: { hope: -25 },
-          relationships: { marcus: 10, elena: -20, chen: -15 }
+          relationships: { marcus: 10, elena: -20, chen: -15 },
         },
-        hasTriggered: false
-      }
-    ]
+        hasTriggered: false,
+      },
+    ],
   },
 
-  'share_seeds_with_strangers': {
+  share_seeds_with_strangers: {
     choiceId: 'share_seeds_with_strangers',
     immediate: { seeds: -2, hope: 10 },
     delayed: [
@@ -65,30 +67,33 @@ export const consequenceChains: Record<string, ConsequenceChain> = {
         id: 'seed_sharing_network',
         triggerDay: 21,
         title: 'The Network Grows',
-        description: 'The group you helped has established contact with other settlements. They return with valuable information about clean water sources and offer to trade rare seeds.',
+        description:
+          'The group you helped has established contact with other settlements. They return with valuable information about clean water sources and offer to trade rare seeds.',
         consequences: { seeds: 3, knowledge: 15, supplies: 10 },
         relationships: { elena: 10, chen: 15 },
-        followUpEvents: ['trading_network_established']
-      }
+        followUpEvents: ['trading_network_established'],
+      },
     ],
     conditions: [
       {
         id: 'reputation_spreads',
-        condition: (state) => Object.values(state.npcs).every(npc => npc.trustLevel > 60),
+        condition: state =>
+          Object.values(state.npcs).every(npc => npc.trustLevel > 60),
         consequence: {
           id: 'hope_beacon',
           triggerDay: 30,
           title: 'Beacon of Hope',
-          description: 'Word has spread about your settlement. More survivors arrive seeking guidance. Your reputation precedes you.',
+          description:
+            'Word has spread about your settlement. More survivors arrive seeking guidance. Your reputation precedes you.',
           consequences: { hope: 30, knowledge: 10 },
-          relationships: { elena: 20, marcus: 15, chen: 20 }
+          relationships: { elena: 20, marcus: 15, chen: 20 },
         },
-        hasTriggered: false
-      }
-    ]
+        hasTriggered: false,
+      },
+    ],
   },
 
-  'plant_aggressive_restoration': {
+  plant_aggressive_restoration: {
     choiceId: 'plant_aggressive_restoration',
     immediate: { seeds: -3, supplies: -10, hope: 15 },
     delayed: [
@@ -96,28 +101,30 @@ export const consequenceChains: Record<string, ConsequenceChain> = {
         id: 'restoration_breakthrough',
         triggerDay: 10,
         title: 'Restoration Breakthrough',
-        description: 'Dr. Chen is amazed by the results: "The aggressive planting has triggered a cascade effect. The soil microbiome is recovering faster than we projected!"',
+        description:
+          'Dr. Chen is amazed by the results: "The aggressive planting has triggered a cascade effect. The soil microbiome is recovering faster than we projected!"',
         consequences: { soilHealth: 25, seeds: 2 },
         relationships: { chen: 25 },
-        followUpEvents: ['research_breakthrough']
-      }
+        followUpEvents: ['research_breakthrough'],
+      },
     ],
     conditions: [
       {
         id: 'ecosystem_tipping_point',
-        condition: (state) => state.ecosystem.soilHealth > 40,
+        condition: state => state.ecosystem.soilHealth > 40,
         consequence: {
           id: 'wildlife_returns',
           triggerDay: 35,
           title: 'Wildlife Returns',
-          description: 'Something extraordinary happens - you spot the first birds in years. Small insects buzz around the growing plants. The ecosystem is truly awakening.',
+          description:
+            'Something extraordinary happens - you spot the first birds in years. Small insects buzz around the growing plants. The ecosystem is truly awakening.',
           consequences: { hope: 40, soilHealth: 15, seeds: 5 },
-          relationships: { elena: 15, marcus: 10, chen: 30 }
+          relationships: { elena: 15, marcus: 10, chen: 30 },
         },
-        hasTriggered: false
-      }
-    ]
-  }
+        hasTriggered: false,
+      },
+    ],
+  },
 };
 
 export class CascadingConsequenceManager {
@@ -127,7 +134,11 @@ export class CascadingConsequenceManager {
   /**
    * Register a choice for consequence tracking
    */
-  static registerChoice(choiceText: string, choice: Choice, gameState: GameState): void {
+  static registerChoice(
+    choiceText: string,
+    choice: Choice,
+    gameState: GameState
+  ): void {
     // Find matching consequence chain
     const chain = this.findConsequenceChain(choiceText);
 
@@ -136,7 +147,7 @@ export class CascadingConsequenceManager {
       chain.delayed.forEach(delayed => {
         const triggeredConsequence: DelayedConsequence = {
           ...delayed,
-          triggerDay: gameState.daysSurvived + delayed.triggerDay
+          triggerDay: gameState.daysSurvived + delayed.triggerDay,
         };
         this.delayedConsequences.push(triggeredConsequence);
       });
@@ -151,7 +162,9 @@ export class CascadingConsequenceManager {
   /**
    * Check for triggered consequences on day progression
    */
-  static checkTriggeredConsequences(gameState: GameState): DelayedConsequence[] {
+  static checkTriggeredConsequences(
+    gameState: GameState
+  ): DelayedConsequence[] {
     const triggered: DelayedConsequence[] = [];
     const currentDay = gameState.daysSurvived;
 
@@ -169,7 +182,7 @@ export class CascadingConsequenceManager {
       if (!watcher.hasTriggered && watcher.condition(gameState)) {
         const triggeredConsequence: DelayedConsequence = {
           ...watcher.consequence,
-          triggerDay: currentDay
+          triggerDay: currentDay,
         };
         triggered.push(triggeredConsequence);
         watcher.hasTriggered = true;
@@ -182,7 +195,9 @@ export class CascadingConsequenceManager {
   /**
    * Find consequence chain for a choice
    */
-  private static findConsequenceChain(choiceText: string): ConsequenceChain | null {
+  private static findConsequenceChain(
+    choiceText: string
+  ): ConsequenceChain | null {
     // Match by key phrases in choice text
     const lowerChoice = choiceText.toLowerCase();
 
@@ -194,7 +209,10 @@ export class CascadingConsequenceManager {
       return consequenceChains['share_seeds_with_strangers'];
     }
 
-    if (lowerChoice.includes('plant') && (lowerChoice.includes('aggressive') || lowerChoice.includes('all'))) {
+    if (
+      lowerChoice.includes('plant') &&
+      (lowerChoice.includes('aggressive') || lowerChoice.includes('all'))
+    ) {
       return consequenceChains['plant_aggressive_restoration'];
     }
 
@@ -229,26 +247,31 @@ export class CascadingConsequenceManager {
       text: consequence.description,
       choices: [
         {
-          text: "Accept the consequences and adapt.",
+          text: 'Accept the consequences and adapt.',
           consequences: consequence.consequences,
-          relationships: consequence.relationships
+          relationships: consequence.relationships,
         },
         {
-          text: "Try to mitigate the effects.",
+          text: 'Try to mitigate the effects.',
           consequences: this.mitigateConsequences(consequence.consequences),
-          relationships: consequence.relationships ?
-            Object.fromEntries(
-              Object.entries(consequence.relationships).map(([npc, value]) => [npc, Math.ceil(value * 0.5)])
-            ) : undefined
-        }
-      ]
+          relationships: consequence.relationships
+            ? Object.fromEntries(
+                Object.entries(consequence.relationships).map(
+                  ([npc, value]) => [npc, Math.ceil(value * 0.5)]
+                )
+              )
+            : undefined,
+        },
+      ],
     };
   }
 
   /**
    * Create mitigated version of consequences
    */
-  private static mitigateConsequences(consequences: Record<string, number>): Record<string, number> {
+  private static mitigateConsequences(
+    consequences: Record<string, number>
+  ): Record<string, number> {
     const mitigated: Record<string, number> = {};
 
     Object.entries(consequences).forEach(([key, value]) => {

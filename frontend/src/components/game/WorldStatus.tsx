@@ -13,7 +13,11 @@ export const WorldStatus = memo<WorldStatusProps>(({ gameState }) => {
   const plantCount = gameState.ecosystem?.plantInstances?.length || 0;
 
   const handleReset = () => {
-    if (confirm('Are you sure you want to reset the game? All progress will be lost.')) {
+    if (
+      confirm(
+        'Are you sure you want to reset the game? All progress will be lost.'
+      )
+    ) {
       resetGame();
     }
   };
@@ -48,8 +52,11 @@ export const WorldStatus = memo<WorldStatusProps>(({ gameState }) => {
           <div className="stat">
             <span className="stat-label">Weather</span>
             <span className="weather-icon">
-              {gameState.ecosystem?.weatherPattern === 'drought' ? '☀️' :
-               gameState.ecosystem?.weatherPattern === 'storm' ? '⛈️' : '⛅'}
+              {gameState.ecosystem?.weatherPattern === 'drought'
+                ? '☀️'
+                : gameState.ecosystem?.weatherPattern === 'storm'
+                  ? '⛈️'
+                  : '⛅'}
             </span>
           </div>
         </div>

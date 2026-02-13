@@ -6,22 +6,14 @@ interface ScreenProps {
   className?: string;
 }
 
-export const Screen = memo<ScreenProps>(({
-  children,
-  visible = true,
-  className = ''
-}) => {
-  const classes = [
-    'screen',
-    !visible ? 'hidden' : '',
-    className
-  ].filter(Boolean).join(' ');
+export const Screen = memo<ScreenProps>(
+  ({ children, visible = true, className = '' }) => {
+    const classes = ['screen', !visible ? 'hidden' : '', className]
+      .filter(Boolean)
+      .join(' ');
 
-  return (
-    <div className={classes}>
-      {children}
-    </div>
-  );
-});
+    return <div className={classes}>{children}</div>;
+  }
+);
 
 Screen.displayName = 'Screen';

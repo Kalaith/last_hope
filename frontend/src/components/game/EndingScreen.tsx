@@ -8,11 +8,7 @@ interface EndingScreenProps {
 }
 
 export const EndingScreen = memo<EndingScreenProps>(({ visible }) => {
-  const {
-    currentEnding,
-    gameState,
-    resetGame
-  } = useGameStore();
+  const { currentEnding, gameState, resetGame } = useGameStore();
 
   const handleRestart = () => {
     resetGame();
@@ -26,9 +22,7 @@ export const EndingScreen = memo<EndingScreenProps>(({ visible }) => {
     <Screen visible={visible}>
       <div className="ending-content">
         <h2>{currentEnding.name}</h2>
-        <div className="ending-description">
-          {currentEnding.description}
-        </div>
+        <div className="ending-description">{currentEnding.description}</div>
 
         <div className="ending-stats">
           <h3>Your Journey</h3>
@@ -43,15 +37,21 @@ export const EndingScreen = memo<EndingScreenProps>(({ visible }) => {
             </div>
             <div className="final-stat">
               <span className="final-stat-label">World Health</span>
-              <span className="final-stat-value">{Math.round(gameState.worldHealth)}%</span>
+              <span className="final-stat-value">
+                {Math.round(gameState.worldHealth)}%
+              </span>
             </div>
             <div className="final-stat">
               <span className="final-stat-label">Restoration Progress</span>
-              <span className="final-stat-value">{gameState.restorationProgress}</span>
+              <span className="final-stat-value">
+                {gameState.restorationProgress}
+              </span>
             </div>
             <div className="final-stat">
               <span className="final-stat-label">Relationships</span>
-              <span className="final-stat-value">{Object.keys(gameState.relationships).length}</span>
+              <span className="final-stat-value">
+                {Object.keys(gameState.relationships).length}
+              </span>
             </div>
           </div>
         </div>
@@ -68,9 +68,7 @@ export const EndingScreen = memo<EndingScreenProps>(({ visible }) => {
           </div>
         </div>
 
-        <Button onClick={handleRestart}>
-          Begin Again
-        </Button>
+        <Button onClick={handleRestart}>Begin Again</Button>
       </div>
     </Screen>
   );

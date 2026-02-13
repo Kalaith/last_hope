@@ -10,12 +10,14 @@ const App: React.FC = () => {
   const { currentScreen } = useGameStore();
 
   useEffect(() => {
-    document.title = "Last Hope: Seeds of Tomorrow";
+    document.title = 'Last Hope: Seeds of Tomorrow';
   }, []);
 
   return (
     <GameContainer>
-      <CharacterCreationScreen visible={currentScreen === 'characterCreation'} />
+      <CharacterCreationScreen
+        visible={currentScreen === 'characterCreation'}
+      />
       <GameScreen visible={currentScreen === 'game'} />
       <EndingScreen visible={currentScreen === 'ending'} />
     </GameContainer>

@@ -3,7 +3,7 @@ import type {
   BaseStructure,
   ConstructionProject,
   StructureType,
-  StructureBlueprint
+  StructureBlueprint,
 } from '../types/structures';
 import { getResourceValue } from './typeHelpers';
 import { baseBuildingConstants } from '../constants/gameConstants';
@@ -13,45 +13,60 @@ export const structureBlueprints: Record<StructureType, StructureBlueprint> = {
   greenhouse: {
     type: 'greenhouse',
     name: 'Greenhouse',
-    description: 'Controlled environment for growing plants and developing seeds',
+    description:
+      'Controlled environment for growing plants and developing seeds',
     icon: '🏢',
     category: 'production',
     unlockRequirements: {
       knowledge: 15,
-      restorationProgress: 10
+      restorationProgress: 10,
     },
     levels: [
       {
         level: 1,
         name: 'Basic Greenhouse',
-        description: 'Simple protected growing space with basic climate control',
+        description:
+          'Simple protected growing space with basic climate control',
         buildCost: { supplies: 25, knowledge: 10, health: 15 },
         buildTime: 3,
         dailyProduction: { seeds: 1, hope: 2 },
         dailyMaintenance: { supplies: 1 },
-        specialEffects: ['Protects plants from harsh weather', 'Faster seed development']
+        specialEffects: [
+          'Protects plants from harsh weather',
+          'Faster seed development',
+        ],
       },
       {
         level: 2,
         name: 'Advanced Greenhouse',
-        description: 'Automated systems with soil nutrient cycling and pest control',
+        description:
+          'Automated systems with soil nutrient cycling and pest control',
         buildCost: { supplies: 45, knowledge: 25, health: 20 },
         buildTime: 5,
         dailyProduction: { seeds: 2, hope: 4, soilHealth: 1 },
         dailyMaintenance: { supplies: 2, knowledge: 1 },
-        specialEffects: ['Automated watering', 'Disease resistance research', '50% faster plant growth']
+        specialEffects: [
+          'Automated watering',
+          'Disease resistance research',
+          '50% faster plant growth',
+        ],
       },
       {
         level: 3,
         name: 'Bio-Research Greenhouse',
-        description: 'Cutting-edge facility for genetic preservation and enhancement',
+        description:
+          'Cutting-edge facility for genetic preservation and enhancement',
         buildCost: { supplies: 80, knowledge: 50, seeds: 5, health: 30 },
         buildTime: 8,
         dailyProduction: { seeds: 4, knowledge: 2, hope: 6, soilHealth: 2 },
         dailyMaintenance: { supplies: 3, knowledge: 2 },
-        specialEffects: ['Genetic preservation vault', 'New species development', 'Ecosystem modeling']
-      }
-    ]
+        specialEffects: [
+          'Genetic preservation vault',
+          'New species development',
+          'Ecosystem modeling',
+        ],
+      },
+    ],
   },
 
   water_purifier: {
@@ -61,51 +76,63 @@ export const structureBlueprints: Record<StructureType, StructureBlueprint> = {
     icon: '💧',
     category: 'production',
     unlockRequirements: {
-      knowledge: 10
+      knowledge: 10,
     },
     levels: [
       {
         level: 1,
         name: 'Basic Filter System',
-        description: 'Simple filtration and boiling setup for basic water purification',
+        description:
+          'Simple filtration and boiling setup for basic water purification',
         buildCost: { supplies: 20, knowledge: 5, health: 10 },
         buildTime: 2,
         dailyProduction: { supplies: 3, health: 1 },
         dailyMaintenance: { supplies: 1 },
-        specialEffects: ['Reduces water-borne illness', 'Stable water supply']
+        specialEffects: ['Reduces water-borne illness', 'Stable water supply'],
       },
       {
         level: 2,
         name: 'Chemical Treatment Plant',
-        description: 'Advanced filtration with chemical neutralization of toxins',
+        description:
+          'Advanced filtration with chemical neutralization of toxins',
         buildCost: { supplies: 40, knowledge: 20, health: 15 },
         buildTime: 4,
         dailyProduction: { supplies: 6, health: 3, hope: 1 },
         dailyMaintenance: { supplies: 2, knowledge: 1 },
-        specialEffects: ['Removes radiation', 'Medical-grade water', 'Irrigation support']
+        specialEffects: [
+          'Removes radiation',
+          'Medical-grade water',
+          'Irrigation support',
+        ],
       },
       {
         level: 3,
         name: 'Atmospheric Water Generator',
-        description: 'Extracts pure water directly from the atmosphere using solar power',
+        description:
+          'Extracts pure water directly from the atmosphere using solar power',
         buildCost: { supplies: 70, knowledge: 40, health: 25 },
         buildTime: 6,
         dailyProduction: { supplies: 10, health: 5, hope: 3, soilHealth: 1 },
         dailyMaintenance: { knowledge: 1 },
-        specialEffects: ['Self-sustaining', 'Atmospheric cleaning', 'Unlimited water source']
-      }
-    ]
+        specialEffects: [
+          'Self-sustaining',
+          'Atmospheric cleaning',
+          'Unlimited water source',
+        ],
+      },
+    ],
   },
 
   research_lab: {
     type: 'research_lab',
     name: 'Research Laboratory',
-    description: 'Scientific facility for advancing restoration knowledge and techniques',
+    description:
+      'Scientific facility for advancing restoration knowledge and techniques',
     icon: '🔬',
     category: 'research',
     unlockRequirements: {
       knowledge: 25,
-      restorationProgress: 15
+      restorationProgress: 15,
     },
     levels: [
       {
@@ -116,39 +143,54 @@ export const structureBlueprints: Record<StructureType, StructureBlueprint> = {
         buildTime: 3,
         dailyProduction: { knowledge: 3, hope: 1 },
         dailyMaintenance: { supplies: 1 },
-        specialEffects: ['Soil composition analysis', 'Plant health monitoring', 'Weather prediction']
+        specialEffects: [
+          'Soil composition analysis',
+          'Plant health monitoring',
+          'Weather prediction',
+        ],
       },
       {
         level: 2,
         name: 'Environmental Lab',
-        description: 'Comprehensive facility for ecosystem analysis and experimentation',
+        description:
+          'Comprehensive facility for ecosystem analysis and experimentation',
         buildCost: { supplies: 55, knowledge: 35, health: 20 },
         buildTime: 5,
         dailyProduction: { knowledge: 5, soilHealth: 1, hope: 2 },
         dailyMaintenance: { supplies: 2, knowledge: 1 },
-        specialEffects: ['Genetic sequencing', 'Pollution remediation research', 'Climate modeling']
+        specialEffects: [
+          'Genetic sequencing',
+          'Pollution remediation research',
+          'Climate modeling',
+        ],
       },
       {
         level: 3,
         name: 'Restoration Research Institute',
-        description: 'Advanced facility capable of breakthrough ecological discoveries',
+        description:
+          'Advanced facility capable of breakthrough ecological discoveries',
         buildCost: { supplies: 90, knowledge: 60, seeds: 3, health: 35 },
         buildTime: 8,
         dailyProduction: { knowledge: 8, soilHealth: 3, hope: 5, seeds: 1 },
         dailyMaintenance: { supplies: 3, knowledge: 2 },
-        specialEffects: ['Ecosystem simulation', 'Species resurrection', 'Environmental engineering']
-      }
-    ]
+        specialEffects: [
+          'Ecosystem simulation',
+          'Species resurrection',
+          'Environmental engineering',
+        ],
+      },
+    ],
   },
 
   solar_panel: {
     type: 'solar_panel',
     name: 'Solar Power Array',
-    description: 'Renewable energy system that powers other structures more efficiently',
+    description:
+      'Renewable energy system that powers other structures more efficiently',
     icon: '☀️',
     category: 'utility',
     unlockRequirements: {
-      knowledge: 20
+      knowledge: 20,
     },
     levels: [
       {
@@ -159,17 +201,25 @@ export const structureBlueprints: Record<StructureType, StructureBlueprint> = {
         buildTime: 2,
         dailyProduction: { hope: 2 },
         dailyMaintenance: { supplies: 0 },
-        specialEffects: ['Reduces maintenance costs for all structures by 25%', 'Clean energy']
+        specialEffects: [
+          'Reduces maintenance costs for all structures by 25%',
+          'Clean energy',
+        ],
       },
       {
         level: 2,
         name: 'Efficient Solar Array',
-        description: 'High-efficiency panels with battery storage for consistent power',
+        description:
+          'High-efficiency panels with battery storage for consistent power',
         buildCost: { supplies: 60, knowledge: 25, health: 15 },
         buildTime: 4,
         dailyProduction: { hope: 4, supplies: 1 },
         dailyMaintenance: { supplies: 0 },
-        specialEffects: ['Reduces maintenance costs by 50%', 'Powers water purification', 'Energy surplus']
+        specialEffects: [
+          'Reduces maintenance costs by 50%',
+          'Powers water purification',
+          'Energy surplus',
+        ],
       },
       {
         level: 3,
@@ -179,52 +229,72 @@ export const structureBlueprints: Record<StructureType, StructureBlueprint> = {
         buildTime: 6,
         dailyProduction: { hope: 6, supplies: 3, knowledge: 1 },
         dailyMaintenance: { supplies: 0 },
-        specialEffects: ['Eliminates maintenance costs', 'Boosts all production by 25%', 'Grid stability']
-      }
-    ]
+        specialEffects: [
+          'Eliminates maintenance costs',
+          'Boosts all production by 25%',
+          'Grid stability',
+        ],
+      },
+    ],
   },
 
   workshop: {
     type: 'workshop',
     name: 'Workshop',
-    description: 'Crafting and repair facility for tools, equipment, and infrastructure',
+    description:
+      'Crafting and repair facility for tools, equipment, and infrastructure',
     icon: '🔧',
     category: 'utility',
     unlockRequirements: {
-      knowledge: 8
+      knowledge: 8,
     },
     levels: [
       {
         level: 1,
         name: 'Basic Workshop',
-        description: 'Simple tools and workbench for essential repairs and crafting',
+        description:
+          'Simple tools and workbench for essential repairs and crafting',
         buildCost: { supplies: 15, knowledge: 5, health: 8 },
         buildTime: 2,
         dailyProduction: { supplies: 2 },
         dailyMaintenance: { supplies: 1 },
-        specialEffects: ['Structure maintenance', 'Tool crafting', 'Equipment repair']
+        specialEffects: [
+          'Structure maintenance',
+          'Tool crafting',
+          'Equipment repair',
+        ],
       },
       {
         level: 2,
         name: 'Engineering Workshop',
-        description: 'Advanced tools and machinery for complex construction projects',
+        description:
+          'Advanced tools and machinery for complex construction projects',
         buildCost: { supplies: 40, knowledge: 18, health: 15 },
         buildTime: 4,
         dailyProduction: { supplies: 4, knowledge: 1 },
         dailyMaintenance: { supplies: 1 },
-        specialEffects: ['Faster construction', 'Advanced materials', 'Precision instruments']
+        specialEffects: [
+          'Faster construction',
+          'Advanced materials',
+          'Precision instruments',
+        ],
       },
       {
         level: 3,
         name: 'Fabrication Facility',
-        description: 'Automated manufacturing system for sophisticated equipment',
+        description:
+          'Automated manufacturing system for sophisticated equipment',
         buildCost: { supplies: 75, knowledge: 35, health: 25 },
         buildTime: 6,
         dailyProduction: { supplies: 7, knowledge: 2, hope: 2 },
         dailyMaintenance: { supplies: 2, knowledge: 1 },
-        specialEffects: ['Automated production', 'Quality improvements', 'Innovation research']
-      }
-    ]
+        specialEffects: [
+          'Automated production',
+          'Quality improvements',
+          'Innovation research',
+        ],
+      },
+    ],
   },
 
   storage_facility: {
@@ -234,44 +304,59 @@ export const structureBlueprints: Record<StructureType, StructureBlueprint> = {
     icon: '📦',
     category: 'utility',
     unlockRequirements: {
-      knowledge: 5
+      knowledge: 5,
     },
     levels: [
       {
         level: 1,
         name: 'Basic Storage',
-        description: 'Simple warehouse with climate control for resource preservation',
+        description:
+          'Simple warehouse with climate control for resource preservation',
         buildCost: { supplies: 10, knowledge: 3, health: 5 },
         buildTime: 1,
         dailyProduction: {},
         dailyMaintenance: {},
         capacity: 50,
-        specialEffects: ['Increases resource caps by 50%', 'Prevents spoilage', 'Organized inventory']
+        specialEffects: [
+          'Increases resource caps by 50%',
+          'Prevents spoilage',
+          'Organized inventory',
+        ],
       },
       {
         level: 2,
         name: 'Climate-Controlled Vault',
-        description: 'Advanced storage with environmental controls and security',
+        description:
+          'Advanced storage with environmental controls and security',
         buildCost: { supplies: 25, knowledge: 12, health: 10 },
         buildTime: 3,
         dailyProduction: { hope: 1 },
         dailyMaintenance: { supplies: 1 },
         capacity: 100,
-        specialEffects: ['Increases resource caps by 100%', 'Seed preservation', 'Reduces waste']
+        specialEffects: [
+          'Increases resource caps by 100%',
+          'Seed preservation',
+          'Reduces waste',
+        ],
       },
       {
         level: 3,
         name: 'Automated Distribution Center',
-        description: 'Smart storage system with automated logistics and preservation',
+        description:
+          'Smart storage system with automated logistics and preservation',
         buildCost: { supplies: 50, knowledge: 25, health: 18 },
         buildTime: 5,
         dailyProduction: { hope: 3, supplies: 1 },
         dailyMaintenance: { supplies: 1, knowledge: 1 },
         capacity: 200,
-        specialEffects: ['Increases all resource caps by 150%', 'Automated distribution', 'Resource optimization']
-      }
-    ]
-  }
+        specialEffects: [
+          'Increases all resource caps by 150%',
+          'Automated distribution',
+          'Resource optimization',
+        ],
+      },
+    ],
+  },
 };
 
 export class BaseBuildingManager {
@@ -295,39 +380,53 @@ export class BaseBuildingManager {
   /**
    * Check if a structure type can be built
    */
-  static canBuildStructure(type: StructureType, level: number, gameState: GameState): {
+  static canBuildStructure(
+    type: StructureType,
+    level: number,
+    gameState: GameState
+  ): {
     canBuild: boolean;
     reason?: string;
-    requirements?: StructureBlueprint['unlockRequirements'] | Record<string, number>;
+    requirements?:
+      | StructureBlueprint['unlockRequirements']
+      | Record<string, number>;
   } {
     const blueprint = structureBlueprints[type];
     const structureLevel = blueprint.levels[level - 1];
 
     // Check unlock requirements
-    if (blueprint.unlockRequirements.knowledge && gameState.knowledge < blueprint.unlockRequirements.knowledge) {
+    if (
+      blueprint.unlockRequirements.knowledge &&
+      gameState.knowledge < blueprint.unlockRequirements.knowledge
+    ) {
       return {
         canBuild: false,
         reason: `Requires ${blueprint.unlockRequirements.knowledge} Knowledge`,
-        requirements: blueprint.unlockRequirements
+        requirements: blueprint.unlockRequirements,
       };
     }
 
-    if (blueprint.unlockRequirements.restorationProgress && gameState.restorationProgress < blueprint.unlockRequirements.restorationProgress) {
+    if (
+      blueprint.unlockRequirements.restorationProgress &&
+      gameState.restorationProgress <
+        blueprint.unlockRequirements.restorationProgress
+    ) {
       return {
         canBuild: false,
         reason: `Requires ${blueprint.unlockRequirements.restorationProgress}% Restoration Progress`,
-        requirements: blueprint.unlockRequirements
+        requirements: blueprint.unlockRequirements,
       };
     }
 
     // Check prerequisite structures
     if (blueprint.unlockRequirements.prerequisiteStructures) {
-      for (const prereq of blueprint.unlockRequirements.prerequisiteStructures) {
+      for (const prereq of blueprint.unlockRequirements
+        .prerequisiteStructures) {
         if (!this.hasStructure(prereq)) {
           return {
             canBuild: false,
             reason: `Requires ${structureBlueprints[prereq].name}`,
-            requirements: blueprint.unlockRequirements
+            requirements: blueprint.unlockRequirements,
           };
         }
       }
@@ -339,7 +438,7 @@ export class BaseBuildingManager {
       return {
         canBuild: false,
         reason: `Already have ${blueprint.name} Level ${existing.level}`,
-        requirements: blueprint.unlockRequirements
+        requirements: blueprint.unlockRequirements,
       };
     }
 
@@ -351,7 +450,7 @@ export class BaseBuildingManager {
         return {
           canBuild: false,
           reason: `Insufficient ${resource}: need ${cost}, have ${current}`,
-          requirements: buildCost
+          requirements: buildCost,
         };
       }
     }
@@ -362,7 +461,11 @@ export class BaseBuildingManager {
   /**
    * Start construction of a structure
    */
-  static startConstruction(type: StructureType, level: number, gameState: GameState): boolean {
+  static startConstruction(
+    type: StructureType,
+    level: number,
+    gameState: GameState
+  ): boolean {
     const canBuild = this.canBuildStructure(type, level, gameState);
     if (!canBuild.canBuild) {
       return false;
@@ -379,7 +482,7 @@ export class BaseBuildingManager {
       totalDays: structureLevel.buildTime,
       resourcesSpent: structureLevel.buildCost,
       workersAssigned: [], // Could add NPC assignment later
-      canCancel: true
+      canCancel: true,
     };
 
     this.constructionProjects.push(project);
@@ -424,8 +527,14 @@ export class BaseBuildingManager {
       // Apply production bonuses
       if (level.dailyProduction) {
         Object.entries(level.dailyProduction).forEach(([resource, amount]) => {
-          const bonus = workshopBonus && (resource === 'supplies' || resource === 'knowledge') ? 1.25 : 1;
-          resourceChanges[resource] = (resourceChanges[resource] || 0) + (amount * structure.efficiency / 100 * bonus);
+          const bonus =
+            workshopBonus &&
+            (resource === 'supplies' || resource === 'knowledge')
+              ? 1.25
+              : 1;
+          resourceChanges[resource] =
+            (resourceChanges[resource] || 0) +
+            ((amount * structure.efficiency) / 100) * bonus;
         });
       }
 
@@ -433,7 +542,8 @@ export class BaseBuildingManager {
       if (level.dailyMaintenance) {
         Object.entries(level.dailyMaintenance).forEach(([resource, cost]) => {
           const reducedCost = cost * (1 - solarEfficiency);
-          resourceChanges[resource] = (resourceChanges[resource] || 0) - reducedCost;
+          resourceChanges[resource] =
+            (resourceChanges[resource] || 0) - reducedCost;
         });
       }
 
@@ -444,7 +554,9 @@ export class BaseBuildingManager {
 
       // Maintenance warnings
       if (structure.condition < 40) {
-        maintenanceEvents.push(`${blueprint.name} Level ${structure.level} needs maintenance (${Math.round(structure.condition)}% condition)`);
+        maintenanceEvents.push(
+          `${blueprint.name} Level ${structure.level} needs maintenance (${Math.round(structure.condition)}% condition)`
+        );
       }
     });
 
@@ -455,7 +567,9 @@ export class BaseBuildingManager {
    * Complete a construction project
    */
   private static completeConstruction(project: ConstructionProject): void {
-    const existing = this.structures.find(s => s.type === project.structureType);
+    const existing = this.structures.find(
+      s => s.type === project.structureType
+    );
 
     if (existing) {
       // Upgrade existing structure
@@ -473,7 +587,7 @@ export class BaseBuildingManager {
         efficiency: 100,
         daysBuilt: 0,
         isActive: true,
-        lastMaintenance: 0
+        lastMaintenance: 0,
       };
       this.structures.push(newStructure);
     }
@@ -486,18 +600,25 @@ export class BaseBuildingManager {
     blueprint: StructureBlueprint;
     availableLevels: number[];
   }> {
-    return Object.values(structureBlueprints).map(blueprint => {
-      const availableLevels: number[] = [];
+    return Object.values(structureBlueprints)
+      .map(blueprint => {
+        const availableLevels: number[] = [];
 
-      for (let level = 1; level <= blueprint.levels.length; level++) {
-        const canBuild = this.canBuildStructure(blueprint.type, level, gameState);
-        if (canBuild.canBuild || level === 1) { // Always show level 1 for reference
-          availableLevels.push(level);
+        for (let level = 1; level <= blueprint.levels.length; level++) {
+          const canBuild = this.canBuildStructure(
+            blueprint.type,
+            level,
+            gameState
+          );
+          if (canBuild.canBuild || level === 1) {
+            // Always show level 1 for reference
+            availableLevels.push(level);
+          }
         }
-      }
 
-      return { blueprint, availableLevels };
-    }).filter(item => item.availableLevels.length > 0);
+        return { blueprint, availableLevels };
+      })
+      .filter(item => item.availableLevels.length > 0);
   }
 
   /**
@@ -512,10 +633,14 @@ export class BaseBuildingManager {
     if (!solarPanel) return 0;
 
     switch (solarPanel.level) {
-      case 1: return 0.25;
-      case 2: return 0.50;
-      case 3: return 1.00;
-      default: return 0;
+      case 1:
+        return 0.25;
+      case 2:
+        return 0.5;
+      case 3:
+        return 1.0;
+      default:
+        return 0;
     }
   }
 
@@ -527,7 +652,10 @@ export class BaseBuildingManager {
   /**
    * Perform maintenance on a structure
    */
-  static performMaintenance(structureId: string, gameState: GameState): { success: boolean; cost: Record<string, number> } {
+  static performMaintenance(
+    structureId: string,
+    gameState: GameState
+  ): { success: boolean; cost: Record<string, number> } {
     const structure = this.structures.find(s => s.id === structureId);
     if (!structure) return { success: false, cost: {} };
 
@@ -584,16 +712,23 @@ export class BaseBuildingManager {
       }
     });
 
-    const averageCondition = this.structures.length > 0
-      ? this.structures.reduce((sum, s) => sum + s.condition, 0) / this.structures.length
-      : 100;
+    const averageCondition =
+      this.structures.length > 0
+        ? this.structures.reduce((sum, s) => sum + s.condition, 0) /
+          this.structures.length
+        : 100;
 
     // Check for maintenance events
     const maintenanceEvents: string[] = [];
     this.structures.forEach(structure => {
-      if (structure.condition < baseBuildingConstants.MAINTENANCE_WARNING_THRESHOLD) {
+      if (
+        structure.condition <
+        baseBuildingConstants.MAINTENANCE_WARNING_THRESHOLD
+      ) {
         const blueprint = structureBlueprints[structure.type];
-        maintenanceEvents.push(`${blueprint.name} Level ${structure.level} needs maintenance (${Math.round(structure.condition)}% condition)`);
+        maintenanceEvents.push(
+          `${blueprint.name} Level ${structure.level} needs maintenance (${Math.round(structure.condition)}% condition)`
+        );
       }
     });
 
@@ -601,7 +736,7 @@ export class BaseBuildingManager {
       totalStructures: this.structures.length,
       averageCondition,
       dailyProduction,
-      maintenanceEvents
+      maintenanceEvents,
     };
   }
 

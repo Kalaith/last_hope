@@ -2,19 +2,19 @@ import type { GameState } from '../types/game';
 
 export const initialGameState: GameState = {
   // New streamlined resources
-  hope: 50,           // Starting with moderate hope
-  health: 80,         // Good physical condition
-  supplies: 25,       // Limited starting supplies
-  knowledge: 10,      // Basic knowledge
-  seeds: 3,           // A few precious seeds
+  hope: 50, // Starting with moderate hope
+  health: 80, // Good physical condition
+  supplies: 25, // Limited starting supplies
+  knowledge: 10, // Basic knowledge
+  seeds: 3, // A few precious seeds
 
   // Ecosystem state
   ecosystem: {
-    soilHealth: 5,      // Very poor soil condition
-    plantDiversity: 0,  // No plants yet
+    soilHealth: 5, // Very poor soil condition
+    plantDiversity: 0, // No plants yet
     weatherPattern: 'stable',
     seasonalCycle: 'spring',
-    plantInstances: []
+    plantInstances: [],
   },
 
   // NPCs - Elena, Marcus, Dr. Chen
@@ -26,7 +26,7 @@ export const initialGameState: GameState = {
       trustLevel: 30,
       personality: 'protective',
       dialogueMemory: [],
-      currentConcerns: ['children_safety', 'food_shortage']
+      currentConcerns: ['children_safety', 'food_shortage'],
     },
     marcus: {
       id: 'marcus',
@@ -35,7 +35,7 @@ export const initialGameState: GameState = {
       trustLevel: 25,
       personality: 'pragmatic',
       dialogueMemory: [],
-      currentConcerns: ['water_purifier', 'supplies']
+      currentConcerns: ['water_purifier', 'supplies'],
     },
     chen: {
       id: 'chen',
@@ -44,8 +44,8 @@ export const initialGameState: GameState = {
       trustLevel: 40,
       personality: 'scientific',
       dialogueMemory: [],
-      currentConcerns: ['soil_analysis', 'seed_preservation']
-    }
+      currentConcerns: ['soil_analysis', 'seed_preservation'],
+    },
   },
 
   relationships: {},
@@ -72,14 +72,14 @@ export const initialGameState: GameState = {
     water: 2,
     energy: 4,
     knowledge: 1,
-    seeds: 0
+    seeds: 0,
   },
   skills: {
     survival: 2,
     science: 1,
     leadership: 1,
-    empathy: 2
+    empathy: 2,
   },
   storyProgress: 0,
-  areasExplored: 1
+  areasExplored: 1,
 };

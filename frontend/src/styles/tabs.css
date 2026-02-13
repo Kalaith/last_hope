@@ -112,9 +112,9 @@
 .dashboard-layout {
   display: grid;
   grid-template-areas:
-    "status status"
-    "story story"
-    "quick quick";
+    'status status'
+    'story story'
+    'quick quick';
   grid-template-rows: auto 1fr auto;
   gap: 1rem;
   height: 100%;
@@ -161,8 +161,8 @@
 .world-layout {
   display: grid;
   grid-template-areas:
-    "map ecosystem"
-    "map ecosystem";
+    'map ecosystem'
+    'map ecosystem';
   grid-template-columns: 2fr 1fr;
   gap: 1rem;
   height: 100%;
@@ -210,8 +210,8 @@
 .settlement-layout {
   display: grid;
   grid-template-areas:
-    "base resources"
-    "base stats";
+    'base resources'
+    'base stats';
   grid-template-columns: 2fr 1fr;
   grid-template-rows: auto 1fr;
   gap: 1rem;
@@ -292,8 +292,8 @@
 .research-layout {
   display: grid;
   grid-template-areas:
-    "tree summary"
-    "progress summary";
+    'tree summary'
+    'progress summary';
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 2fr 1fr;
   gap: 1rem;
@@ -365,9 +365,9 @@
 
   .dashboard-layout {
     grid-template-areas:
-      "status"
-      "story"
-      "quick";
+      'status'
+      'story'
+      'quick';
     grid-template-columns: 1fr;
   }
 
@@ -380,21 +380,21 @@
   .research-layout {
     grid-template-columns: 1fr;
     grid-template-areas:
-      "map"
-      "ecosystem";
+      'map'
+      'ecosystem';
   }
 
   .settlement-layout {
     grid-template-areas:
-      "base"
-      "resources"
-      "stats";
+      'base'
+      'resources'
+      'stats';
   }
 
   .research-layout {
     grid-template-areas:
-      "tree"
-      "progress"
-      "summary";
+      'tree'
+      'progress'
+      'summary';
   }
 }

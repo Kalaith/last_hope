@@ -30,15 +30,16 @@ export const scarcityEvents: ScarcityEvent[] = [
     resource: 'supplies',
     severity: 'severe',
     title: 'Water Purifier Malfunction',
-    description: 'The water purification system is failing. Without clean water, supplies are being consumed faster to compensate.',
+    description:
+      'The water purification system is failing. Without clean water, supplies are being consumed faster to compensate.',
     duration: 5,
     effects: {
       dailyDrain: 8,
       choiceModifiers: {
-        'water_related': 15 // Water-related choices cost more
-      }
+        water_related: 15, // Water-related choices cost more
+      },
     },
-    triggerConditions: (state) => state.supplies < 30 && Math.random() < 0.3
+    triggerConditions: state => state.supplies < 30 && Math.random() < 0.3,
   },
 
   {
@@ -46,15 +47,17 @@ export const scarcityEvents: ScarcityEvent[] = [
     resource: 'supplies',
     severity: 'moderate',
     title: 'Harsh Winter Conditions',
-    description: 'An unexpected cold snap increases energy needs. People need more food and warmth to survive.',
+    description:
+      'An unexpected cold snap increases energy needs. People need more food and warmth to survive.',
     duration: 10,
     effects: {
       dailyDrain: 4,
       choiceModifiers: {
-        'outdoor': 10 // Outdoor activities cost more
-      }
+        outdoor: 10, // Outdoor activities cost more
+      },
     },
-    triggerConditions: (state) => state.ecosystem.seasonalCycle === 'winter' && Math.random() < 0.4
+    triggerConditions: state =>
+      state.ecosystem.seasonalCycle === 'winter' && Math.random() < 0.4,
   },
 
   {
@@ -62,13 +65,17 @@ export const scarcityEvents: ScarcityEvent[] = [
     resource: 'seeds',
     severity: 'critical',
     title: 'Seed Contamination Crisis',
-    description: 'Some of your precious seeds have been contaminated by residual toxins. Dr. Chen works frantically to save what he can.',
+    description:
+      'Some of your precious seeds have been contaminated by residual toxins. Dr. Chen works frantically to save what he can.',
     duration: 3,
     effects: {
       dailyDrain: 1,
-      maxCapacity: Math.floor(50 * 0.7) // Reduce max seeds by 30%
+      maxCapacity: Math.floor(50 * 0.7), // Reduce max seeds by 30%
     },
-    triggerConditions: (state) => state.seeds > 10 && state.ecosystem.soilHealth < 20 && Math.random() < 0.25
+    triggerConditions: state =>
+      state.seeds > 10 &&
+      state.ecosystem.soilHealth < 20 &&
+      Math.random() < 0.25,
   },
 
   {
@@ -76,15 +83,16 @@ export const scarcityEvents: ScarcityEvent[] = [
     resource: 'knowledge',
     severity: 'moderate',
     title: 'Critical Information Lost',
-    description: 'A damaged storage device contained important research data. Dr. Chen looks devastated as months of work vanish.',
+    description:
+      'A damaged storage device contained important research data. Dr. Chen looks devastated as months of work vanish.',
     duration: 7,
     effects: {
       dailyDrain: 2,
       choiceModifiers: {
-        'research': 20 // Research choices require more knowledge
-      }
+        research: 20, // Research choices require more knowledge
+      },
     },
-    triggerConditions: (state) => state.knowledge > 30 && Math.random() < 0.2
+    triggerConditions: state => state.knowledge > 30 && Math.random() < 0.2,
   },
 
   {
@@ -92,20 +100,26 @@ export const scarcityEvents: ScarcityEvent[] = [
     resource: 'hope',
     severity: 'severe',
     title: 'Community Morale Crisis',
-    description: 'Despair spreads through the settlement. People question whether restoration is possible. Some talk of abandoning the mission.',
+    description:
+      'Despair spreads through the settlement. People question whether restoration is possible. Some talk of abandoning the mission.',
     duration: 8,
     effects: {
       dailyDrain: 5,
       choiceModifiers: {
-        'risky': 15 // Risky choices cost more hope
-      }
+        risky: 15, // Risky choices cost more hope
+      },
     },
-    triggerConditions: (state) => state.hope < 25 && Object.values(state.npcs).some(npc => npc.mood === 'desperate')
-  }
+    triggerConditions: state =>
+      state.hope < 25 &&
+      Object.values(state.npcs).some(npc => npc.mood === 'desperate'),
+  },
 ];
 
 export class ScarcityManager {
-  private static activeEvents: Map<string, { event: ScarcityEvent; daysRemaining: number }> = new Map();
+  private static activeEvents: Map<
+    string,
+    { event: ScarcityEvent; daysRemaining: number }
+  > = new Map();
   private static lastPressureCheck: number = 0;
 
   /**
@@ -120,26 +134,34 @@ export class ScarcityManager {
       resource: 'hope',
       pressure: hopePressure,
       trend: this.calculateTrend('hope', gameState),
-      timeToDepletion: gameState.hope <= 10 ? Math.ceil(gameState.hope / 2) : undefined
+      timeToDepletion:
+        gameState.hope <= 10 ? Math.ceil(gameState.hope / 2) : undefined,
     });
 
     // Supplies pressure - consider daily consumption
     const dailyConsumption = this.calculateDailyConsumption('supplies');
-    const suppliesPressure = Math.min(100, (100 - gameState.supplies) + (dailyConsumption * 10));
+    const suppliesPressure = Math.min(
+      100,
+      100 - gameState.supplies + dailyConsumption * 10
+    );
     pressures.push({
       resource: 'supplies',
       pressure: suppliesPressure,
       trend: this.calculateTrend('supplies', gameState),
-      timeToDepletion: dailyConsumption > 0 ? Math.ceil(gameState.supplies / dailyConsumption) : undefined
+      timeToDepletion:
+        dailyConsumption > 0
+          ? Math.ceil(gameState.supplies / dailyConsumption)
+          : undefined,
     });
 
     // Seeds pressure - critical resource
-    const seedsPressure = gameState.seeds < 5 ? 80 : Math.max(0, (10 - gameState.seeds) * 10);
+    const seedsPressure =
+      gameState.seeds < 5 ? 80 : Math.max(0, (10 - gameState.seeds) * 10);
     pressures.push({
       resource: 'seeds',
       pressure: seedsPressure,
       trend: this.calculateTrend('seeds', gameState),
-      timeToDepletion: gameState.seeds <= 2 ? gameState.seeds : undefined
+      timeToDepletion: gameState.seeds <= 2 ? gameState.seeds : undefined,
     });
 
     // Health pressure
@@ -148,7 +170,8 @@ export class ScarcityManager {
       resource: 'health',
       pressure: healthPressure,
       trend: this.calculateTrend('health', gameState),
-      timeToDepletion: gameState.health <= 15 ? Math.ceil(gameState.health / 3) : undefined
+      timeToDepletion:
+        gameState.health <= 15 ? Math.ceil(gameState.health / 3) : undefined,
     });
 
     return pressures.sort((a, b) => b.pressure - a.pressure);
@@ -218,9 +241,11 @@ export class ScarcityManager {
     this.activeEvents.forEach(activeEvent => {
       const event = activeEvent.event;
       if (event.effects.choiceModifiers) {
-        Object.entries(event.effects.choiceModifiers).forEach(([key, value]) => {
-          modifiers[key] = (modifiers[key] || 0) + value;
-        });
+        Object.entries(event.effects.choiceModifiers).forEach(
+          ([key, value]) => {
+            modifiers[key] = (modifiers[key] || 0) + value;
+          }
+        );
       }
     });
 
@@ -230,7 +255,10 @@ export class ScarcityManager {
   /**
    * Check if a choice should have increased costs
    */
-  static getModifiedChoiceCosts(choiceText: string, originalCosts: Record<string, number>): Record<string, number> {
+  static getModifiedChoiceCosts(
+    choiceText: string,
+    originalCosts: Record<string, number>
+  ): Record<string, number> {
     const modifiers = this.getChoiceCostModifiers();
     const modifiedCosts = { ...originalCosts };
 
@@ -242,23 +270,37 @@ export class ScarcityManager {
 
       switch (modifier) {
         case 'water_related':
-          applies = lowerChoice.includes('water') || lowerChoice.includes('drink') || lowerChoice.includes('clean');
+          applies =
+            lowerChoice.includes('water') ||
+            lowerChoice.includes('drink') ||
+            lowerChoice.includes('clean');
           break;
         case 'outdoor':
-          applies = lowerChoice.includes('outside') || lowerChoice.includes('explore') || lowerChoice.includes('scavenge');
+          applies =
+            lowerChoice.includes('outside') ||
+            lowerChoice.includes('explore') ||
+            lowerChoice.includes('scavenge');
           break;
         case 'research':
-          applies = lowerChoice.includes('research') || lowerChoice.includes('study') || lowerChoice.includes('experiment');
+          applies =
+            lowerChoice.includes('research') ||
+            lowerChoice.includes('study') ||
+            lowerChoice.includes('experiment');
           break;
         case 'risky':
-          applies = lowerChoice.includes('risk') || lowerChoice.includes('dangerous') || lowerChoice.includes('attempt');
+          applies =
+            lowerChoice.includes('risk') ||
+            lowerChoice.includes('dangerous') ||
+            lowerChoice.includes('attempt');
           break;
       }
 
       if (applies) {
         Object.keys(modifiedCosts).forEach(resource => {
           if (modifiedCosts[resource] > 0) {
-            modifiedCosts[resource] = Math.ceil(modifiedCosts[resource] * (1 + increase / 100));
+            modifiedCosts[resource] = Math.ceil(
+              modifiedCosts[resource] * (1 + increase / 100)
+            );
           }
         });
       }
@@ -284,12 +326,18 @@ export class ScarcityManager {
     pressures.forEach(pressure => {
       if (pressure.pressure >= 80) {
         if (pressure.timeToDepletion !== undefined) {
-          warnings.push(`${pressure.resource.toUpperCase()} CRITICAL: ${pressure.timeToDepletion} days remaining`);
+          warnings.push(
+            `${pressure.resource.toUpperCase()} CRITICAL: ${pressure.timeToDepletion} days remaining`
+          );
         } else {
-          warnings.push(`${pressure.resource.toUpperCase()} at critical levels`);
+          warnings.push(
+            `${pressure.resource.toUpperCase()} at critical levels`
+          );
         }
       } else if (pressure.pressure >= 60) {
-        warnings.push(`${pressure.resource.charAt(0).toUpperCase() + pressure.resource.slice(1)} running low`);
+        warnings.push(
+          `${pressure.resource.charAt(0).toUpperCase() + pressure.resource.slice(1)} running low`
+        );
       }
     });
 
@@ -302,11 +350,14 @@ export class ScarcityManager {
   private static activateEvent(event: ScarcityEvent): void {
     this.activeEvents.set(event.id, {
       event,
-      daysRemaining: event.duration
+      daysRemaining: event.duration,
     });
   }
 
-  private static calculateTrend(resource: string, gameState: GameState): 'improving' | 'stable' | 'worsening' {
+  private static calculateTrend(
+    resource: string,
+    gameState: GameState
+  ): 'improving' | 'stable' | 'worsening' {
     // Simple trend calculation - in a full implementation, this would track historical data
     const currentValue = getResourceValue(gameState, resource);
 
@@ -321,7 +372,7 @@ export class ScarcityManager {
       supplies: 3,
       hope: 1,
       health: 0.5,
-      seeds: 0
+      seeds: 0,
     };
 
     let consumption = baseCosts[resource] || 0;

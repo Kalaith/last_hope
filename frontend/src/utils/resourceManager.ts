@@ -3,7 +3,7 @@ import { ScarcityManager } from './scarcityManager';
 import {
   resourceCriticalThresholds,
   resourceWarningThresholds,
-  dailyConsumptionRates
+  dailyConsumptionRates,
 } from '../constants/gameConstants';
 
 // Re-export for backward compatibility
@@ -11,7 +11,7 @@ export const resourceThresholds = resourceCriticalThresholds;
 export const dailyConsumption = {
   supplies: dailyConsumptionRates.SUPPLIES_BASE,
   health: dailyConsumptionRates.HEALTH_NATURAL_LOSS,
-  hope: dailyConsumptionRates.HOPE_NATURAL_DECAY
+  hope: dailyConsumptionRates.HOPE_NATURAL_DECAY,
 } as const;
 
 export interface ResourceCheckResult {
@@ -24,13 +24,15 @@ export class ResourceManager {
   /**
    * Check resource levels and return warnings/consequences
    */
-  static checkResourceStatus(gameState: GameState): Record<keyof CoreResources, ResourceCheckResult> {
+  static checkResourceStatus(
+    gameState: GameState
+  ): Record<keyof CoreResources, ResourceCheckResult> {
     return {
       hope: this.checkHope(gameState.hope),
       health: this.checkHealth(gameState.health),
       supplies: this.checkSupplies(gameState.supplies),
       knowledge: this.checkKnowledge(gameState.knowledge),
-      seeds: this.checkSeeds(gameState.seeds)
+      seeds: this.checkSeeds(gameState.seeds),
     };
   }
 
@@ -39,21 +41,29 @@ export class ResourceManager {
       return {
         type: 'critical',
         message: 'All hope is lost. The weight of despair crushes your spirit.',
-        consequences: ['Game Over']
+        consequences: ['Game Over'],
       };
     }
     if (hope <= resourceThresholds.HOPE_CRITICAL) {
       return {
         type: 'critical',
-        message: 'Your hope is nearly extinguished. NPCs are losing faith in you.',
-        consequences: ['NPCs become hostile', 'Refuse cooperation', 'Bad dialogue options only']
+        message:
+          'Your hope is nearly extinguished. NPCs are losing faith in you.',
+        consequences: [
+          'NPCs become hostile',
+          'Refuse cooperation',
+          'Bad dialogue options only',
+        ],
       };
     }
     if (hope <= resourceWarningThresholds.HOPE_LOW) {
       return {
         type: 'warning',
         message: 'Hope is running low. You struggle to maintain optimism.',
-        consequences: ['Reduced NPC trust gains', 'Pessimistic dialogue options']
+        consequences: [
+          'Reduced NPC trust gains',
+          'Pessimistic dialogue options',
+        ],
       };
     }
     return { type: 'normal' };
@@ -63,15 +73,24 @@ export class ResourceManager {
     if (health <= resourceThresholds.HEALTH_CRITICAL) {
       return {
         type: 'critical',
-        message: 'Your body is failing. Every action feels like a monumental effort.',
-        consequences: ['Reduced action success rates', 'Slower plant growth', 'Illness events']
+        message:
+          'Your body is failing. Every action feels like a monumental effort.',
+        consequences: [
+          'Reduced action success rates',
+          'Slower plant growth',
+          'Illness events',
+        ],
       };
     }
     if (health <= resourceWarningThresholds.HEALTH_LOW) {
       return {
         type: 'warning',
-        message: 'You feel weak and tired. The harsh environment is taking its toll.',
-        consequences: ['Slightly reduced efficiency', 'Increased rest requirements']
+        message:
+          'You feel weak and tired. The harsh environment is taking its toll.',
+        consequences: [
+          'Slightly reduced efficiency',
+          'Increased rest requirements',
+        ],
       };
     }
     return { type: 'normal' };
@@ -81,15 +100,23 @@ export class ResourceManager {
     if (supplies <= resourceThresholds.SUPPLIES_CRITICAL) {
       return {
         type: 'critical',
-        message: 'Supplies are nearly exhausted. Starvation and dehydration threaten everyone.',
-        consequences: ['Daily health loss', 'NPCs consider leaving', 'Desperate choices emerge']
+        message:
+          'Supplies are nearly exhausted. Starvation and dehydration threaten everyone.',
+        consequences: [
+          'Daily health loss',
+          'NPCs consider leaving',
+          'Desperate choices emerge',
+        ],
       };
     }
     if (supplies <= 25) {
       return {
         type: 'warning',
         message: 'Supplies are running low. Rationing has become necessary.',
-        consequences: ['Increased tension with NPCs', 'More frequent supply choices']
+        consequences: [
+          'Increased tension with NPCs',
+          'More frequent supply choices',
+        ],
       };
     }
     return { type: 'normal' };
@@ -99,15 +126,23 @@ export class ResourceManager {
     if (knowledge < resourceThresholds.KNOWLEDGE_MIN) {
       return {
         type: 'critical',
-        message: 'Your understanding of restoration techniques is severely limited.',
-        consequences: ['Locked out of advanced plant species', 'No science dialogue', 'Suboptimal choices']
+        message:
+          'Your understanding of restoration techniques is severely limited.',
+        consequences: [
+          'Locked out of advanced plant species',
+          'No science dialogue',
+          'Suboptimal choices',
+        ],
       };
     }
     if (knowledge < 15) {
       return {
         type: 'warning',
         message: 'Your knowledge of restoration is basic. Learning would help.',
-        consequences: ['Limited dialogue options', 'Reduced choice effectiveness']
+        consequences: [
+          'Limited dialogue options',
+          'Reduced choice effectiveness',
+        ],
       };
     }
     return { type: 'normal' };
@@ -117,15 +152,20 @@ export class ResourceManager {
     if (seeds <= resourceThresholds.SEEDS_DEPLETED) {
       return {
         type: 'critical',
-        message: 'No seeds remain. The future of restoration hangs in the balance.',
-        consequences: ['Cannot plant new species', 'Restoration progress halts', 'Hopelessness spiral']
+        message:
+          'No seeds remain. The future of restoration hangs in the balance.',
+        consequences: [
+          'Cannot plant new species',
+          'Restoration progress halts',
+          'Hopelessness spiral',
+        ],
       };
     }
     if (seeds <= 2) {
       return {
         type: 'warning',
         message: 'Only a few precious seeds remain. Use them wisely.',
-        consequences: ['Limited planting options', 'High stakes decisions']
+        consequences: ['Limited planting options', 'High stakes decisions'],
       };
     }
     return { type: 'normal' };
@@ -141,7 +181,12 @@ export class ResourceManager {
     // Apply scarcity effects
     const scarcityEffects = ScarcityManager.processDailyEffects();
 
-    const newSupplies = Math.max(0, gameState.supplies - dailyConsumption.supplies + (scarcityEffects.supplies || 0));
+    const newSupplies = Math.max(
+      0,
+      gameState.supplies -
+        dailyConsumption.supplies +
+        (scarcityEffects.supplies || 0)
+    );
     let newHealth = gameState.health + (scarcityEffects.health || 0);
     let newHope = gameState.hope + (scarcityEffects.hope || 0);
     const newSeeds = gameState.seeds + (scarcityEffects.seeds || 0);
@@ -168,14 +213,17 @@ export class ResourceManager {
       health: Math.max(0, Math.min(100, newHealth)),
       hope: Math.max(0, Math.min(100, newHope)),
       seeds: Math.max(0, Math.min(50, newSeeds)),
-      knowledge: Math.max(0, Math.min(100, newKnowledge))
+      knowledge: Math.max(0, Math.min(100, newKnowledge)),
     };
   }
 
   /**
    * Check if choice requirements are met
    */
-  static canAffordChoice(gameState: GameState, requirements?: Partial<CoreResources>): boolean {
+  static canAffordChoice(
+    gameState: GameState,
+    requirements?: Partial<CoreResources>
+  ): boolean {
     if (!requirements) return true;
 
     for (const [resource, required] of Object.entries(requirements)) {
@@ -202,18 +250,30 @@ export class ResourceManager {
       } else if (key === 'health') {
         updates.health = Math.max(0, Math.min(100, gameState.health + value));
       } else if (key === 'supplies') {
-        updates.supplies = Math.max(0, Math.min(100, gameState.supplies + value));
+        updates.supplies = Math.max(
+          0,
+          Math.min(100, gameState.supplies + value)
+        );
       } else if (key === 'knowledge') {
-        updates.knowledge = Math.max(0, Math.min(100, gameState.knowledge + value));
+        updates.knowledge = Math.max(
+          0,
+          Math.min(100, gameState.knowledge + value)
+        );
       } else if (key === 'seeds') {
         updates.seeds = Math.max(0, Math.min(50, gameState.seeds + value));
       } else if (key === 'soilHealth') {
         updates.ecosystem = {
           ...gameState.ecosystem,
-          soilHealth: Math.max(0, Math.min(100, gameState.ecosystem.soilHealth + value))
+          soilHealth: Math.max(
+            0,
+            Math.min(100, gameState.ecosystem.soilHealth + value)
+          ),
         };
       } else if (key === 'restorationProgress') {
-        updates.restorationProgress = Math.max(0, gameState.restorationProgress + value);
+        updates.restorationProgress = Math.max(
+          0,
+          gameState.restorationProgress + value
+        );
       }
     }
 
@@ -223,13 +283,16 @@ export class ResourceManager {
   /**
    * Get resource display color based on level
    */
-  static getResourceColor(resource: keyof CoreResources, value: number): string {
+  static getResourceColor(
+    resource: keyof CoreResources,
+    value: number
+  ): string {
     const thresholds = {
       hope: { critical: resourceThresholds.HOPE_CRITICAL, warning: 40 },
       health: { critical: resourceThresholds.HEALTH_CRITICAL, warning: 50 },
       supplies: { critical: resourceThresholds.SUPPLIES_CRITICAL, warning: 25 },
       knowledge: { critical: resourceThresholds.KNOWLEDGE_MIN, warning: 15 },
-      seeds: { critical: resourceThresholds.SEEDS_DEPLETED, warning: 2 }
+      seeds: { critical: resourceThresholds.SEEDS_DEPLETED, warning: 2 },
     };
 
     const threshold = thresholds[resource];
@@ -257,15 +320,21 @@ export class ResourceManager {
 
     // Weather effects on resources
     if (gameState.ecosystem?.weatherPattern === 'drought') {
-      resourceUpdates.hope = Math.max(0, (resourceUpdates.hope || gameState.hope) - 1);
+      resourceUpdates.hope = Math.max(
+        0,
+        (resourceUpdates.hope || gameState.hope) - 1
+      );
     } else if (gameState.ecosystem?.weatherPattern === 'storm') {
-      resourceUpdates.supplies = Math.max(0, (resourceUpdates.supplies || gameState.supplies) - 2);
+      resourceUpdates.supplies = Math.max(
+        0,
+        (resourceUpdates.supplies || gameState.supplies) - 2
+      );
     }
 
     return {
       resourceUpdates,
       ecosystemUpdates,
-      npcUpdates
+      npcUpdates,
     };
   }
 }

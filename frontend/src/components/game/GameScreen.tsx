@@ -26,7 +26,7 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
     showingConsequences,
     lastConsequences,
     hideConsequences,
-    getBaseStats
+    getBaseStats,
   } = useGameStore();
 
   // Get current scene data
@@ -44,12 +44,18 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
       // Check streamlined resources
       if (resource === 'hope' && gameState.hope < required) return false;
       if (resource === 'health' && gameState.health < required) return false;
-      if (resource === 'supplies' && gameState.supplies < required) return false;
-      if (resource === 'knowledge' && gameState.knowledge < required) return false;
+      if (resource === 'supplies' && gameState.supplies < required)
+        return false;
+      if (resource === 'knowledge' && gameState.knowledge < required)
+        return false;
       if (resource === 'seeds' && gameState.seeds < required) return false;
 
       // Check ecosystem requirements
-      if (resource === 'soilHealth' && gameState.ecosystem?.soilHealth < required) return false;
+      if (
+        resource === 'soilHealth' &&
+        gameState.ecosystem?.soilHealth < required
+      )
+        return false;
     }
     return true;
   };
@@ -58,12 +64,16 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
     makeChoice(choice);
   };
 
-  const handleZoneClick = (zoneId: string, zoneName: string, zoneState: string) => {
+  const handleZoneClick = (
+    zoneId: string,
+    zoneName: string,
+    zoneState: string
+  ) => {
     // Generate zone interaction based on state
     const zoneChoice: Choice = {
       text: `Interact with ${zoneName}`,
       consequences: getZoneRewards(zoneState),
-      requirements: getZoneRequirements(zoneState)
+      requirements: getZoneRequirements(zoneState),
     };
 
     makeChoice(zoneChoice);
@@ -101,9 +111,7 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
         <div className="story-area">
           <div className="story-content">
             <h3>Loading...</h3>
-            <div className="story-text">
-              Preparing your next chapter...
-            </div>
+            <div className="story-text">Preparing your next chapter...</div>
           </div>
         </div>
       </Screen>
@@ -114,7 +122,8 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
   const baseStats = getBaseStats();
   const notifications = {
     settlement: baseStats.maintenanceEvents.length > 0,
-    research: !gameState.researchProgress?.currentResearch && gameState.knowledge >= 10
+    research:
+      !gameState.researchProgress?.currentResearch && gameState.knowledge >= 10,
   };
 
   return (
@@ -137,19 +146,14 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
           )}
 
           {activeTab === 'world' && (
-            <WorldTab
-              gameState={gameState}
-              onZoneClick={handleZoneClick}
-            />
+            <WorldTab gameState={gameState} onZoneClick={handleZoneClick} />
           )}
 
           {activeTab === 'settlement' && (
             <SettlementTab gameState={gameState} />
           )}
 
-          {activeTab === 'research' && (
-            <ResearchTab gameState={gameState} />
-          )}
+          {activeTab === 'research' && <ResearchTab gameState={gameState} />}
         </div>
       </div>
 
