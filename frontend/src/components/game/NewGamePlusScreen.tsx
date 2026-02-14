@@ -1,14 +1,7 @@
 import { memo } from 'react';
 import { Screen } from '../layout/Screen';
-import type {
-  MetaProgressState,
-  RunHistory,
-  MetaAchievement,
-} from '../../utils/metaProgression';
-import {
-  MetaProgressionManager,
-  metaAchievements,
-} from '../../utils/metaProgression';
+import type { MetaProgressState, RunHistory, MetaAchievement } from '../../utils/metaProgression';
+import { MetaProgressionManager, metaAchievements } from '../../utils/metaProgression';
 
 interface NewGamePlusScreenProps {
   visible: boolean;
@@ -20,12 +13,9 @@ interface NewGamePlusScreenProps {
 
 export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
   ({ visible, metaState, onStartNewRun, onViewRunHistory, onBack }) => {
-    const prestigeScore =
-      MetaProgressionManager.calculatePrestigeScore(metaState);
-    const completionPercentage =
-      MetaProgressionManager.getCompletionPercentage(metaState);
-    const newGameBonuses =
-      MetaProgressionManager.getNewGamePlusBonuses(metaState);
+    const prestigeScore = MetaProgressionManager.calculatePrestigeScore(metaState);
+    const completionPercentage = MetaProgressionManager.getCompletionPercentage(metaState);
+    const newGameBonuses = MetaProgressionManager.getNewGamePlusBonuses(metaState);
     const unlockedAchievements = metaState.achievements.filter(a => a.unlocked);
 
     const getRarityIcon = (rarity: MetaAchievement['rarity']): string => {
@@ -54,9 +44,7 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
       }
     };
 
-    const formatEndCondition = (
-      condition: RunHistory['endCondition']
-    ): string => {
+    const formatEndCondition = (condition: RunHistory['endCondition']): string => {
       switch (condition) {
         case 'victory':
           return 'Restoration Complete';
@@ -84,14 +72,9 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
                 <span className="value">{prestigeScore.toLocaleString()}</span>
               </div>
               <div className="completion-bar">
-                <div className="completion-label">
-                  Overall Progress: {completionPercentage}%
-                </div>
+                <div className="completion-label">Overall Progress: {completionPercentage}%</div>
                 <div className="progress-bar">
-                  <div
-                    className="progress-fill"
-                    style={{ width: `${completionPercentage}%` }}
-                  />
+                  <div className="progress-fill" style={{ width: `${completionPercentage}%` }} />
                 </div>
               </div>
             </div>
@@ -108,21 +91,15 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
                 </div>
                 <div className="stat-item">
                   <span className="stat-label">Days Survived:</span>
-                  <span className="stat-value">
-                    {metaState.totalDaysSurvived}
-                  </span>
+                  <span className="stat-value">{metaState.totalDaysSurvived}</span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-label">Knowledge Gained:</span>
-                  <span className="stat-value">
-                    {metaState.totalKnowledgeGained}
-                  </span>
+                  <span className="stat-value">{metaState.totalKnowledgeGained}</span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-label">Seeds Unlocked:</span>
-                  <span className="stat-value">
-                    {metaState.unlockedSeeds.length}
-                  </span>
+                  <span className="stat-value">{metaState.unlockedSeeds.length}</span>
                 </div>
               </div>
 
@@ -133,9 +110,7 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
                     <span className="run-outcome">
                       {formatEndCondition(metaState.bestRun.endCondition)}
                     </span>
-                    <span className="run-days">
-                      {metaState.bestRun.daysSurvived} days
-                    </span>
+                    <span className="run-days">{metaState.bestRun.daysSurvived} days</span>
                     <span className="run-soil">
                       Soil: {metaState.bestRun.finalEcosystem.soilHealth}%
                     </span>
@@ -147,8 +122,7 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
             {/* Achievements */}
             <div className="achievements-section">
               <h3>
-                🏅 Achievements ({unlockedAchievements.length}/
-                {metaAchievements.length})
+                🏅 Achievements ({unlockedAchievements.length}/{metaAchievements.length})
               </h3>
               <div className="achievements-grid">
                 {metaAchievements.map(achievement => (
@@ -157,24 +131,18 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
                     className={`achievement-item ${achievement.unlocked ? 'unlocked' : 'locked'} ${getRarityClass(achievement.rarity)}`}
                   >
                     <div className="achievement-header">
-                      <span className="achievement-icon">
-                        {achievement.icon}
-                      </span>
+                      <span className="achievement-icon">{achievement.icon}</span>
                       <span className="achievement-rarity">
                         {getRarityIcon(achievement.rarity)}
                       </span>
                     </div>
                     <div className="achievement-content">
                       <h4 className="achievement-name">{achievement.name}</h4>
-                      <p className="achievement-description">
-                        {achievement.description}
-                      </p>
+                      <p className="achievement-description">{achievement.description}</p>
                       {achievement.unlocked && (
                         <div className="achievement-reward">
                           <span className="reward-icon">🎁</span>
-                          <span className="reward-text">
-                            {achievement.reward.description}
-                          </span>
+                          <span className="reward-text">{achievement.reward.description}</span>
                         </div>
                       )}
                     </div>
@@ -199,17 +167,14 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
                   {metaState.unlockedSeeds.length > 0 && (
                     <div className="bonus-item special">
                       <span className="bonus-resource">Unlocked Seeds:</span>
-                      <span className="bonus-value">
-                        {metaState.unlockedSeeds.join(', ')}
-                      </span>
+                      <span className="bonus-value">{metaState.unlockedSeeds.join(', ')}</span>
                     </div>
                   )}
                   {metaState.newGamePlusBonuses.unlockedChoices.length > 0 && (
                     <div className="bonus-item special">
                       <span className="bonus-resource">Special Abilities:</span>
                       <span className="bonus-value">
-                        {metaState.newGamePlusBonuses.unlockedChoices.length}{' '}
-                        unlocked
+                        {metaState.newGamePlusBonuses.unlockedChoices.length} unlocked
                       </span>
                     </div>
                   )}
@@ -221,18 +186,12 @@ export const NewGamePlusScreen = memo<NewGamePlusScreenProps>(
           {/* Action Buttons */}
           <div className="action-section">
             <div className="action-buttons">
-              <button
-                className="action-btn primary"
-                onClick={() => onStartNewRun(false)}
-              >
+              <button className="action-btn primary" onClick={() => onStartNewRun(false)}>
                 🌱 Fresh Start
               </button>
 
               {hasMeaningfulProgress && (
-                <button
-                  className="action-btn enhanced"
-                  onClick={() => onStartNewRun(true)}
-                >
+                <button className="action-btn enhanced" onClick={() => onStartNewRun(true)}>
                   ✨ New Game Plus
                 </button>
               )}

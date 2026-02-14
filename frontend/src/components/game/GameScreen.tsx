@@ -44,18 +44,12 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
       // Check streamlined resources
       if (resource === 'hope' && gameState.hope < required) return false;
       if (resource === 'health' && gameState.health < required) return false;
-      if (resource === 'supplies' && gameState.supplies < required)
-        return false;
-      if (resource === 'knowledge' && gameState.knowledge < required)
-        return false;
+      if (resource === 'supplies' && gameState.supplies < required) return false;
+      if (resource === 'knowledge' && gameState.knowledge < required) return false;
       if (resource === 'seeds' && gameState.seeds < required) return false;
 
       // Check ecosystem requirements
-      if (
-        resource === 'soilHealth' &&
-        gameState.ecosystem?.soilHealth < required
-      )
-        return false;
+      if (resource === 'soilHealth' && gameState.ecosystem?.soilHealth < required) return false;
     }
     return true;
   };
@@ -64,11 +58,7 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
     makeChoice(choice);
   };
 
-  const handleZoneClick = (
-    zoneId: string,
-    zoneName: string,
-    zoneState: string
-  ) => {
+  const handleZoneClick = (zoneId: string, zoneName: string, zoneState: string) => {
     // Generate zone interaction based on state
     const zoneChoice: Choice = {
       text: `Interact with ${zoneName}`,
@@ -122,8 +112,7 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
   const baseStats = getBaseStats();
   const notifications = {
     settlement: baseStats.maintenanceEvents.length > 0,
-    research:
-      !gameState.researchProgress?.currentResearch && gameState.knowledge >= 10,
+    research: !gameState.researchProgress?.currentResearch && gameState.knowledge >= 10,
   };
 
   return (
@@ -149,9 +138,7 @@ export const GameScreen = memo<GameScreenProps>(({ visible }) => {
             <WorldTab gameState={gameState} onZoneClick={handleZoneClick} />
           )}
 
-          {activeTab === 'settlement' && (
-            <SettlementTab gameState={gameState} />
-          )}
+          {activeTab === 'settlement' && <SettlementTab gameState={gameState} />}
 
           {activeTab === 'research' && <ResearchTab gameState={gameState} />}
         </div>

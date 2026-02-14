@@ -70,17 +70,13 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
             Vital Resources
           </h2>
           <div className="resource-group">
-            <div
-              className={`resource-item ${getResourceStatus(gameState.hope, 100)}`}
-            >
+            <div className={`resource-item ${getResourceStatus(gameState.hope, 100)}`}>
               <div className="resource-label">
                 <span className="resource-icon">✨</span>
                 <span>Hope</span>
               </div>
               <div className="flex items-center gap-sm">
-                <span className="resource-value">
-                  {Math.round(gameState.hope)}
-                </span>
+                <span className="resource-value">{Math.round(gameState.hope)}</span>
                 <div className="resource-bar">
                   <div
                     className="resource-bar-fill"
@@ -98,17 +94,13 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
               </div>
             </div>
 
-            <div
-              className={`resource-item ${getResourceStatus(gameState.health, 100)}`}
-            >
+            <div className={`resource-item ${getResourceStatus(gameState.health, 100)}`}>
               <div className="resource-label">
                 <span className="resource-icon">❤️</span>
                 <span>Health</span>
               </div>
               <div className="flex items-center gap-sm">
-                <span className="resource-value">
-                  {Math.round(gameState.health)}
-                </span>
+                <span className="resource-value">{Math.round(gameState.health)}</span>
                 <div className="resource-bar">
                   <div
                     className="resource-bar-fill"
@@ -117,8 +109,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                       backgroundColor:
                         getResourceStatus(gameState.health, 100) === 'critical'
                           ? 'var(--status-critical)'
-                          : getResourceStatus(gameState.health, 100) ===
-                              'warning'
+                          : getResourceStatus(gameState.health, 100) === 'warning'
                             ? 'var(--status-warning)'
                             : 'var(--status-success)',
                     }}
@@ -127,28 +118,22 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
               </div>
             </div>
 
-            <div
-              className={`resource-item ${getResourceStatus(gameState.supplies, 100)}`}
-            >
+            <div className={`resource-item ${getResourceStatus(gameState.supplies, 100)}`}>
               <div className="resource-label">
                 <span className="resource-icon">📦</span>
                 <span>Supplies</span>
               </div>
               <div className="flex items-center gap-sm">
-                <span className="resource-value">
-                  {Math.round(gameState.supplies)}
-                </span>
+                <span className="resource-value">{Math.round(gameState.supplies)}</span>
                 <div className="resource-bar">
                   <div
                     className="resource-bar-fill"
                     style={{
                       width: `${Math.min(gameState.supplies, 100)}%`,
                       backgroundColor:
-                        getResourceStatus(gameState.supplies, 100) ===
-                        'critical'
+                        getResourceStatus(gameState.supplies, 100) === 'critical'
                           ? 'var(--status-critical)'
-                          : getResourceStatus(gameState.supplies, 100) ===
-                              'warning'
+                          : getResourceStatus(gameState.supplies, 100) === 'warning'
                             ? 'var(--status-warning)'
                             : 'var(--status-success)',
                     }}
@@ -171,18 +156,14 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                 <span className="resource-icon">📚</span>
                 <span>Knowledge</span>
               </div>
-              <span className="resource-value">
-                {Math.round(gameState.knowledge)}
-              </span>
+              <span className="resource-value">{Math.round(gameState.knowledge)}</span>
             </div>
             <div className="resource-item healthy">
               <div className="resource-label">
                 <span className="resource-icon">🌱</span>
                 <span>Seeds</span>
               </div>
-              <span className="resource-value">
-                {Math.round(gameState.seeds)}
-              </span>
+              <span className="resource-value">{Math.round(gameState.seeds)}</span>
             </div>
           </div>
         </div>
@@ -206,9 +187,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                 <span className="resource-icon">🏗️</span>
                 <span>Structures</span>
               </div>
-              <span className="resource-value">
-                {gameState.baseStructures?.length || 0}
-              </span>
+              <span className="resource-value">{gameState.baseStructures?.length || 0}</span>
             </div>
             <div className="resource-item">
               <div className="resource-label">
@@ -224,10 +203,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
       </div>
 
       {/* Main Story Content - Primary Action Area */}
-      <div
-        className="card card-elevated"
-        style={{ marginTop: 'var(--spacing-lg)' }}
-      >
+      <div className="card card-elevated" style={{ marginTop: 'var(--spacing-lg)' }}>
         {storyData && (
           <StoryArea
             title={storyData.title}

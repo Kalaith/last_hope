@@ -42,8 +42,7 @@ export const ChoiceCooldownIndicator = memo<ChoiceCooldownIndicatorProps>(
       return null;
     }
 
-    const progress =
-      ((cooldownDuration - timeRemaining) / cooldownDuration) * 100;
+    const progress = ((cooldownDuration - timeRemaining) / cooldownDuration) * 100;
     const seconds = (timeRemaining / 1000).toFixed(1);
 
     return (
@@ -56,10 +55,7 @@ export const ChoiceCooldownIndicator = memo<ChoiceCooldownIndicatorProps>(
           </div>
         </div>
         <div className="cooldown-progress">
-          <div
-            className="cooldown-progress-fill"
-            style={{ width: `${progress}%` }}
-          />
+          <div className="cooldown-progress-fill" style={{ width: `${progress}%` }} />
         </div>
         <div className="cooldown-description">
           Your decisions have weight. Take time to consider the consequences.

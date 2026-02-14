@@ -13,11 +13,7 @@ export const WorldStatus = memo<WorldStatusProps>(({ gameState }) => {
   const plantCount = gameState.ecosystem?.plantInstances?.length || 0;
 
   const handleReset = () => {
-    if (
-      confirm(
-        'Are you sure you want to reset the game? All progress will be lost.'
-      )
-    ) {
+    if (confirm('Are you sure you want to reset the game? All progress will be lost.')) {
       resetGame();
     }
   };

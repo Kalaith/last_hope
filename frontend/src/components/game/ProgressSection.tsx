@@ -29,10 +29,9 @@ export const ProgressSection = memo<ProgressSectionProps>(({ gameState }) => {
                 Ecosystem Restoration Metrics
               </div>
               <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-                Track your progress in healing the wasteland. Soil Health: Core
-                restoration metric that affects all other aspects Plant
-                Diversity: Number of different species - crucial for ecosystem
-                stability
+                Track your progress in healing the wasteland. Soil Health: Core restoration metric
+                that affects all other aspects Plant Diversity: Number of different species -
+                crucial for ecosystem stability
               </div>
             </div>
           }
@@ -55,10 +54,9 @@ export const ProgressSection = memo<ProgressSectionProps>(({ gameState }) => {
                   Soil Health: {Math.round(soilHealth)}%
                 </div>
                 <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-                  The foundation of all restoration efforts. • 0-25%: Dead soil,
-                  nothing can grow • 26-50%: Basic plants can survive • 51-75%:
-                  Diverse vegetation possible • 76-100%: Thriving ecosystem
-                  Improved by: Planting seeds, successful restoration choices
+                  The foundation of all restoration efforts. • 0-25%: Dead soil, nothing can grow •
+                  26-50%: Basic plants can survive • 51-75%: Diverse vegetation possible • 76-100%:
+                  Thriving ecosystem Improved by: Planting seeds, successful restoration choices
                   Decreased by: Failed experiments, environmental disasters
                 </div>
               </div>
@@ -86,10 +84,9 @@ export const ProgressSection = memo<ProgressSectionProps>(({ gameState }) => {
                   Plant Diversity: {plantDiversity} species
                 </div>
                 <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-                  Biodiversity is key to ecosystem resilience. Each species
-                  contributes unique benefits: • Soil improvement • Pest
-                  resistance • Nutrient cycling • Habitat for wildlife More
-                  species = more stable ecosystem
+                  Biodiversity is key to ecosystem resilience. Each species contributes unique
+                  benefits: • Soil improvement • Pest resistance • Nutrient cycling • Habitat for
+                  wildlife More species = more stable ecosystem
                 </div>
               </div>
             }
@@ -118,10 +115,9 @@ export const ProgressSection = memo<ProgressSectionProps>(({ gameState }) => {
                 Community Trust & Relationships
               </div>
               <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-                Your relationships with the survivors in your community. Trust
-                affects: • Available dialogue options • Support during crises •
-                Resource sharing • Victory conditions Mood indicates their
-                current emotional state and likelihood to help.
+                Your relationships with the survivors in your community. Trust affects: • Available
+                dialogue options • Support during crises • Resource sharing • Victory conditions
+                Mood indicates their current emotional state and likelihood to help.
               </div>
             </div>
           }
@@ -171,11 +167,8 @@ export const ProgressSection = memo<ProgressSectionProps>(({ gameState }) => {
                   <div style={{ fontSize: '0.9em', marginBottom: '4px' }}>
                     Current Mood: {npc.mood || 'neutral'}
                   </div>
-                  <div
-                    style={{ fontSize: '0.8em', color: 'var(--color-ash-400)' }}
-                  >
-                    High trust unlocks better dialogue options and support
-                    during critical moments.
+                  <div style={{ fontSize: '0.8em', color: 'var(--color-ash-400)' }}>
+                    High trust unlocks better dialogue options and support during critical moments.
                   </div>
                 </div>
               );
@@ -199,9 +192,7 @@ export const ProgressSection = memo<ProgressSectionProps>(({ gameState }) => {
                       type="trust"
                       className={(npc.trustLevel || 0) < 30 ? 'low-trust' : ''}
                     />
-                    <span className="trust-level">
-                      {Math.round(npc.trustLevel || 0)}%
-                    </span>
+                    <span className="trust-level">{Math.round(npc.trustLevel || 0)}%</span>
                   </div>
                   <span className={`mood-indicator ${npc.mood || 'neutral'}`}>
                     {npc.mood === 'hopeful'

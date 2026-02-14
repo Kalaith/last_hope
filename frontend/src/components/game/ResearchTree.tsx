@@ -33,11 +33,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
 
   const canStartResearch = (node: ResearchNode): boolean => {
     if (!researchProgress) return false;
-    return researchSystem.canStartResearch(
-      node.id,
-      gameState,
-      researchProgress.completedResearch
-    );
+    return researchSystem.canStartResearch(node.id, gameState, researchProgress.completedResearch);
   };
 
   const isResearched = (nodeId: string): boolean => {
@@ -54,9 +50,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
     if (!node) return 0;
     const researchTime =
       node.researchTime ||
-      Math.ceil(
-        node.knowledgeRequired / researchConstants.DEFAULT_RESEARCH_TIME_DIVISOR
-      );
+      Math.ceil(node.knowledgeRequired / researchConstants.DEFAULT_RESEARCH_TIME_DIVISOR);
     return (researchProgress.daysInProgress / researchTime) * 100;
   };
 
@@ -78,10 +72,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
   };
 
   const handleStartResearch = (nodeId: string) => {
-    if (
-      researchProgress &&
-      canStartResearch(researchTree.find(n => n.id === nodeId)!)
-    ) {
+    if (researchProgress && canStartResearch(researchTree.find(n => n.id === nodeId)!)) {
       startResearch(nodeId);
     }
   };
@@ -102,12 +93,10 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                 Research & Development
               </div>
               <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-                Spend knowledge to unlock new technologies, construction
-                options, and advanced choices. Research takes time but provides
-                permanent benefits: • Improved resource generation • Access to
-                advanced choices • New construction options • Enhanced abilities
-                Focus research based on your current challenges and long-term
-                goals.
+                Spend knowledge to unlock new technologies, construction options, and advanced
+                choices. Research takes time but provides permanent benefits: • Improved resource
+                generation • Access to advanced choices • New construction options • Enhanced
+                abilities Focus research based on your current challenges and long-term goals.
               </div>
             </div>
           }
@@ -117,10 +106,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
         >
           <h4 style={{ cursor: 'help' }}>Research Laboratory ℹ️</h4>
         </Tooltip>
-        <button
-          className="research-toggle"
-          onClick={() => setShowResearchTree(!showResearchTree)}
-        >
+        <button className="research-toggle" onClick={() => setShowResearchTree(!showResearchTree)}>
           {showResearchTree ? '✖️ Close' : '🔬 Research'}
         </button>
       </div>
@@ -133,11 +119,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
             <div className="research-details">
               <div className="research-name">
                 Currently Researching:{' '}
-                {
-                  researchTree.find(
-                    n => n.id === researchProgress.currentResearch
-                  )?.name
-                }
+                {researchTree.find(n => n.id === researchProgress.currentResearch)?.name}
               </div>
               <div className="research-progress-bar">
                 <div
@@ -149,10 +131,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                 />
               </div>
               <span className="progress-text">
-                {Math.round(
-                  getResearchProgress(researchProgress.currentResearch)
-                )}
-                % complete
+                {Math.round(getResearchProgress(researchProgress.currentResearch))}% complete
               </span>
             </div>
           </div>
@@ -177,9 +156,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                 >
                   <span className="rec-icon">{node.icon}</span>
                   <span className="rec-name">{node.name}</span>
-                  <span className="rec-cost">
-                    {node.knowledgeRequired} knowledge
-                  </span>
+                  <span className="rec-cost">{node.knowledgeRequired} knowledge</span>
                 </button>
               );
             })}
@@ -222,8 +199,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                   className={`category-filter ${selectedCategory === category ? 'active' : ''}`}
                   onClick={() => setSelectedCategory(category)}
                 >
-                  {getCategoryIcon(category)}{' '}
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                  {getCategoryIcon(category)} {category.charAt(0).toUpperCase() + category.slice(1)}
                 </button>
               ))}
             </div>
@@ -273,17 +249,14 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                                 : 'var(--color-terminal-red)',
                           }}
                         >
-                          • Knowledge: {node.knowledgeRequired} (Have:{' '}
-                          {gameState.knowledge})
+                          • Knowledge: {node.knowledgeRequired} (Have: {gameState.knowledge})
                         </div>
                         {node.prerequisites.length > 0 && (
                           <div style={{ fontSize: '0.9em' }}>
                             • Prerequisites:{' '}
                             {node.prerequisites
                               .map(prereq => {
-                                const prereqNode = researchTree.find(
-                                  n => n.id === prereq
-                                );
+                                const prereqNode = researchTree.find(n => n.id === prereq);
                                 const hasPrereq = isResearched(prereq);
                                 return (
                                   <span
@@ -308,69 +281,58 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                         )}
                       </div>
 
-                      {node.benefits.boosts &&
-                        Object.keys(node.benefits.boosts).length > 0 && (
-                          <div style={{ marginBottom: '8px' }}>
+                      {node.benefits.boosts && Object.keys(node.benefits.boosts).length > 0 && (
+                        <div style={{ marginBottom: '8px' }}>
+                          <div
+                            style={{
+                              fontWeight: 'bold',
+                              color: 'var(--color-terminal-green)',
+                              marginBottom: '4px',
+                            }}
+                          >
+                            Benefits:
+                          </div>
+                          {Object.entries(node.benefits.boosts).map(([boost, value]) => (
                             <div
+                              key={boost}
                               style={{
-                                fontWeight: 'bold',
                                 color: 'var(--color-terminal-green)',
-                                marginBottom: '4px',
+                                fontSize: '0.9em',
                               }}
                             >
-                              Benefits:
+                              • {boost.replace(/([A-Z])/g, ' $1').toLowerCase()}:{' '}
+                              {value > 1
+                                ? `+${Math.round((value - 1) * 100)}%`
+                                : `-${Math.round((1 - value) * 100)}%`}
                             </div>
-                            {Object.entries(node.benefits.boosts).map(
-                              ([boost, value]) => (
-                                <div
-                                  key={boost}
-                                  style={{
-                                    color: 'var(--color-terminal-green)',
-                                    fontSize: '0.9em',
-                                  }}
-                                >
-                                  •{' '}
-                                  {boost
-                                    .replace(/([A-Z])/g, ' $1')
-                                    .toLowerCase()}
-                                  :{' '}
-                                  {value > 1
-                                    ? `+${Math.round((value - 1) * 100)}%`
-                                    : `-${Math.round((1 - value) * 100)}%`}
-                                </div>
-                              )
-                            )}
-                          </div>
-                        )}
+                          ))}
+                        </div>
+                      )}
 
-                      {node.benefits.unlocks &&
-                        node.benefits.unlocks.length > 0 && (
-                          <div style={{ marginBottom: '8px' }}>
+                      {node.benefits.unlocks && node.benefits.unlocks.length > 0 && (
+                        <div style={{ marginBottom: '8px' }}>
+                          <div
+                            style={{
+                              fontWeight: 'bold',
+                              color: 'var(--color-irradiated-400)',
+                              marginBottom: '4px',
+                            }}
+                          >
+                            Unlocks:
+                          </div>
+                          {node.benefits.unlocks.map((unlock, i) => (
                             <div
+                              key={i}
                               style={{
-                                fontWeight: 'bold',
                                 color: 'var(--color-irradiated-400)',
-                                marginBottom: '4px',
+                                fontSize: '0.9em',
                               }}
                             >
-                              Unlocks:
+                              • {unlock.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                             </div>
-                            {node.benefits.unlocks.map((unlock, i) => (
-                              <div
-                                key={i}
-                                style={{
-                                  color: 'var(--color-irradiated-400)',
-                                  fontSize: '0.9em',
-                                }}
-                              >
-                                •{' '}
-                                {unlock
-                                  .replace(/_/g, ' ')
-                                  .replace(/\b\w/g, l => l.toUpperCase())}
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                          ))}
+                        </div>
+                      )}
 
                       <div
                         style={{
@@ -378,9 +340,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                           color: 'var(--color-ash-500)',
                         }}
                       >
-                        Research Time:{' '}
-                        {node.researchTime ||
-                          Math.ceil(node.knowledgeRequired / 3)}{' '}
+                        Research Time: {node.researchTime || Math.ceil(node.knowledgeRequired / 3)}{' '}
                         days
                       </div>
                     </div>
@@ -396,14 +356,10 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                   >
                     <div className="node-header">
                       <span className="node-icon">{node.icon}</span>
-                      <span className="node-category">
-                        {getCategoryIcon(node.category)}
-                      </span>
+                      <span className="node-category">{getCategoryIcon(node.category)}</span>
                     </div>
                     <div className="node-name">{node.name}</div>
-                    <div className="node-cost">
-                      {node.knowledgeRequired} knowledge
-                    </div>
+                    <div className="node-cost">{node.knowledgeRequired} knowledge</div>
 
                     {currentlyResearching && (
                       <div className="research-progress">
@@ -420,9 +376,7 @@ export const ResearchTree = memo<ResearchTreeProps>(({ gameState }) => {
                       </div>
                     )}
 
-                    {researched && (
-                      <div className="completion-badge">✅ Complete</div>
-                    )}
+                    {researched && <div className="completion-badge">✅ Complete</div>}
                   </button>
                 </Tooltip>
               );

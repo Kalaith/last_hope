@@ -19,13 +19,7 @@ interface ProgressBarProps {
 }
 
 export const ProgressBar = memo<ProgressBarProps>(
-  ({
-    value,
-    maxValue = 100,
-    className = '',
-    barClassName = '',
-    type = 'default',
-  }) => {
+  ({ value, maxValue = 100, className = '', barClassName = '', type = 'default' }) => {
     const percentage = Math.max(0, Math.min(100, (value / maxValue) * 100));
 
     const typeClasses = {

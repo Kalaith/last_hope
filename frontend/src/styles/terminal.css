@@ -105,11 +105,9 @@
 
   /* Terminal Typography */
   --font-family-base:
-    'Courier New', 'Monaco', 'Menlo', 'Consolas', 'Liberation Mono',
-    'DejaVu Sans Mono', monospace;
+    'Courier New', 'Monaco', 'Menlo', 'Consolas', 'Liberation Mono', 'DejaVu Sans Mono', monospace;
   --font-family-mono:
-    'Courier New', 'Monaco', 'Menlo', 'Consolas', 'Liberation Mono',
-    'DejaVu Sans Mono', monospace;
+    'Courier New', 'Monaco', 'Menlo', 'Consolas', 'Liberation Mono', 'DejaVu Sans Mono', monospace;
 }
 
 /* Force dark mode */
@@ -128,21 +126,13 @@ body {
   margin: 0;
   padding: 0;
   background:
-    radial-gradient(
-      circle at 20% 50%,
-      rgba(var(--color-rust-500-rgb), 0.05) 0%,
-      transparent 30%
-    ),
+    radial-gradient(circle at 20% 50%, rgba(var(--color-rust-500-rgb), 0.05) 0%, transparent 30%),
     radial-gradient(
       circle at 80% 80%,
       rgba(var(--color-irradiated-500-rgb), 0.03) 0%,
       transparent 25%
     ),
-    linear-gradient(
-      180deg,
-      var(--color-wasteland-900) 0%,
-      var(--color-wasteland-800) 100%
-    );
+    linear-gradient(180deg, var(--color-wasteland-900) 0%, var(--color-wasteland-800) 100%);
   min-height: 100vh;
   position: relative;
 }
@@ -278,21 +268,9 @@ body::before {
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(
-      circle at 30% 20%,
-      rgba(255, 255, 255, 0.01) 1px,
-      transparent 2px
-    ),
-    radial-gradient(
-      circle at 70% 80%,
-      rgba(255, 255, 255, 0.01) 1px,
-      transparent 2px
-    ),
-    radial-gradient(
-      circle at 20% 60%,
-      rgba(255, 255, 255, 0.005) 1px,
-      transparent 2px
-    );
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.01) 1px, transparent 2px),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.01) 1px, transparent 2px),
+    radial-gradient(circle at 20% 60%, rgba(255, 255, 255, 0.005) 1px, transparent 2px);
   animation: static-noise 0.1s infinite;
   pointer-events: none;
 }
@@ -419,11 +397,7 @@ body::before {
 
 /* Card component - Distressed Metal Panels */
 .card {
-  background: linear-gradient(
-    135deg,
-    var(--color-surface) 0%,
-    var(--color-wasteland-700) 100%
-  );
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-wasteland-700) 100%);
   border-radius: 0;
   border: 2px solid var(--color-card-border);
   box-shadow:
@@ -471,11 +445,7 @@ body::before {
 }
 
 .background-card {
-  background: linear-gradient(
-    135deg,
-    var(--color-bg-1) 0%,
-    var(--color-wasteland-700) 100%
-  );
+  background: linear-gradient(135deg, var(--color-bg-1) 0%, var(--color-wasteland-700) 100%);
   border: 2px solid var(--color-rust-500);
   border-radius: 0;
   padding: var(--space-20);
@@ -526,11 +496,7 @@ body::before {
 
 .background-card.selected {
   border-color: var(--color-terminal-green);
-  background: linear-gradient(
-    135deg,
-    var(--color-bg-3) 0%,
-    var(--color-wasteland-600) 100%
-  );
+  background: linear-gradient(135deg, var(--color-bg-3) 0%, var(--color-wasteland-600) 100%);
   box-shadow:
     inset 0 1px 0 rgba(var(--color-terminal-green-rgb), 0.1),
     inset 0 -1px 0 rgba(var(--color-rust-800-rgb), 0.4),
@@ -719,19 +685,11 @@ h6 {
 }
 
 .sanity-bar .progress-fill {
-  background: linear-gradient(
-    90deg,
-    var(--color-dirty-400) 0%,
-    var(--color-ash-300) 100%
-  );
+  background: linear-gradient(90deg, var(--color-dirty-400) 0%, var(--color-ash-300) 100%);
 }
 
 .restoration-bar .progress-fill {
-  background: linear-gradient(
-    90deg,
-    var(--color-dirty-400) 0%,
-    var(--color-terminal-green) 100%
-  );
+  background: linear-gradient(90deg, var(--color-dirty-400) 0%, var(--color-terminal-green) 100%);
 }
 
 /* Game Interface Layout */
@@ -1941,11 +1899,7 @@ h6 {
 }
 
 .hope-critical .hope-bar .progress-fill {
-  background: linear-gradient(
-    90deg,
-    var(--color-terminal-red) 0%,
-    var(--color-rust-500) 100%
-  );
+  background: linear-gradient(90deg, var(--color-terminal-red) 0%, var(--color-rust-500) 100%);
   animation: hope-critical-pulse 1s infinite;
 }
 
@@ -2443,14 +2397,7 @@ h6 {
   padding: var(--space-16);
   margin: var(--space-16) 0;
   font-family: var(--font-mono);
-  clip-path: polygon(
-    0 0,
-    calc(100% - 8px) 0,
-    100% 8px,
-    100% 100%,
-    8px 100%,
-    0 calc(100% - 8px)
-  );
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 }
 
 .map-header {
@@ -2566,14 +2513,7 @@ h6 {
   padding: var(--space-16);
   margin: var(--space-16) 0;
   font-family: var(--font-mono);
-  clip-path: polygon(
-    0 0,
-    calc(100% - 8px) 0,
-    100% 8px,
-    100% 100%,
-    8px 100%,
-    0 calc(100% - 8px)
-  );
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 }
 
 .plant-display.empty {
@@ -2731,12 +2671,7 @@ h6 {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   animation: progress-shine 2s infinite;
 }
 
@@ -2872,11 +2807,7 @@ h6 {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--color-rust-500),
-    var(--color-dirty-400)
-  );
+  background: linear-gradient(90deg, var(--color-rust-500), var(--color-dirty-400));
   transition: width 0.8s ease;
   position: relative;
 }
@@ -2888,12 +2819,7 @@ h6 {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   animation: progress-shine 3s infinite;
 }
 
@@ -3133,22 +3059,14 @@ h6 {
 }
 
 .action-btn.enhanced {
-  background: linear-gradient(
-    135deg,
-    var(--color-dirty-500),
-    var(--color-rust-500)
-  );
+  background: linear-gradient(135deg, var(--color-dirty-500), var(--color-rust-500));
   color: var(--color-wasteland-900);
   border: 2px solid var(--color-dirty-400);
   box-shadow: 0 0 8px rgba(var(--color-dirty-500-rgb), 0.4);
 }
 
 .action-btn.enhanced:hover {
-  background: linear-gradient(
-    135deg,
-    var(--color-dirty-400),
-    var(--color-rust-400)
-  );
+  background: linear-gradient(135deg, var(--color-dirty-400), var(--color-rust-400));
   box-shadow: 0 0 12px rgba(var(--color-dirty-500-rgb), 0.6);
   transform: translateY(-2px);
 }
@@ -3406,11 +3324,7 @@ h6 {
 
 .resource-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--color-terminal-green),
-    var(--color-irradiated-400)
-  );
+  background: linear-gradient(90deg, var(--color-terminal-green), var(--color-irradiated-400));
   transition: width 0.5s ease;
 }
 
@@ -3475,11 +3389,7 @@ h6 {
 
 .trust-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--color-rust-500),
-    var(--color-dirty-400)
-  );
+  background: linear-gradient(90deg, var(--color-rust-500), var(--color-dirty-400));
   transition: width 0.5s ease;
 }
 

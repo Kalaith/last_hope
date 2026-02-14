@@ -98,10 +98,7 @@ export class EcosystemSimulator {
   /**
    * Simulate ecosystem growth over time
    */
-  static simulateGrowth(
-    ecosystem: EcosystemState,
-    timeElapsed: number
-  ): EcosystemState {
+  static simulateGrowth(ecosystem: EcosystemState, timeElapsed: number): EcosystemState {
     const updated = { ...ecosystem };
 
     // Update each plant instance
@@ -116,21 +113,13 @@ export class EcosystemSimulator {
     );
 
     // Update plant diversity
-    updated.plantDiversity = this.calculatePlantDiversity(
-      updated.plantInstances
-    );
+    updated.plantDiversity = this.calculatePlantDiversity(updated.plantInstances);
 
     // Progress seasonal cycle
-    updated.seasonalCycle = this.progressSeason(
-      ecosystem.seasonalCycle,
-      timeElapsed
-    );
+    updated.seasonalCycle = this.progressSeason(ecosystem.seasonalCycle, timeElapsed);
 
     // Random weather changes
-    updated.weatherPattern = this.updateWeather(
-      ecosystem.weatherPattern,
-      timeElapsed
-    );
+    updated.weatherPattern = this.updateWeather(ecosystem.weatherPattern, timeElapsed);
 
     return updated;
   }
@@ -204,10 +193,7 @@ export class EcosystemSimulator {
     growthRate *= soilModifier;
 
     // Update maturity
-    const newMaturity = Math.min(
-      100,
-      plant.maturity + growthRate * timeElapsed
-    );
+    const newMaturity = Math.min(100, plant.maturity + growthRate * timeElapsed);
 
     // Health changes based on conditions
     let healthChange = 0;
@@ -239,10 +225,7 @@ export class EcosystemSimulator {
   /**
    * Calculate soil improvement from plant contributions
    */
-  private static calculateSoilImprovement(
-    plants: PlantInstance[],
-    currentSoil: number
-  ): number {
+  private static calculateSoilImprovement(plants: PlantInstance[], currentSoil: number): number {
     if (plants.length === 0) {
       // Soil degrades naturally without plants
       return Math.max(0, currentSoil - 0.1);
@@ -252,10 +235,7 @@ export class EcosystemSimulator {
     for (const plant of plants) {
       if (plant.health > 50 && plant.maturity > 30) {
         // Only healthy, somewhat mature plants contribute significantly
-        const contribution =
-          plant.soilContribution *
-          (plant.maturity / 100) *
-          (plant.health / 100);
+        const contribution = plant.soilContribution * (plant.maturity / 100) * (plant.health / 100);
         totalImprovement += contribution;
       }
     }
@@ -295,12 +275,7 @@ export class EcosystemSimulator {
     // For now, simple random season changes
     // In a full implementation, this would be time-based
     if (Math.random() < 0.05 * timeElapsed) {
-      const seasons: EcosystemState['seasonalCycle'][] = [
-        'spring',
-        'summer',
-        'autumn',
-        'winter',
-      ];
+      const seasons: EcosystemState['seasonalCycle'][] = ['spring', 'summer', 'autumn', 'winter'];
       const currentIndex = seasons.indexOf(currentSeason);
       return seasons[(currentIndex + 1) % seasons.length];
     }

@@ -31,9 +31,7 @@ export const ResearchTab: React.FC<ResearchTabProps> = ({ gameState }) => {
                 <span className="resource-icon">🧠</span>
                 <span>Available Knowledge</span>
               </div>
-              <span className="resource-value">
-                {Math.round(gameState.knowledge)}
-              </span>
+              <span className="resource-value">{Math.round(gameState.knowledge)}</span>
             </div>
             <div className="resource-item">
               <div className="resource-label">
@@ -73,10 +71,7 @@ export const ResearchTab: React.FC<ResearchTabProps> = ({ gameState }) => {
                     <span className="resource-icon">📝</span>
                     <span>Project Name</span>
                   </div>
-                  <span
-                    className="resource-value"
-                    style={{ fontSize: 'var(--text-sm)' }}
-                  >
+                  <span className="resource-value" style={{ fontSize: 'var(--text-sm)' }}>
                     {currentResearch}
                   </span>
                 </div>
@@ -134,10 +129,7 @@ export const ResearchTab: React.FC<ResearchTabProps> = ({ gameState }) => {
         </div>
       </div>
 
-      <div
-        className="grid grid-cols-2 gap-lg"
-        style={{ marginTop: 'var(--spacing-lg)' }}
-      >
+      <div className="grid grid-cols-2 gap-lg" style={{ marginTop: 'var(--spacing-lg)' }}>
         {/* Research Tree */}
         <div className="card card-elevated">
           <ResearchTree gameState={gameState} />

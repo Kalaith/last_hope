@@ -77,8 +77,7 @@ export const consequenceChains: Record<string, ConsequenceChain> = {
     conditions: [
       {
         id: 'reputation_spreads',
-        condition: state =>
-          Object.values(state.npcs).every(npc => npc.trustLevel > 60),
+        condition: state => Object.values(state.npcs).every(npc => npc.trustLevel > 60),
         consequence: {
           id: 'hope_beacon',
           triggerDay: 30,
@@ -134,11 +133,7 @@ export class CascadingConsequenceManager {
   /**
    * Register a choice for consequence tracking
    */
-  static registerChoice(
-    choiceText: string,
-    choice: Choice,
-    gameState: GameState
-  ): void {
+  static registerChoice(choiceText: string, choice: Choice, gameState: GameState): void {
     // Find matching consequence chain
     const chain = this.findConsequenceChain(choiceText);
 
@@ -162,9 +157,7 @@ export class CascadingConsequenceManager {
   /**
    * Check for triggered consequences on day progression
    */
-  static checkTriggeredConsequences(
-    gameState: GameState
-  ): DelayedConsequence[] {
+  static checkTriggeredConsequences(gameState: GameState): DelayedConsequence[] {
     const triggered: DelayedConsequence[] = [];
     const currentDay = gameState.daysSurvived;
 
@@ -195,9 +188,7 @@ export class CascadingConsequenceManager {
   /**
    * Find consequence chain for a choice
    */
-  private static findConsequenceChain(
-    choiceText: string
-  ): ConsequenceChain | null {
+  private static findConsequenceChain(choiceText: string): ConsequenceChain | null {
     // Match by key phrases in choice text
     const lowerChoice = choiceText.toLowerCase();
 
@@ -256,9 +247,10 @@ export class CascadingConsequenceManager {
           consequences: this.mitigateConsequences(consequence.consequences),
           relationships: consequence.relationships
             ? Object.fromEntries(
-                Object.entries(consequence.relationships).map(
-                  ([npc, value]) => [npc, Math.ceil(value * 0.5)]
-                )
+                Object.entries(consequence.relationships).map(([npc, value]) => [
+                  npc,
+                  Math.ceil(value * 0.5),
+                ])
               )
             : undefined,
         },

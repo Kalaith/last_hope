@@ -9,11 +9,7 @@ interface CharacterStatsProps {
   gameState: GameState;
 }
 
-const getResourceTooltip = (
-  resource: string,
-  value: number,
-  status: string
-) => {
+const getResourceTooltip = (resource: string, value: number, status: string) => {
   const baseDescriptions = {
     hope: {
       description: 'Mental resilience and will to continue living',
@@ -82,16 +78,12 @@ const getResourceTooltip = (
       <div style={{ fontSize: '0.9em', fontWeight: 'bold' }}>
         Current: {value}/{resource === 'seeds' ? '50' : '100'}
         {status === 'critical' && (
-          <span
-            style={{ color: 'var(--color-terminal-red)', marginLeft: '8px' }}
-          >
+          <span style={{ color: 'var(--color-terminal-red)', marginLeft: '8px' }}>
             ⚠️ CRITICAL!
           </span>
         )}
         {status === 'low' && (
-          <span style={{ color: 'var(--color-dirty-400)', marginLeft: '8px' }}>
-            ⚠ LOW
-          </span>
+          <span style={{ color: 'var(--color-dirty-400)', marginLeft: '8px' }}>⚠ LOW</span>
         )}
       </div>
     </div>
@@ -108,10 +100,7 @@ export const CharacterStats = memo<CharacterStatsProps>(({ gameState }) => {
   const safeKnowledge = typeof knowledge === 'number' ? knowledge : 10;
   const safeSeeds = typeof seeds === 'number' ? seeds : 3;
 
-  const getResourceStatus = (
-    resource: string,
-    value: number
-  ): 'critical' | 'low' | 'normal' => {
+  const getResourceStatus = (resource: string, value: number): 'critical' | 'low' | 'normal' => {
     switch (resource) {
       case 'hope':
         if (value <= resourceThresholds.HOPE_CRITICAL) return 'critical';
@@ -156,21 +145,8 @@ export const CharacterStats = memo<CharacterStatsProps>(({ gameState }) => {
           <div className="progress-container">
             <ProgressBar
               value={value}
-              type={
-                statKey as
-                  | 'hope'
-                  | 'health'
-                  | 'supplies'
-                  | 'knowledge'
-                  | 'seeds'
-              }
-              className={
-                status === 'critical'
-                  ? 'critical'
-                  : status === 'low'
-                    ? 'low'
-                    : ''
-              }
+              type={statKey as 'hope' | 'health' | 'supplies' | 'knowledge' | 'seeds'}
+              className={status === 'critical' ? 'critical' : status === 'low' ? 'low' : ''}
             />
           </div>
           <span className="resource-value">
@@ -196,10 +172,9 @@ export const CharacterStats = memo<CharacterStatsProps>(({ gameState }) => {
               Core Survival Resources
             </div>
             <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-              These five resources determine your survival and success in the
-              wasteland. Monitor them carefully - some have critical thresholds
-              that can end your journey. Hover over each resource for detailed
-              mechanics and current status.
+              These five resources determine your survival and success in the wasteland. Monitor
+              them carefully - some have critical thresholds that can end your journey. Hover over
+              each resource for detailed mechanics and current status.
             </div>
           </div>
         }
@@ -214,22 +189,9 @@ export const CharacterStats = memo<CharacterStatsProps>(({ gameState }) => {
           <ResourceStat label="Health" value={safeHealth} statKey="health" />
         </div>
         <div className="material-stats">
-          <ResourceStat
-            label="Supplies"
-            value={safeSupplies}
-            statKey="supplies"
-          />
-          <ResourceStat
-            label="Knowledge"
-            value={safeKnowledge}
-            statKey="knowledge"
-          />
-          <ResourceStat
-            label="Seeds"
-            value={safeSeeds}
-            statKey="seeds"
-            isSeeds={true}
-          />
+          <ResourceStat label="Supplies" value={safeSupplies} statKey="supplies" />
+          <ResourceStat label="Knowledge" value={safeKnowledge} statKey="knowledge" />
+          <ResourceStat label="Seeds" value={safeSeeds} statKey="seeds" isSeeds={true} />
         </div>
       </div>
 

@@ -41,9 +41,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
           >
             <span className="tab-icon">{tab.icon}</span>
             <span className="tab-label">{tab.label}</span>
-            {notifications[tab.id] && (
-              <span className="notification-indicator">!</span>
-            )}
+            {notifications[tab.id] && <span className="notification-indicator">!</span>}
           </button>
         ))}
       </div>

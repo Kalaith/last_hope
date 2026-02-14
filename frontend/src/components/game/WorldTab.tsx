@@ -9,10 +9,7 @@ interface WorldTabProps {
   onZoneClick: (zoneId: string, zoneName: string, zoneState: string) => void;
 }
 
-export const WorldTab: React.FC<WorldTabProps> = ({
-  gameState,
-  onZoneClick,
-}) => {
+export const WorldTab: React.FC<WorldTabProps> = ({ gameState, onZoneClick }) => {
   const plants = gameState.ecosystem?.plantInstances || [];
   const soilHealth = gameState.ecosystem?.soilHealth || 0;
   const plantDiversity = gameState.ecosystem?.plantDiversity || 0;
@@ -37,9 +34,7 @@ export const WorldTab: React.FC<WorldTabProps> = ({
                 <span>Soil Health</span>
               </div>
               <div className="flex items-center gap-sm">
-                <span className="resource-value">
-                  {Math.round(soilHealth)}%
-                </span>
+                <span className="resource-value">{Math.round(soilHealth)}%</span>
                 <div className="resource-bar">
                   <div
                     className="resource-bar-fill"
@@ -61,9 +56,7 @@ export const WorldTab: React.FC<WorldTabProps> = ({
                 <span className="resource-icon">🌺</span>
                 <span>Plant Diversity</span>
               </div>
-              <span className="resource-value">
-                {Math.round(plantDiversity)}%
-              </span>
+              <span className="resource-value">{Math.round(plantDiversity)}%</span>
             </div>
             <div className="resource-item">
               <div className="resource-label">
@@ -138,10 +131,7 @@ export const WorldTab: React.FC<WorldTabProps> = ({
         </div>
       </div>
 
-      <div
-        className="grid grid-cols-2 gap-lg"
-        style={{ marginTop: 'var(--spacing-lg)' }}
-      >
+      <div className="grid grid-cols-2 gap-lg" style={{ marginTop: 'var(--spacing-lg)' }}>
         {/* Interactive Map */}
         <div className="card card-elevated">
           <h2 className="heading-secondary">

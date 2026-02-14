@@ -136,8 +136,7 @@ class ResearchSystemManager {
     {
       id: 'sustainable_construction',
       name: 'Green Building Techniques',
-      description:
-        'Eco-friendly construction methods using natural and recycled materials.',
+      description: 'Eco-friendly construction methods using natural and recycled materials.',
       icon: '🏗️',
       knowledgeRequired: 18,
       prerequisites: [],
@@ -161,11 +160,7 @@ class ResearchSystemManager {
       category: 'construction',
       benefits: {
         boosts: { waterEfficiency: 1.4 },
-        unlocks: [
-          'rainwater_harvesting',
-          'greywater_recycling',
-          'water_purifier_v2',
-        ],
+        unlocks: ['rainwater_harvesting', 'greywater_recycling', 'water_purifier_v2'],
       },
       isUnlocked: false,
       isResearched: false,
@@ -174,19 +169,14 @@ class ResearchSystemManager {
     {
       id: 'renewable_energy',
       name: 'Alternative Energy Systems',
-      description:
-        'Solar, wind, and biomass energy solutions for sustainable power generation.',
+      description: 'Solar, wind, and biomass energy solutions for sustainable power generation.',
       icon: '⚡',
       knowledgeRequired: 28,
       prerequisites: ['sustainable_construction'],
       category: 'construction',
       benefits: {
         boosts: { energyGeneration: 1.5 },
-        unlocks: [
-          'wind_turbine_construction',
-          'biogas_digester',
-          'solar_panel_v2',
-        ],
+        unlocks: ['wind_turbine_construction', 'biogas_digester', 'solar_panel_v2'],
       },
       isUnlocked: false,
       isResearched: false,
@@ -256,11 +246,7 @@ class ResearchSystemManager {
       category: 'social',
       benefits: {
         boosts: { knowledgeGeneration: 1.2, skillTransfer: 1.4 },
-        unlocks: [
-          'teaching_workshops',
-          'skill_documentation',
-          'apprenticeship_system',
-        ],
+        unlocks: ['teaching_workshops', 'skill_documentation', 'apprenticeship_system'],
       },
       isUnlocked: false,
       isResearched: false,
@@ -274,18 +260,11 @@ class ResearchSystemManager {
         'Advanced integration of all restoration knowledge into self-sustaining systems.',
       icon: '🌍',
       knowledgeRequired: 60,
-      prerequisites: [
-        'permaculture_design',
-        'mycorrhizal_networks',
-        'water_conservation',
-      ],
+      prerequisites: ['permaculture_design', 'mycorrhizal_networks', 'water_conservation'],
       category: 'agriculture',
       benefits: {
         boosts: { ecosystemRegeneration: 2.0, soilHealth: 1.8 },
-        unlocks: [
-          'ecosystem_restoration_mastery',
-          'climate_adaptation_techniques',
-        ],
+        unlocks: ['ecosystem_restoration_mastery', 'climate_adaptation_techniques'],
       },
       isUnlocked: false,
       isResearched: false,
@@ -314,9 +293,7 @@ class ResearchSystemManager {
         if (completedResearch.includes(node.id)) return false;
 
         // All prerequisites met
-        return node.prerequisites.every(prereq =>
-          completedResearch.includes(prereq)
-        );
+        return node.prerequisites.every(prereq => completedResearch.includes(prereq));
       })
       .map(node => node.id);
   }
@@ -324,11 +301,7 @@ class ResearchSystemManager {
   /**
    * Check if a research node can be started
    */
-  canStartResearch(
-    nodeId: string,
-    gameState: GameState,
-    completedResearch: string[]
-  ): boolean {
+  canStartResearch(nodeId: string, gameState: GameState, completedResearch: string[]): boolean {
     const node = this.researchTree.find(n => n.id === nodeId);
     if (!node) return false;
 
@@ -336,8 +309,7 @@ class ResearchSystemManager {
     if (gameState.knowledge < node.knowledgeRequired) return false;
 
     // Check prerequisites
-    if (!node.prerequisites.every(prereq => completedResearch.includes(prereq)))
-      return false;
+    if (!node.prerequisites.every(prereq => completedResearch.includes(prereq))) return false;
 
     // Check if already researched
     if (completedResearch.includes(nodeId)) return false;
@@ -353,13 +325,7 @@ class ResearchSystemManager {
     gameState: GameState,
     researchProgress: ResearchProgress
   ): ResearchProgress {
-    if (
-      !this.canStartResearch(
-        nodeId,
-        gameState,
-        researchProgress.completedResearch
-      )
-    ) {
+    if (!this.canStartResearch(nodeId, gameState, researchProgress.completedResearch)) {
       return researchProgress;
     }
 
@@ -381,9 +347,7 @@ class ResearchSystemManager {
       return { progress: researchProgress, completedResearch: null };
     }
 
-    const node = this.researchTree.find(
-      n => n.id === researchProgress.currentResearch
-    );
+    const node = this.researchTree.find(n => n.id === researchProgress.currentResearch);
     if (!node) {
       return { progress: researchProgress, completedResearch: null };
     }
@@ -396,9 +360,7 @@ class ResearchSystemManager {
     // Check if research is complete
     const researchTime =
       node.researchTime ||
-      Math.ceil(
-        node.knowledgeRequired / researchConstants.DEFAULT_RESEARCH_TIME_DIVISOR
-      );
+      Math.ceil(node.knowledgeRequired / researchConstants.DEFAULT_RESEARCH_TIME_DIVISOR);
     const isComplete = newProgress.daysInProgress >= researchTime;
 
     if (isComplete) {
@@ -407,10 +369,7 @@ class ResearchSystemManager {
         currentResearch: null,
         daysInProgress: 0,
         completedResearch: [...newProgress.completedResearch, node.id],
-        availableResearch: this.getAvailableResearch([
-          ...newProgress.completedResearch,
-          node.id,
-        ]),
+        availableResearch: this.getAvailableResearch([...newProgress.completedResearch, node.id]),
       };
 
       return {
@@ -474,10 +433,7 @@ class ResearchSystemManager {
         node.benefits.unlocks.forEach(unlock => {
           if (unlock.includes('choice')) {
             unlocked.choices.push(unlock);
-          } else if (
-            unlock.includes('construction') ||
-            unlock.includes('building')
-          ) {
+          } else if (unlock.includes('construction') || unlock.includes('building')) {
             unlocked.constructions.push(unlock);
           } else {
             unlocked.abilities.push(unlock);
@@ -499,8 +455,7 @@ class ResearchSystemManager {
     return completedResearch.some(researchId => {
       const node = this.researchTree.find(n => n.id === researchId);
       return (
-        node?.benefits.unlocks?.includes(unlockId) ||
-        node?.benefits.abilities?.includes(unlockId)
+        node?.benefits.unlocks?.includes(unlockId) || node?.benefits.abilities?.includes(unlockId)
       );
     });
   }
@@ -508,43 +463,26 @@ class ResearchSystemManager {
   /**
    * Get research recommendations based on current game state
    */
-  getResearchRecommendations(
-    gameState: GameState,
-    researchProgress: ResearchProgress
-  ): string[] {
+  getResearchRecommendations(gameState: GameState, researchProgress: ResearchProgress): string[] {
     const available = researchProgress.availableResearch;
     const recommendations: { id: string; priority: number }[] = [];
 
     available.forEach(nodeId => {
       const node = this.researchTree.find(n => n.id === nodeId);
-      if (
-        !node ||
-        !this.canStartResearch(
-          nodeId,
-          gameState,
-          researchProgress.completedResearch
-        )
-      )
+      if (!node || !this.canStartResearch(nodeId, gameState, researchProgress.completedResearch))
         return;
 
       let priority = 0;
 
       // Prioritize based on current needs
       if (gameState.health < 50 && node.category === 'survival') priority += 3;
-      if (gameState.supplies < 30 && node.category === 'agriculture')
-        priority += 3;
-      if (gameState.ecosystem.soilHealth < 30 && node.category === 'ecology')
-        priority += 2;
-      if (
-        (gameState.baseStructures?.length || 0) > 2 &&
-        node.category === 'construction'
-      )
+      if (gameState.supplies < 30 && node.category === 'agriculture') priority += 3;
+      if (gameState.ecosystem.soilHealth < 30 && node.category === 'ecology') priority += 2;
+      if ((gameState.baseStructures?.length || 0) > 2 && node.category === 'construction')
         priority += 2;
 
       // Prioritize based on trust issues
-      const lowTrust = Object.values(gameState.npcs || {}).some(
-        npc => npc.trustLevel < 40
-      );
+      const lowTrust = Object.values(gameState.npcs || {}).some(npc => npc.trustLevel < 40);
       if (lowTrust && node.category === 'social') priority += 3;
 
       // Lower priority for high knowledge requirements relative to current knowledge

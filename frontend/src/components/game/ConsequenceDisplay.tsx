@@ -51,10 +51,7 @@ export const ConsequenceDisplay = memo<ConsequenceDisplayProps>(
               label: `${npc.charAt(0).toUpperCase() + npc.slice(1)} Trust`,
               value,
               startTime:
-                startTime +
-                ((consequences ? Object.keys(consequences).length : 0) +
-                  index) *
-                  200,
+                startTime + ((consequences ? Object.keys(consequences).length : 0) + index) * 200,
             });
           }
         });
@@ -134,9 +131,7 @@ const ConsequenceItem = memo<ConsequenceItemProps>(({ animation }) => {
   };
 
   const getValueColor = () => {
-    return animation.value > 0
-      ? 'var(--color-terminal-green)'
-      : 'var(--color-terminal-red)';
+    return animation.value > 0 ? 'var(--color-terminal-green)' : 'var(--color-terminal-red)';
   };
 
   return (

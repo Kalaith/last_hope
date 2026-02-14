@@ -142,9 +142,7 @@ export const useGameStore = create<GameStore>()(
       setScreen: screen => set({ currentScreen: screen }),
 
       selectBackground: backgroundId => {
-        const background = gameData.characterBackgrounds.find(
-          b => b.id === backgroundId
-        );
+        const background = gameData.characterBackgrounds.find(b => b.id === backgroundId);
         set({ selectedBackground: background || null });
       },
 
@@ -159,22 +157,17 @@ export const useGameStore = create<GameStore>()(
         if (selectedBackground.startingStats) {
           newGameState = {
             ...newGameState,
-            hope: Math.min(
-              100,
-              newGameState.hope + (selectedBackground.startingStats.hope || 0)
-            ),
+            hope: Math.min(100, newGameState.hope + (selectedBackground.startingStats.hope || 0)),
             knowledge: Math.min(
               100,
-              newGameState.knowledge +
-                (selectedBackground.startingStats.knowledge || 0)
+              newGameState.knowledge + (selectedBackground.startingStats.knowledge || 0)
             ),
           };
         }
 
         // Apply New Game Plus bonuses if requested
         if (withNewGamePlusBonuses) {
-          const bonuses =
-            MetaProgressionManager.getNewGamePlusBonuses(metaState);
+          const bonuses = MetaProgressionManager.getNewGamePlusBonuses(metaState);
           newGameState = {
             ...newGameState,
             ...bonuses,
@@ -226,8 +219,7 @@ export const useGameStore = create<GameStore>()(
         if (
           state.gameState.lastChoiceTime > 0 &&
           state.gameState.choiceCooldown > 0 &&
-          currentTime <
-            state.gameState.lastChoiceTime + state.gameState.choiceCooldown
+          currentTime < state.gameState.lastChoiceTime + state.gameState.choiceCooldown
         ) {
           return; // Choice blocked by cooldown
         }
@@ -248,17 +240,10 @@ export const useGameStore = create<GameStore>()(
         });
 
         // Register choice for cascading consequences
-        CascadingConsequenceManager.registerChoice(
-          choice.text,
-          choice,
-          state.gameState
-        );
+        CascadingConsequenceManager.registerChoice(choice.text, choice, state.gameState);
 
         // Show consequences animation before applying changes
-        get().showConsequences(
-          choice.consequences || null,
-          choice.relationships || null
-        );
+        get().showConsequences(choice.consequences || null, choice.relationships || null);
 
         // Wait for consequence animation to complete before continuing
         setTimeout(() => {
@@ -283,8 +268,7 @@ export const useGameStore = create<GameStore>()(
           const systemEvent = get().checkForSystemEvents();
           if (
             systemEvent &&
-            Math.random() <
-              SystemEventManager.getEventProbability(get().gameState)
+            Math.random() < SystemEventManager.getEventProbability(get().gameState)
           ) {
             // Use system event as next content
             // For now, just continue with regular flow but this could be expanded
@@ -307,13 +291,9 @@ export const useGameStore = create<GameStore>()(
               get().generateProceduralScene();
               // For procedural scenes, we stay on current scene but update content dynamically
             }
-          } else if (
-            choice.nextScene === 'ending' ||
-            state.daysSurvived >= 50
-          ) {
+          } else if (choice.nextScene === 'ending' || state.daysSurvived >= 50) {
             const finalEnding = get().checkEndingConditions();
-            const endCondition =
-              (finalEnding?.id as RunHistory['endCondition']) || 'hope_lost';
+            const endCondition = (finalEnding?.id as RunHistory['endCondition']) || 'hope_lost';
             get().completeRun(endCondition);
             set({
               currentEnding: finalEnding || gameData.endingConditions[1],
@@ -330,37 +310,19 @@ export const useGameStore = create<GameStore>()(
         // Apply resource changes using new streamlined system
         for (const [key, value] of Object.entries(consequences)) {
           if (key === 'hope') {
-            updates.hope = Math.max(
-              0,
-              Math.min(100, currentState.hope + value)
-            );
+            updates.hope = Math.max(0, Math.min(100, currentState.hope + value));
           } else if (key === 'health') {
-            updates.health = Math.max(
-              0,
-              Math.min(100, currentState.health + value)
-            );
+            updates.health = Math.max(0, Math.min(100, currentState.health + value));
           } else if (key === 'supplies') {
-            updates.supplies = Math.max(
-              0,
-              Math.min(100, currentState.supplies + value)
-            );
+            updates.supplies = Math.max(0, Math.min(100, currentState.supplies + value));
           } else if (key === 'knowledge') {
-            updates.knowledge = Math.max(
-              0,
-              Math.min(100, currentState.knowledge + value)
-            );
+            updates.knowledge = Math.max(0, Math.min(100, currentState.knowledge + value));
           } else if (key === 'seeds') {
-            updates.seeds = Math.max(
-              0,
-              Math.min(50, currentState.seeds + value)
-            );
+            updates.seeds = Math.max(0, Math.min(50, currentState.seeds + value));
           } else if (key === 'soilHealth') {
             updates.ecosystem = {
               ...currentState.ecosystem,
-              soilHealth: Math.max(
-                0,
-                Math.min(100, currentState.ecosystem.soilHealth + value)
-              ),
+              soilHealth: Math.max(0, Math.min(100, currentState.ecosystem.soilHealth + value)),
             };
           }
         }
@@ -378,10 +340,7 @@ export const useGameStore = create<GameStore>()(
           if (updatedNPCs[character]) {
             updatedNPCs[character] = {
               ...updatedNPCs[character],
-              trustLevel: Math.max(
-                0,
-                Math.min(100, updatedNPCs[character].trustLevel + change)
-              ),
+              trustLevel: Math.max(0, Math.min(100, updatedNPCs[character].trustLevel + change)),
             };
           }
         }
@@ -469,8 +428,7 @@ export const useGameStore = create<GameStore>()(
         const newDaysSurvived = get().daysSurvived + 1;
 
         // Apply daily resource consumption and ecosystem simulation
-        const { resourceUpdates, ecosystemUpdates } =
-          ResourceManager.simulateDay(currentState);
+        const { resourceUpdates, ecosystemUpdates } = ResourceManager.simulateDay(currentState);
 
         // Update ecosystem
         const updatedEcosystem = EcosystemSimulator.simulateGrowth(
@@ -479,14 +437,10 @@ export const useGameStore = create<GameStore>()(
         );
 
         // Process base building operations
-        const baseBuildingResults =
-          BaseBuildingManager.processDailyOperations();
+        const baseBuildingResults = BaseBuildingManager.processDailyOperations();
 
         // Update NPCs
-        const updatedNPCs = NPCManager.updateAllNPCs(
-          currentState.npcs,
-          currentState
-        );
+        const updatedNPCs = NPCManager.updateAllNPCs(currentState.npcs, currentState);
 
         // Create initial game state
         let newGameState = {
@@ -540,8 +494,7 @@ export const useGameStore = create<GameStore>()(
         // If consequences triggered, create a story event
         if (triggeredConsequences.length > 0) {
           const consequence = triggeredConsequences[0]; // Handle first one
-          const storyEvent =
-            CascadingConsequenceManager.createStoryEvent(consequence);
+          const storyEvent = CascadingConsequenceManager.createStoryEvent(consequence);
 
           // Set a delayed story scene for the consequence
           setTimeout(() => {
@@ -565,13 +518,7 @@ export const useGameStore = create<GameStore>()(
       },
 
       completeRun: endCondition => {
-        const {
-          gameState,
-          metaState,
-          runHistory,
-          daysSurvived,
-          totalChoicesMade,
-        } = get();
+        const { gameState, metaState, runHistory, daysSurvived, totalChoicesMade } = get();
 
         // Create run record
         const runRecord = MetaProgressionManager.completeRun(
@@ -583,11 +530,7 @@ export const useGameStore = create<GameStore>()(
         );
 
         // Check for new achievements
-        MetaProgressionManager.checkAchievements(
-          gameState,
-          [...runHistory, runRecord],
-          metaState
-        );
+        MetaProgressionManager.checkAchievements(gameState, [...runHistory, runRecord], metaState);
 
         // Update meta state and run history
         set({
@@ -673,9 +616,9 @@ export const useGameStore = create<GameStore>()(
 
         if (success) {
           // Deduct resources immediately when construction starts
-          const blueprint = BaseBuildingManager.getAvailableStructures(
-            state.gameState
-          ).find(s => s.blueprint.type === structureType)?.blueprint;
+          const blueprint = BaseBuildingManager.getAvailableStructures(state.gameState).find(
+            s => s.blueprint.type === structureType
+          )?.blueprint;
 
           if (blueprint) {
             const levelData = blueprint.levels[level - 1];
@@ -692,8 +635,7 @@ export const useGameStore = create<GameStore>()(
               gameState: {
                 ...state.gameState,
                 ...resourceUpdates,
-                constructionProjects:
-                  BaseBuildingManager.getConstructionProjects(),
+                constructionProjects: BaseBuildingManager.getConstructionProjects(),
               },
             });
           }
@@ -735,18 +677,14 @@ export const useGameStore = create<GameStore>()(
       getResearchBoosts: () => {
         const state = get();
         if (!state.researchProgress) return {};
-        return researchSystem.getActiveBoosts(
-          state.researchProgress.completedResearch
-        );
+        return researchSystem.getActiveBoosts(state.researchProgress.completedResearch);
       },
     }),
     {
       name: 'last-hope-game-storage',
       version: 2, // Increment version to force migration
       migrate: (persistedState: unknown, version: number) => {
-        const typedState = persistedState as
-          | Partial<{ gameState: Partial<GameState> }>
-          | undefined;
+        const typedState = persistedState as Partial<{ gameState: Partial<GameState> }> | undefined;
         // If we have an old version, merge with new initial state
         if (version < 2) {
           console.log('Migrating game state from version', version, 'to 2');
@@ -758,10 +696,8 @@ export const useGameStore = create<GameStore>()(
               // Ensure core resources are present
               hope: typedState?.gameState?.hope ?? initialGameState.hope,
               health: typedState?.gameState?.health ?? initialGameState.health,
-              supplies:
-                typedState?.gameState?.supplies ?? initialGameState.supplies,
-              knowledge:
-                typedState?.gameState?.knowledge ?? initialGameState.knowledge,
+              supplies: typedState?.gameState?.supplies ?? initialGameState.supplies,
+              knowledge: typedState?.gameState?.knowledge ?? initialGameState.knowledge,
               seeds: typedState?.gameState?.seeds ?? initialGameState.seeds,
             },
           };

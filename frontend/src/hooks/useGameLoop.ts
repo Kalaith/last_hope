@@ -10,11 +10,7 @@ export const useGameLoop = (
   updateCallback: (deltaTime: number) => void,
   config: GameLoopConfig = {}
 ) => {
-  const {
-    intervalMs = 1000,
-    enablePerformanceMonitoring = false,
-    maxFrameSkip = 5,
-  } = config;
+  const { intervalMs = 1000, enablePerformanceMonitoring = false, maxFrameSkip = 5 } = config;
 
   const intervalRef = useRef<number | undefined>(undefined);
   const lastUpdateRef = useRef<number>(Date.now());
@@ -34,9 +30,7 @@ export const useGameLoop = (
 
     // Skip frames if performance is poor
     if (deltaTime > intervalMs * maxFrameSkip) {
-      console.warn(
-        `Game loop: Skipping ${Math.floor(deltaTime / intervalMs)} frames`
-      );
+      console.warn(`Game loop: Skipping ${Math.floor(deltaTime / intervalMs)} frames`);
       lastUpdateRef.current = currentTime;
       return;
     }

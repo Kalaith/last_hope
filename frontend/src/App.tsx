@@ -15,9 +15,7 @@ const App: React.FC = () => {
 
   return (
     <GameContainer>
-      <CharacterCreationScreen
-        visible={currentScreen === 'characterCreation'}
-      />
+      <CharacterCreationScreen visible={currentScreen === 'characterCreation'} />
       <GameScreen visible={currentScreen === 'game'} />
       <EndingScreen visible={currentScreen === 'ending'} />
     </GameContainer>

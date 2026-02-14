@@ -68,37 +68,28 @@ export const SettlementTab: React.FC<SettlementTabProps> = ({ gameState }) => {
                 <span className="resource-icon">📦</span>
                 <span>Supplies</span>
               </div>
-              <span className="resource-value">
-                {Math.round(gameState.supplies)}
-              </span>
+              <span className="resource-value">{Math.round(gameState.supplies)}</span>
             </div>
             <div className="resource-item">
               <div className="resource-label">
                 <span className="resource-icon">🌱</span>
                 <span>Seeds</span>
               </div>
-              <span className="resource-value">
-                {Math.round(gameState.seeds)}
-              </span>
+              <span className="resource-value">{Math.round(gameState.seeds)}</span>
             </div>
             <div className="resource-item">
               <div className="resource-label">
                 <span className="resource-icon">📚</span>
                 <span>Knowledge</span>
               </div>
-              <span className="resource-value">
-                {Math.round(gameState.knowledge)}
-              </span>
+              <span className="resource-value">{Math.round(gameState.knowledge)}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Base Management - Full Width */}
-      <div
-        className="card card-elevated"
-        style={{ marginTop: 'var(--spacing-lg)' }}
-      >
+      <div className="card card-elevated" style={{ marginTop: 'var(--spacing-lg)' }}>
         <BaseManagement gameState={gameState} />
       </div>
     </div>

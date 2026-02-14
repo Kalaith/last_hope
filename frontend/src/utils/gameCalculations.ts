@@ -26,10 +26,7 @@ export const calculateOfflineEarnings = (
       water: Math.floor(effectiveRate * effectiveHours * 0.3),
       energy: Math.floor(effectiveRate * effectiveHours * 0.2),
       knowledge: Math.floor(effectiveRate * effectiveHours * 0.1),
-      seeds:
-        gameState.restorationProgress > 2
-          ? Math.floor(effectiveHours * 0.1)
-          : 0,
+      seeds: gameState.restorationProgress > 2 ? Math.floor(effectiveHours * 0.1) : 0,
     },
     experience: Math.floor(effectiveHours * 10),
     totalValue: 0,
@@ -77,9 +74,7 @@ export const formatTime = (milliseconds: number): string => {
   }
 };
 
-export const calculateRestorationEfficiency = (
-  gameState: GameState
-): number => {
+export const calculateRestorationEfficiency = (gameState: GameState): number => {
   const baseEfficiency = 1;
   const scienceBonus = gameState.skills.science * 0.2;
   const knowledgeBonus = gameState.resources.knowledge * 0.1;

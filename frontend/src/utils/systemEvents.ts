@@ -262,9 +262,7 @@ export class SystemEventManager {
   /**
    * Check if any system events should trigger based on current game state
    */
-  static checkForTriggeredEvents(
-    gameState: GameState
-  ): SystemTriggeredEvent | null {
+  static checkForTriggeredEvents(gameState: GameState): SystemTriggeredEvent | null {
     // Randomly select from applicable events to avoid predictability
     const applicableEvents = systemEvents.filter(event =>
       this.eventShouldTrigger(event, gameState)
@@ -292,33 +290,21 @@ export class SystemEventManager {
   /**
    * Check if a specific event should trigger
    */
-  private static eventShouldTrigger(
-    event: SystemTriggeredEvent,
-    gameState: GameState
-  ): boolean {
+  private static eventShouldTrigger(event: SystemTriggeredEvent, gameState: GameState): boolean {
     const triggers = event.triggers;
 
     // Weather pattern trigger
-    if (
-      triggers.weatherPattern &&
-      gameState.ecosystem.weatherPattern !== triggers.weatherPattern
-    ) {
+    if (triggers.weatherPattern && gameState.ecosystem.weatherPattern !== triggers.weatherPattern) {
       return false;
     }
 
     // Soil health range trigger
     if (triggers.soilHealth) {
       const soilHealth = gameState.ecosystem.soilHealth;
-      if (
-        triggers.soilHealth.min !== undefined &&
-        soilHealth < triggers.soilHealth.min
-      ) {
+      if (triggers.soilHealth.min !== undefined && soilHealth < triggers.soilHealth.min) {
         return false;
       }
-      if (
-        triggers.soilHealth.max !== undefined &&
-        soilHealth > triggers.soilHealth.max
-      ) {
+      if (triggers.soilHealth.max !== undefined && soilHealth > triggers.soilHealth.max) {
         return false;
       }
     }
@@ -335,10 +321,7 @@ export class SystemEventManager {
 
     // Supply threshold trigger
     if (triggers.supplies) {
-      if (
-        triggers.supplies.below !== undefined &&
-        gameState.supplies >= triggers.supplies.below
-      ) {
+      if (triggers.supplies.below !== undefined && gameState.supplies >= triggers.supplies.below) {
         return false;
       }
     }
@@ -354,10 +337,7 @@ export class SystemEventManager {
 
     // Knowledge threshold trigger
     if (triggers.knowledge) {
-      if (
-        triggers.knowledge.min !== undefined &&
-        gameState.knowledge < triggers.knowledge.min
-      ) {
+      if (triggers.knowledge.min !== undefined && gameState.knowledge < triggers.knowledge.min) {
         return false;
       }
     }
@@ -411,10 +391,7 @@ export class SystemEventManager {
 
     // Increase probability when ecosystem is in transition zones
     const soilHealth = gameState.ecosystem.soilHealth;
-    if (
-      (soilHealth > 20 && soilHealth < 40) ||
-      (soilHealth > 60 && soilHealth < 80)
-    ) {
+    if ((soilHealth > 20 && soilHealth < 40) || (soilHealth > 60 && soilHealth < 80)) {
       baseProbability += 0.05;
     }
 
@@ -432,9 +409,7 @@ export class SystemEventManager {
   /**
    * Get event rarity for UI feedback
    */
-  static getEventRarity(
-    eventId: string
-  ): 'common' | 'uncommon' | 'rare' | 'critical' {
+  static getEventRarity(eventId: string): 'common' | 'uncommon' | 'rare' | 'critical' {
     if (eventId.includes('crisis') || eventId.includes('shortage')) {
       return 'critical';
     }

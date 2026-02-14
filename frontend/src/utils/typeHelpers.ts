@@ -3,10 +3,7 @@
 import type { GameState } from '../types/game';
 
 // Type-safe resource accessor for GameState
-export function getResourceValue(
-  gameState: GameState,
-  resource: string
-): number {
+export function getResourceValue(gameState: GameState, resource: string): number {
   switch (resource) {
     case 'hope':
       return gameState.hope;
@@ -27,10 +24,7 @@ export function getResourceValue(
 }
 
 // Type-safe resource setter for GameState updates
-export function createResourceUpdate(
-  resource: string,
-  value: number
-): Partial<GameState> {
+export function createResourceUpdate(resource: string, value: number): Partial<GameState> {
   const clampedValue = Math.max(0, value); // Ensure non-negative values
 
   switch (resource) {
@@ -53,13 +47,8 @@ export function createResourceUpdate(
 // Check if a string is a valid resource key
 export function isValidResource(
   resource: string
-): resource is keyof Pick<
-  GameState,
-  'hope' | 'health' | 'supplies' | 'knowledge' | 'seeds'
-> {
-  return ['hope', 'health', 'supplies', 'knowledge', 'seeds'].includes(
-    resource
-  );
+): resource is keyof Pick<GameState, 'hope' | 'health' | 'supplies' | 'knowledge' | 'seeds'> {
+  return ['hope', 'health', 'supplies', 'knowledge', 'seeds'].includes(resource);
 }
 
 // Type guard for checking if property exists on object

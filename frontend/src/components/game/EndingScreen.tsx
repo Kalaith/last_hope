@@ -37,15 +37,11 @@ export const EndingScreen = memo<EndingScreenProps>(({ visible }) => {
             </div>
             <div className="final-stat">
               <span className="final-stat-label">World Health</span>
-              <span className="final-stat-value">
-                {Math.round(gameState.worldHealth)}%
-              </span>
+              <span className="final-stat-value">{Math.round(gameState.worldHealth)}%</span>
             </div>
             <div className="final-stat">
               <span className="final-stat-label">Restoration Progress</span>
-              <span className="final-stat-value">
-                {gameState.restorationProgress}
-              </span>
+              <span className="final-stat-value">{gameState.restorationProgress}</span>
             </div>
             <div className="final-stat">
               <span className="final-stat-label">Relationships</span>

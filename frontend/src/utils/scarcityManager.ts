@@ -56,8 +56,7 @@ export const scarcityEvents: ScarcityEvent[] = [
         outdoor: 10, // Outdoor activities cost more
       },
     },
-    triggerConditions: state =>
-      state.ecosystem.seasonalCycle === 'winter' && Math.random() < 0.4,
+    triggerConditions: state => state.ecosystem.seasonalCycle === 'winter' && Math.random() < 0.4,
   },
 
   {
@@ -73,9 +72,7 @@ export const scarcityEvents: ScarcityEvent[] = [
       maxCapacity: Math.floor(50 * 0.7), // Reduce max seeds by 30%
     },
     triggerConditions: state =>
-      state.seeds > 10 &&
-      state.ecosystem.soilHealth < 20 &&
-      Math.random() < 0.25,
+      state.seeds > 10 && state.ecosystem.soilHealth < 20 && Math.random() < 0.25,
   },
 
   {
@@ -110,16 +107,13 @@ export const scarcityEvents: ScarcityEvent[] = [
       },
     },
     triggerConditions: state =>
-      state.hope < 25 &&
-      Object.values(state.npcs).some(npc => npc.mood === 'desperate'),
+      state.hope < 25 && Object.values(state.npcs).some(npc => npc.mood === 'desperate'),
   },
 ];
 
 export class ScarcityManager {
-  private static activeEvents: Map<
-    string,
-    { event: ScarcityEvent; daysRemaining: number }
-  > = new Map();
+  private static activeEvents: Map<string, { event: ScarcityEvent; daysRemaining: number }> =
+    new Map();
   private static lastPressureCheck: number = 0;
 
   /**
@@ -134,29 +128,22 @@ export class ScarcityManager {
       resource: 'hope',
       pressure: hopePressure,
       trend: this.calculateTrend('hope', gameState),
-      timeToDepletion:
-        gameState.hope <= 10 ? Math.ceil(gameState.hope / 2) : undefined,
+      timeToDepletion: gameState.hope <= 10 ? Math.ceil(gameState.hope / 2) : undefined,
     });
 
     // Supplies pressure - consider daily consumption
     const dailyConsumption = this.calculateDailyConsumption('supplies');
-    const suppliesPressure = Math.min(
-      100,
-      100 - gameState.supplies + dailyConsumption * 10
-    );
+    const suppliesPressure = Math.min(100, 100 - gameState.supplies + dailyConsumption * 10);
     pressures.push({
       resource: 'supplies',
       pressure: suppliesPressure,
       trend: this.calculateTrend('supplies', gameState),
       timeToDepletion:
-        dailyConsumption > 0
-          ? Math.ceil(gameState.supplies / dailyConsumption)
-          : undefined,
+        dailyConsumption > 0 ? Math.ceil(gameState.supplies / dailyConsumption) : undefined,
     });
 
     // Seeds pressure - critical resource
-    const seedsPressure =
-      gameState.seeds < 5 ? 80 : Math.max(0, (10 - gameState.seeds) * 10);
+    const seedsPressure = gameState.seeds < 5 ? 80 : Math.max(0, (10 - gameState.seeds) * 10);
     pressures.push({
       resource: 'seeds',
       pressure: seedsPressure,
@@ -170,8 +157,7 @@ export class ScarcityManager {
       resource: 'health',
       pressure: healthPressure,
       trend: this.calculateTrend('health', gameState),
-      timeToDepletion:
-        gameState.health <= 15 ? Math.ceil(gameState.health / 3) : undefined,
+      timeToDepletion: gameState.health <= 15 ? Math.ceil(gameState.health / 3) : undefined,
     });
 
     return pressures.sort((a, b) => b.pressure - a.pressure);
@@ -241,11 +227,9 @@ export class ScarcityManager {
     this.activeEvents.forEach(activeEvent => {
       const event = activeEvent.event;
       if (event.effects.choiceModifiers) {
-        Object.entries(event.effects.choiceModifiers).forEach(
-          ([key, value]) => {
-            modifiers[key] = (modifiers[key] || 0) + value;
-          }
-        );
+        Object.entries(event.effects.choiceModifiers).forEach(([key, value]) => {
+          modifiers[key] = (modifiers[key] || 0) + value;
+        });
       }
     });
 
@@ -298,9 +282,7 @@ export class ScarcityManager {
       if (applies) {
         Object.keys(modifiedCosts).forEach(resource => {
           if (modifiedCosts[resource] > 0) {
-            modifiedCosts[resource] = Math.ceil(
-              modifiedCosts[resource] * (1 + increase / 100)
-            );
+            modifiedCosts[resource] = Math.ceil(modifiedCosts[resource] * (1 + increase / 100));
           }
         });
       }
@@ -330,9 +312,7 @@ export class ScarcityManager {
             `${pressure.resource.toUpperCase()} CRITICAL: ${pressure.timeToDepletion} days remaining`
           );
         } else {
-          warnings.push(
-            `${pressure.resource.toUpperCase()} at critical levels`
-          );
+          warnings.push(`${pressure.resource.toUpperCase()} at critical levels`);
         }
       } else if (pressure.pressure >= 60) {
         warnings.push(

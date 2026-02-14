@@ -9,8 +9,7 @@ interface BaseManagementProps {
 }
 
 export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
-  const { getAvailableStructures, getBaseStats, startConstruction } =
-    useGameStore();
+  const { getAvailableStructures, getBaseStats, startConstruction } = useGameStore();
   const [selectedCategory, setSelectedCategory] = useState<
     'all' | 'production' | 'research' | 'utility'
   >('all');
@@ -26,8 +25,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
   const baseStats = getBaseStats();
 
   const filteredStructures = availableStructures.filter(
-    item =>
-      selectedCategory === 'all' || item.blueprint.category === selectedCategory
+    item => selectedCategory === 'all' || item.blueprint.category === selectedCategory
   );
 
   const handleBuildStructure = (structureType: string, level: number) => {
@@ -39,9 +37,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
 
   const getResourceColor = (resource: string, cost: number): string => {
     const current = getResourceValue(gameState, resource);
-    return current >= cost
-      ? 'var(--color-terminal-green)'
-      : 'var(--color-terminal-red)';
+    return current >= cost ? 'var(--color-terminal-green)' : 'var(--color-terminal-red)';
   };
 
   const getStructureStatusColor = (condition: number): string => {
@@ -66,12 +62,10 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
                 Base Management System
               </div>
               <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-                Build and manage structures to improve your settlement's
-                capabilities. • Production buildings generate daily resources •
-                Research facilities advance your knowledge • Utility structures
-                provide efficiency bonuses • All structures require maintenance
-                over time Plan your base layout strategically for maximum
-                benefit!
+                Build and manage structures to improve your settlement's capabilities. • Production
+                buildings generate daily resources • Research facilities advance your knowledge •
+                Utility structures provide efficiency bonuses • All structures require maintenance
+                over time Plan your base layout strategically for maximum benefit!
               </div>
             </div>
           }
@@ -81,10 +75,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
         >
           <h4 style={{ cursor: 'help' }}>Settlement Management ℹ️</h4>
         </Tooltip>
-        <button
-          className="build-menu-toggle"
-          onClick={() => setShowBuildMenu(!showBuildMenu)}
-        >
+        <button className="build-menu-toggle" onClick={() => setShowBuildMenu(!showBuildMenu)}>
           {showBuildMenu ? '✖️ Cancel' : '🏗️ Build'}
         </button>
       </div>
@@ -116,28 +107,24 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
           <div className="production-overview">
             <div className="production-title">Daily Production:</div>
             <div className="production-items">
-              {Object.entries(baseStats.dailyProduction).map(
-                ([resource, amount]) => (
-                  <div key={resource} className="production-item">
-                    <span className="resource-icon">
-                      {resource === 'supplies'
-                        ? '📦'
-                        : resource === 'knowledge'
-                          ? '📚'
-                          : resource === 'seeds'
-                            ? '🌱'
-                            : resource === 'hope'
-                              ? '🌟'
-                              : resource === 'soilHealth'
-                                ? '🌍'
-                                : '📊'}
-                    </span>
-                    <span className="production-amount">
-                      +{amount.toFixed(1)}
-                    </span>
-                  </div>
-                )
-              )}
+              {Object.entries(baseStats.dailyProduction).map(([resource, amount]) => (
+                <div key={resource} className="production-item">
+                  <span className="resource-icon">
+                    {resource === 'supplies'
+                      ? '📦'
+                      : resource === 'knowledge'
+                        ? '📚'
+                        : resource === 'seeds'
+                          ? '🌱'
+                          : resource === 'hope'
+                            ? '🌟'
+                            : resource === 'soilHealth'
+                              ? '🌍'
+                              : '📊'}
+                  </span>
+                  <span className="production-amount">+{amount.toFixed(1)}</span>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -180,10 +167,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
                     >
                       {Math.round(structure.condition)}% condition
                     </span>
-                    <span>
-                      {' '}
-                      • {Math.round(structure.efficiency)}% efficiency
-                    </span>
+                    <span> • {Math.round(structure.efficiency)}% efficiency</span>
                   </div>
                 </div>
               </div>
@@ -193,41 +177,38 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
       )}
 
       {/* Construction Projects */}
-      {gameState.constructionProjects &&
-        gameState.constructionProjects.length > 0 && (
-          <div className="construction-projects">
-            <div className="projects-title">Under Construction:</div>
-            {gameState.constructionProjects.map((project, index: number) => (
-              <div key={index} className="construction-item">
-                <div className="construction-info">
-                  <span className="construction-icon">🚧</span>
-                  <div className="construction-details">
-                    <div className="construction-name">
-                      {project.structureType
-                        .replace('_', ' ')
-                        .replace(/\b\w/g, (l: string) => l.toUpperCase())}{' '}
-                      L{project.targetLevel}
+      {gameState.constructionProjects && gameState.constructionProjects.length > 0 && (
+        <div className="construction-projects">
+          <div className="projects-title">Under Construction:</div>
+          {gameState.constructionProjects.map((project, index: number) => (
+            <div key={index} className="construction-item">
+              <div className="construction-info">
+                <span className="construction-icon">🚧</span>
+                <div className="construction-details">
+                  <div className="construction-name">
+                    {project.structureType
+                      .replace('_', ' ')
+                      .replace(/\b\w/g, (l: string) => l.toUpperCase())}{' '}
+                    L{project.targetLevel}
+                  </div>
+                  <div className="construction-progress">
+                    <div className="progress-bar">
+                      <div
+                        className="progress-fill"
+                        style={{
+                          width: `${((project.totalDays - project.daysRemaining) / project.totalDays) * 100}%`,
+                          background: 'var(--color-terminal-amber)',
+                        }}
+                      />
                     </div>
-                    <div className="construction-progress">
-                      <div className="progress-bar">
-                        <div
-                          className="progress-fill"
-                          style={{
-                            width: `${((project.totalDays - project.daysRemaining) / project.totalDays) * 100}%`,
-                            background: 'var(--color-terminal-amber)',
-                          }}
-                        />
-                      </div>
-                      <span className="progress-text">
-                        {project.daysRemaining} days remaining
-                      </span>
-                    </div>
+                    <span className="progress-text">{project.daysRemaining} days remaining</span>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Build Menu */}
       {showBuildMenu && (
@@ -253,9 +234,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
                   <span className="blueprint-icon">{item.blueprint.icon}</span>
                   <div className="blueprint-info">
                     <div className="blueprint-name">{item.blueprint.name}</div>
-                    <div className="blueprint-description">
-                      {item.blueprint.description}
-                    </div>
+                    <div className="blueprint-description">{item.blueprint.description}</div>
                   </div>
                 </div>
 
@@ -282,9 +261,7 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
                             >
                               {levelData.name}
                             </div>
-                            <div
-                              style={{ marginBottom: '8px', fontSize: '0.9em' }}
-                            >
+                            <div style={{ marginBottom: '8px', fontSize: '0.9em' }}>
                               {levelData.description}
                             </div>
 
@@ -298,27 +275,21 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
                               >
                                 Build Cost:
                               </div>
-                              {Object.entries(levelData.buildCost).map(
-                                ([resource, cost]) => (
-                                  <div
-                                    key={resource}
-                                    style={{
-                                      color: getResourceColor(resource, cost),
-                                      fontSize: '0.9em',
-                                    }}
-                                  >
-                                    •{' '}
-                                    {resource.charAt(0).toUpperCase() +
-                                      resource.slice(1)}
-                                    : {cost}
-                                  </div>
-                                )
-                              )}
+                              {Object.entries(levelData.buildCost).map(([resource, cost]) => (
+                                <div
+                                  key={resource}
+                                  style={{
+                                    color: getResourceColor(resource, cost),
+                                    fontSize: '0.9em',
+                                  }}
+                                >
+                                  • {resource.charAt(0).toUpperCase() + resource.slice(1)}: {cost}
+                                </div>
+                              ))}
                             </div>
 
                             {levelData.dailyProduction &&
-                              Object.keys(levelData.dailyProduction).length >
-                                0 && (
+                              Object.keys(levelData.dailyProduction).length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
                                   <div
                                     style={{
@@ -329,21 +300,20 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
                                   >
                                     Daily Production:
                                   </div>
-                                  {Object.entries(
-                                    levelData.dailyProduction
-                                  ).map(([resource, amount]) => (
-                                    <div
-                                      key={resource}
-                                      style={{
-                                        color: 'var(--color-terminal-green)',
-                                        fontSize: '0.9em',
-                                      }}
-                                    >
-                                      • +{amount}{' '}
-                                      {resource.charAt(0).toUpperCase() +
-                                        resource.slice(1)}
-                                    </div>
-                                  ))}
+                                  {Object.entries(levelData.dailyProduction).map(
+                                    ([resource, amount]) => (
+                                      <div
+                                        key={resource}
+                                        style={{
+                                          color: 'var(--color-terminal-green)',
+                                          fontSize: '0.9em',
+                                        }}
+                                      >
+                                        • +{amount}{' '}
+                                        {resource.charAt(0).toUpperCase() + resource.slice(1)}
+                                      </div>
+                                    )
+                                  )}
                                 </div>
                               )}
 
@@ -389,15 +359,11 @@ export const BaseManagement = memo<BaseManagementProps>(({ gameState }) => {
                         <button
                           className={`level-option ${canAfford ? 'affordable' : 'unaffordable'}`}
                           disabled={!canAfford}
-                          onClick={() =>
-                            handleBuildStructure(item.blueprint.type, level)
-                          }
+                          onClick={() => handleBuildStructure(item.blueprint.type, level)}
                         >
                           <div className="level-header">
                             <span className="level-name">Level {level}</span>
-                            <span className="build-time">
-                              {levelData.buildTime}d
-                            </span>
+                            <span className="build-time">{levelData.buildTime}d</span>
                           </div>
                           <div className="level-cost">
                             {Object.entries(levelData.buildCost)

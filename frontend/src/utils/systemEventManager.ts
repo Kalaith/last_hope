@@ -211,9 +211,7 @@ class SystemEventManager {
     const currentDay = gameState.daysSurvived;
 
     // Sort events by priority (highest first)
-    const sortedEvents = [...this.events].sort(
-      (a, b) => b.priority - a.priority
-    );
+    const sortedEvents = [...this.events].sort((a, b) => b.priority - a.priority);
 
     for (const event of sortedEvents) {
       // Skip if this is a once-only event that already triggered
@@ -251,15 +249,9 @@ class SystemEventManager {
     // Check soil health
     if (triggers.soilHealth) {
       const soilHealth = gameState.ecosystem?.soilHealth || 0;
-      if (
-        triggers.soilHealth.min !== undefined &&
-        soilHealth < triggers.soilHealth.min
-      )
+      if (triggers.soilHealth.min !== undefined && soilHealth < triggers.soilHealth.min)
         return false;
-      if (
-        triggers.soilHealth.max !== undefined &&
-        soilHealth > triggers.soilHealth.max
-      )
+      if (triggers.soilHealth.max !== undefined && soilHealth > triggers.soilHealth.max)
         return false;
     }
 
@@ -282,78 +274,45 @@ class SystemEventManager {
 
     // Check supplies
     if (triggers.supplies) {
-      if (
-        triggers.supplies.below !== undefined &&
-        gameState.supplies >= triggers.supplies.below
-      )
+      if (triggers.supplies.below !== undefined && gameState.supplies >= triggers.supplies.below)
         return false;
-      if (
-        triggers.supplies.above !== undefined &&
-        gameState.supplies <= triggers.supplies.above
-      )
+      if (triggers.supplies.above !== undefined && gameState.supplies <= triggers.supplies.above)
         return false;
     }
 
     // Check trust level for specific character
     if (triggers.trustLevel) {
       const character = gameState.npcs?.[triggers.trustLevel.character];
-      if (!character || character.trustLevel >= triggers.trustLevel.below)
-        return false;
+      if (!character || character.trustLevel >= triggers.trustLevel.below) return false;
     }
 
     // Check knowledge
     if (triggers.knowledge) {
-      if (
-        triggers.knowledge.min !== undefined &&
-        gameState.knowledge < triggers.knowledge.min
-      )
+      if (triggers.knowledge.min !== undefined && gameState.knowledge < triggers.knowledge.min)
         return false;
-      if (
-        triggers.knowledge.max !== undefined &&
-        gameState.knowledge > triggers.knowledge.max
-      )
+      if (triggers.knowledge.max !== undefined && gameState.knowledge > triggers.knowledge.max)
         return false;
     }
 
     // Check hope
     if (triggers.hope) {
-      if (
-        triggers.hope.below !== undefined &&
-        gameState.hope >= triggers.hope.below
-      )
-        return false;
-      if (
-        triggers.hope.above !== undefined &&
-        gameState.hope <= triggers.hope.above
-      )
-        return false;
+      if (triggers.hope.below !== undefined && gameState.hope >= triggers.hope.below) return false;
+      if (triggers.hope.above !== undefined && gameState.hope <= triggers.hope.above) return false;
     }
 
     // Check health
     if (triggers.health) {
-      if (
-        triggers.health.below !== undefined &&
-        gameState.health >= triggers.health.below
-      )
+      if (triggers.health.below !== undefined && gameState.health >= triggers.health.below)
         return false;
-      if (
-        triggers.health.above !== undefined &&
-        gameState.health <= triggers.health.above
-      )
+      if (triggers.health.above !== undefined && gameState.health <= triggers.health.above)
         return false;
     }
 
     // Check seeds
     if (triggers.seeds) {
-      if (
-        triggers.seeds.below !== undefined &&
-        gameState.seeds >= triggers.seeds.below
-      )
+      if (triggers.seeds.below !== undefined && gameState.seeds >= triggers.seeds.below)
         return false;
-      if (
-        triggers.seeds.above !== undefined &&
-        gameState.seeds <= triggers.seeds.above
-      )
+      if (triggers.seeds.above !== undefined && gameState.seeds <= triggers.seeds.above)
         return false;
     }
 

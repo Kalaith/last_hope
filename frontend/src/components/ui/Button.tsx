@@ -10,14 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = memo(
   forwardRef<HTMLButtonElement, ButtonProps>(
     (
-      {
-        variant = 'primary',
-        size = 'base',
-        fullWidth = false,
-        className = '',
-        children,
-        ...props
-      },
+      { variant = 'primary', size = 'base', fullWidth = false, className = '', children, ...props },
       ref
     ) => {
       const baseClass = 'btn';

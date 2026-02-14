@@ -48,11 +48,10 @@ export const StoryArea = memo<StoryAreaProps>(
                   How to Play Last Hope
                 </div>
                 <div style={{ fontSize: '0.9em', whiteSpace: 'pre-line' }}>
-                  Read the story and make choices that affect your survival. •
-                  Monitor your resources carefully • Build relationships with
-                  NPCs • Restore the ecosystem gradually • Every choice has
-                  consequences Hover over choices to see their potential impact
-                  before deciding.
+                  Read the story and make choices that affect your survival. • Monitor your
+                  resources carefully • Build relationships with NPCs • Restore the ecosystem
+                  gradually • Every choice has consequences Hover over choices to see their
+                  potential impact before deciding.
                 </div>
               </div>
             }
@@ -77,11 +76,7 @@ export const StoryArea = memo<StoryAreaProps>(
                 <Tooltip
                   key={index}
                   content={
-                    <ChoicePreview
-                      choice={choice}
-                      currentState={gameState}
-                      canAfford={canAfford}
-                    />
+                    <ChoicePreview choice={choice} currentState={gameState} canAfford={canAfford} />
                   }
                   position="top"
                   className="tooltip-choice-preview"

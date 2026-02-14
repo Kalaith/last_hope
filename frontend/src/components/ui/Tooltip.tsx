@@ -68,10 +68,7 @@ export const Tooltip = memo<TooltipProps>(
 
       // Ensure tooltip stays within viewport
       const maxWidthNum = parseInt(maxWidth.replace('px', ''));
-      if (
-        style.left &&
-        (style.left as number) + maxWidthNum > window.innerWidth
-      ) {
+      if (style.left && (style.left as number) + maxWidthNum > window.innerWidth) {
         style.left = window.innerWidth - maxWidthNum - 20;
         style.transform = 'translateY(-50%)';
       }

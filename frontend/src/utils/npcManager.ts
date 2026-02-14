@@ -16,10 +16,8 @@ export const npcPersonalities = {
   pragmatic: {
     hopeThresholds: { high: 50, low: 20 },
     responses: {
-      highHope:
-        'Good progress, but we need to stay focused on practical matters.',
-      lowHope:
-        'We need to be realistic about our situation and make hard choices.',
+      highHope: 'Good progress, but we need to stay focused on practical matters.',
+      lowHope: 'We need to be realistic about our situation and make hard choices.',
       drought: 'Water conservation is critical. We need rationing protocols.',
       success: "This is encouraging, but we can't get complacent.",
     },
@@ -32,8 +30,7 @@ export const npcPersonalities = {
       highHope: "The children are smiling again. That's what matters most.",
       lowHope: "We have to protect what's left. That's our duty.",
       drought: 'The children need water first. Always.',
-      success:
-        "A safer future for the next generation - that's worth everything.",
+      success: "A safer future for the next generation - that's worth everything.",
     },
     trustModifiers: { safety: 3, children: 4, sacrifice: 2 },
     concerns: ['children_safety', 'group_security', 'future_generations'],
@@ -43,8 +40,7 @@ export const npcPersonalities = {
     responses: {
       highHope: 'The data is encouraging. Soil pH is improving measurably.',
       lowHope: 'The scientific method requires patience. Results take time.',
-      drought:
-        'Fascinating adaptation mechanisms. Some species thrive in arid conditions.',
+      drought: 'Fascinating adaptation mechanisms. Some species thrive in arid conditions.',
       success: 'Excellent! This validates our restoration hypothesis.',
     },
     trustModifiers: { research: 3, methodology: 2, discovery: 3 },
@@ -68,10 +64,7 @@ export class NPCManager {
   /**
    * Update NPC mood based on current game state
    */
-  static updateNPCMood(
-    npc: NPCPersonality,
-    gameState: GameState
-  ): NPCPersonality {
+  static updateNPCMood(npc: NPCPersonality, gameState: GameState): NPCPersonality {
     const personality = npcPersonalities[npc.personality];
     let newMood = npc.mood;
 
@@ -171,33 +164,22 @@ export class NPCManager {
     const concernDialogue: Record<string, string> = {
       children_safety:
         "The children ask me when the world will be green again. I don't know what to tell them.",
-      food_shortage:
-        'Our food stores are dwindling. We need to find more sources soon.',
-      water_purifier:
-        'The water purifier is showing signs of strain. If it fails...',
-      supplies:
-        "We're burning through our supplies faster than we can replenish them.",
+      food_shortage: 'Our food stores are dwindling. We need to find more sources soon.',
+      water_purifier: 'The water purifier is showing signs of strain. If it fails...',
+      supplies: "We're burning through our supplies faster than we can replenish them.",
       soil_analysis:
         "I've been studying the soil samples. The contamination patterns are... concerning.",
       seed_preservation:
         'These seeds may be our only chance. We must preserve their genetic integrity.',
-      morale:
-        'People are starting to lose hope. We need something to rally around.',
-      community_unity:
-        "Tensions are rising. We need to work together or we'll fall apart.",
-      efficiency:
-        "Our current methods are inefficient. We're wasting precious resources.",
+      morale: 'People are starting to lose hope. We need something to rally around.',
+      community_unity: "Tensions are rising. We need to work together or we'll fall apart.",
+      efficiency: "Our current methods are inefficient. We're wasting precious resources.",
     };
 
-    return (
-      concernDialogue[primaryConcern] || "Something's been troubling me lately."
-    );
+    return concernDialogue[primaryConcern] || "Something's been troubling me lately.";
   }
 
-  private static getEcosystemDialogue(
-    npc: NPCPersonality,
-    gameState: GameState
-  ): string {
+  private static getEcosystemDialogue(npc: NPCPersonality, gameState: GameState): string {
     const soilHealth = gameState.ecosystem.soilHealth;
     const plantCount = gameState.ecosystem.plantInstances.length;
 
@@ -279,10 +261,7 @@ export class NPCManager {
     }
   }
 
-  private static addPersonalityFlavor(
-    dialogue: string,
-    npc: NPCPersonality
-  ): string {
+  private static addPersonalityFlavor(dialogue: string, npc: NPCPersonality): string {
     // Add personality-specific touches
     switch (npc.personality) {
       case 'scientific':
@@ -327,11 +306,7 @@ export class NPCManager {
   /**
    * Update NPC trust based on player actions
    */
-  static updateTrust(
-    npc: NPCPersonality,
-    action: string,
-    gameState: GameState
-  ): NPCPersonality {
+  static updateTrust(npc: NPCPersonality, action: string, gameState: GameState): NPCPersonality {
     const personality = npcPersonalities[npc.personality];
     let trustChange = 0;
 
@@ -358,10 +333,7 @@ export class NPCManager {
       trustChange += 1; // High hope is contagious
     }
 
-    const newTrustLevel = Math.max(
-      0,
-      Math.min(100, npc.trustLevel + trustChange)
-    );
+    const newTrustLevel = Math.max(0, Math.min(100, npc.trustLevel + trustChange));
 
     return {
       ...npc,
@@ -372,10 +344,7 @@ export class NPCManager {
   /**
    * Evaluate concern factors for mood determination
    */
-  private static evaluateConcerns(
-    npc: NPCPersonality,
-    gameState: GameState
-  ): number {
+  private static evaluateConcerns(npc: NPCPersonality, gameState: GameState): number {
     let concernLevel = 0;
 
     // Check each current concern
@@ -405,10 +374,7 @@ export class NPCManager {
   /**
    * Update NPC concerns based on current game state
    */
-  private static updateConcerns(
-    npc: NPCPersonality,
-    gameState: GameState
-  ): string[] {
+  private static updateConcerns(npc: NPCPersonality, gameState: GameState): string[] {
     const newConcerns: string[] = [];
 
     // Personality-specific concern priorities
@@ -426,18 +392,15 @@ export class NPCManager {
         break;
 
       case 'scientific':
-        if (gameState.ecosystem.soilHealth < 50)
-          newConcerns.push('soil_analysis');
+        if (gameState.ecosystem.soilHealth < 50) newConcerns.push('soil_analysis');
         if (gameState.seeds < 5) newConcerns.push('seed_preservation');
         if (gameState.knowledge < 30) newConcerns.push('research_progress');
         break;
 
       case 'optimistic':
         if (gameState.hope < 50) newConcerns.push('morale');
-        if (Object.keys(gameState.relationships).length < 2)
-          newConcerns.push('community_unity');
-        if (gameState.restorationProgress < 20)
-          newConcerns.push('long_term_hope');
+        if (Object.keys(gameState.relationships).length < 2) newConcerns.push('community_unity');
+        if (gameState.restorationProgress < 20) newConcerns.push('long_term_hope');
         break;
     }
 
