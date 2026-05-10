@@ -7,11 +7,15 @@ import { useGameStore } from './stores/gameStore';
 import './styles/terminal.css';
 
 const App: React.FC = () => {
-  const { currentScreen } = useGameStore();
+  const { currentScreen, loadBackendState } = useGameStore();
 
   useEffect(() => {
     document.title = 'Last Hope: Seeds of Tomorrow';
   }, []);
+
+  useEffect(() => {
+    void loadBackendState();
+  }, [loadBackendState]);
 
   return (
     <GameContainer>

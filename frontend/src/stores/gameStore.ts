@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { webhatcheryGameApi, type WebHatcheryGameState } from '../api/webhatcheryGameApi';
 import type {
   GameState,
   GameScreen,
@@ -27,6 +28,7 @@ import { BaseBuildingManager } from '../utils/baseBuildingManager';
 import { researchSystem } from '../utils/researchSystem';
 import { choiceConstants } from '../constants/gameConstants';
 import { applyResourceChanges } from '../utils/typeHelpers';
+import { useWebHatcherySessionStore } from './webhatcherySessionStore';
 
 interface GameStore {
   // State
@@ -90,6 +92,7 @@ interface GameStore {
     completedResearch: string[];
     availableResearch: string[];
   } | null;
+  loadBackendState: () => Promise<void>;
 }
 
 const getInitialMetaState = (): MetaProgressState => ({
@@ -121,6 +124,54 @@ const structureTypeSet = new Set<StructureType>([
 const isStructureType = (value: string): value is StructureType =>
   structureTypeSet.has(value as StructureType);
 
+type BackendSnapshot = Pick<
+  GameStore,
+  | 'currentScreen'
+  | 'currentScene'
+  | 'gameState'
+  | 'selectedBackground'
+  | 'currentEnding'
+  | 'metaState'
+  | 'runHistory'
+  | 'daysSurvived'
+  | 'totalChoicesMade'
+  | 'researchProgress'
+>;
+
+const toBackendSnapshot = (state: GameStore): BackendSnapshot => ({
+  currentScreen: state.currentScreen,
+  currentScene: state.currentScene,
+  gameState: state.gameState,
+  selectedBackground: state.selectedBackground,
+  currentEnding: state.currentEnding,
+  metaState: state.metaState,
+  runHistory: state.runHistory,
+  daysSurvived: state.daysSurvived,
+  totalChoicesMade: state.totalChoicesMade,
+  researchProgress: state.researchProgress,
+});
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const loadOrCreateBackendGame = async (): Promise<WebHatcheryGameState> => {
+  const sessionStore = useWebHatcherySessionStore.getState();
+  try {
+    return await sessionStore.loadGame();
+  } catch {
+    return sessionStore.continueAsGuest();
+  }
+};
+
+const syncSessionState = (gameState: WebHatcheryGameState): void => {
+  useWebHatcherySessionStore.setState({
+    gameState,
+    user: gameState.user,
+    isLoading: false,
+    error: null,
+  });
+};
+
 export const useGameStore = create<GameStore>()(
   persist(
     (set, get) => ({
@@ -137,6 +188,44 @@ export const useGameStore = create<GameStore>()(
       showingConsequences: false,
       lastConsequences: { consequences: null, relationships: null },
       researchProgress: researchSystem.initializeResearchProgress(),
+
+      loadBackendState: async () => {
+        const gameState = await loadOrCreateBackendGame();
+        syncSessionState(gameState);
+        const backendState = gameState.save.state;
+        if (!isRecord(backendState) || !isRecord(backendState.gameState)) {
+          return;
+        }
+
+        set({
+          currentScreen:
+            backendState.currentScreen === 'game' ||
+            backendState.currentScreen === 'ending' ||
+            backendState.currentScreen === 'characterCreation'
+              ? backendState.currentScreen
+              : 'characterCreation',
+          currentScene: typeof backendState.currentScene === 'string' ? backendState.currentScene : 'opening',
+          gameState: backendState.gameState as unknown as GameState,
+          selectedBackground: isRecord(backendState.selectedBackground)
+            ? (backendState.selectedBackground as unknown as CharacterBackground)
+            : null,
+          currentEnding: isRecord(backendState.currentEnding)
+            ? (backendState.currentEnding as unknown as EndingCondition)
+            : null,
+          metaState: isRecord(backendState.metaState)
+            ? (backendState.metaState as unknown as MetaProgressState)
+            : getInitialMetaState(),
+          runHistory: Array.isArray(backendState.runHistory)
+            ? (backendState.runHistory as RunHistory[])
+            : [],
+          daysSurvived: typeof backendState.daysSurvived === 'number' ? backendState.daysSurvived : 0,
+          totalChoicesMade:
+            typeof backendState.totalChoicesMade === 'number' ? backendState.totalChoicesMade : 0,
+          researchProgress: isRecord(backendState.researchProgress)
+            ? (backendState.researchProgress as GameStore['researchProgress'])
+            : researchSystem.initializeResearchProgress(),
+        });
+      },
 
       // Actions
       setScreen: screen => set({ currentScreen: screen }),
@@ -717,3 +806,36 @@ export const useGameStore = create<GameStore>()(
     }
   )
 );
+
+let backendSyncTimer: ReturnType<typeof setTimeout> | null = null;
+
+const syncBackendIntent = (intent: string): void => {
+  if (backendSyncTimer) {
+    clearTimeout(backendSyncTimer);
+  }
+
+  backendSyncTimer = setTimeout(() => {
+    const state = useGameStore.getState();
+    void webhatcheryGameApi
+      .applyIntent(intent, { state: toBackendSnapshot(state) })
+      .then(syncSessionState)
+      .catch(() => undefined);
+  }, 250);
+};
+
+useGameStore.subscribe((state, previousState) => {
+  if (
+    state.currentScreen === previousState.currentScreen &&
+    state.currentScene === previousState.currentScene &&
+    state.gameState === previousState.gameState &&
+    state.metaState === previousState.metaState &&
+    state.runHistory === previousState.runHistory &&
+    state.daysSurvived === previousState.daysSurvived &&
+    state.totalChoicesMade === previousState.totalChoicesMade &&
+    state.researchProgress === previousState.researchProgress
+  ) {
+    return;
+  }
+
+  syncBackendIntent('state_updated');
+});
