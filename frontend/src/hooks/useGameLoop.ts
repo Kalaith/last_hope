@@ -12,7 +12,7 @@ export const useGameLoop = (
 ) => {
   const { intervalMs = 1000, enablePerformanceMonitoring = false, maxFrameSkip = 5 } = config;
 
-  const intervalRef = useRef<number | undefined>(undefined);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const lastUpdateRef = useRef<number>(Date.now());
   const performanceRef = useRef<number[]>([]);
 
